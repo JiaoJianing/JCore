@@ -6,7 +6,7 @@
 Text::Text(unsigned int width, unsigned int height)
 {
 	glm::mat4 projection = glm::ortho(0.0f, float(width), float(height), 0.0f);
-	this->m_TextShader = ResourceManager::getInstance()->LoadShader("text", "asset/shaders/breakout/text.vs", "asset/shaders/breakout/text.fs");
+	this->m_TextShader = ResourceManager::getInstance()->LoadShader("text", "asset/shaders/game/text.vs", "asset/shaders/game/text.fs");
 	this->m_TextShader.use().setInt("text", 0);
 	this->m_TextShader.setMatrix4("projection", projection);
 

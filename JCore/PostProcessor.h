@@ -17,10 +17,9 @@ public:
 	Shader PostProcessShader;
 	Texture Texture;
 	unsigned int Width, Height;
-	bool Confuse, Chaos, Shake;
 
 private:
-	unsigned int m_MSFBO, m_FBO;
+	unsigned int m_FBO;
 	unsigned int m_RBO;
 	unsigned int m_VAO, m_VBO;
 

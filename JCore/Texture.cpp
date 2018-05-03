@@ -1,8 +1,5 @@
+#include "stdafx.h"
 #include "Texture.h"
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
-#include <glm.hpp>
-#include <iostream>
 #include "stb_image.h"
 
 Texture::Texture()

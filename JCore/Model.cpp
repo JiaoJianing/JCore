@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include <iostream>
 #include "stb_image.h"
 #include "Model.h"

@@ -1,5 +1,5 @@
+#include "stdafx.h"
 #include "SpriteRenderer.h"
-#include <gtc/matrix_transform.hpp>
 
 float spriteVertices[] = {
 	//Œª÷√ //Œ∆¿Ì

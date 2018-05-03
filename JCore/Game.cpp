@@ -1,8 +1,5 @@
-﻿#include "Game.h"
-#include <GLFW/glfw3.h>
-#include <algorithm>
-#include <gtc/matrix_transform.hpp>
-#include <sstream>
+﻿#include "stdafx.h"
+#include "Game.h"
 #include "ResourceManager.h"
 
 Game::Game(unsigned int w, unsigned int h)

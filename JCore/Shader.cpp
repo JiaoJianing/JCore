@@ -1,9 +1,5 @@
+#include "stdafx.h"
 #include "Shader.h"
-#include <fstream>
-#include <sstream>
-#include <iostream>
-#include <gtc/matrix_transform.hpp>
-#include <gtc/type_ptr.hpp>
 
 Shader::Shader(const GLchar* vertexPath, const GLchar* fragmentPath, const GLchar* geometryPath)
 {

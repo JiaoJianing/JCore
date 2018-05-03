@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "Quad.h"
 
 //全屏quad顶点数据

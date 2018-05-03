@@ -1,5 +1,5 @@
+#include "stdafx.h"
 #include "ParticleGenerator.h"
-#include <GLFW/glfw3.h>
 
 float particleVertices[] = {
 	0.0f, 1.0f, 0.0f, 1.0f,

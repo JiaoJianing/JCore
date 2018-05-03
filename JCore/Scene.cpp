@@ -37,7 +37,7 @@ Scene::~Scene()
 void Scene::Initialize()
 {
 	//shader
-	ResourceManager::getInstance()->LoadShader("cube", "asset/shaders/game/cube.vs", "asset/shaders/game/cube.fs");
+	ResourceManager::getInstance()->LoadShader("cube", "asset/shaders/jcore/cube.vs", "asset/shaders/jcore/cube.fs");
 
 	m_RootNode = new Node("Scene_Root");
 

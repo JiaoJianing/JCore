@@ -36,9 +36,6 @@
     <ClCompile Include="PostProcessor.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Quad.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="ResourceManager.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -87,9 +84,6 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="PostProcessor.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Quad.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="ResourceManager.h">

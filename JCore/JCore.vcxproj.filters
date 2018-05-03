@@ -33,9 +33,6 @@
     <ClCompile Include="Model.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="ParticleGenerator.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="PostProcessor.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -51,9 +48,6 @@
     <ClCompile Include="Sphere.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="SpriteRenderer.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="stb_image.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -61,9 +55,6 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Texture.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Scene.cpp">
@@ -89,9 +80,6 @@
     <ClInclude Include="Model.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="ParticleGenerator.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="PostProcessor.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -107,9 +95,6 @@
     <ClInclude Include="Sphere.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="SpriteRenderer.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="stb_image.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -120,9 +105,6 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Vertex.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Scene.h">

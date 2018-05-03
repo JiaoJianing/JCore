@@ -6,6 +6,7 @@
 float screenWidth = 800, screenHeight = 600;
 float deltaFrame = 0.0f, lastFrame = 0.0f;
 Scene scene(screenWidth, screenHeight);
+int nodeID = 0;
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
 	screenWidth = width;
@@ -33,16 +34,28 @@ void key_click_callback(GLFWwindow* window, int key, int scancode, int action, i
 		return;
 	}
 
+	srand(glfwGetTime());
+
 	switch (key)
 	{
 	case GLFW_KEY_ESCAPE:
 		glfwSetWindowShouldClose(window, true);
+		break;
+	case GLFW_KEY_A:
+	{
+		Node* node = scene.AddNode("test" + std::to_string(nodeID++));
+		node->SetTranslate(-10 + rand() % 20, -10 + rand() % 20, -10 + rand() % 20);
+		node->SetColor(glm::vec3(rand() % 255 / 255.0f, rand() % 255 / 255.0f, rand() % 255 / 255.0f));
+		node->SetParent(scene.FindNode("child1") ? scene.FindNode("child1") : scene.GetRootNode());
+		std::cout << "添加子节点: " << node->GetName() << std::endl;
+	}
 		break;
 	case GLFW_KEY_D:
 	{
 		Node * node = scene.FindNode("parent1");
 		if (node) {
 			scene.RemoveNode(node);
+			std::cout << "删除 parent1 及其子节点" << std::endl;
 		}
 	}
 		break;

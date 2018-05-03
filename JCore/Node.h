@@ -35,6 +35,9 @@ public:
 	void SetRotate(float rotateX, float rotateY, float rotateZ);
 	void SetTranslate(float translateX, float translateY, float translateZ);
 
+	bool GetTransformDirty();
+	void SetTransformDirty(bool value);
+
 private:
 	Node(const std::string& name);
 	Node(const Node& other);

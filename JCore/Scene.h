@@ -31,6 +31,10 @@ public:
 	//找到场景中第一个名字匹配的节点
 	Node* FindNode(const std::string& name);
 
+	//获得场景根节点
+	Node* GetRootNode();
+
+	//UI事件
 	void OnMouseMove(double xPos, double yPos);
 
 	void OnMouseDown();

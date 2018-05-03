@@ -126,6 +126,11 @@ Node* Scene::FindNode(const std::string& name)
 	return 0;
 }
 
+Node* Scene::GetRootNode()
+{
+	return m_RootNode;
+}
+
 void Scene::OnMouseMove(double xPos, double yPos)
 {
 	m_Camera->OnMouseMove(xPos, yPos);

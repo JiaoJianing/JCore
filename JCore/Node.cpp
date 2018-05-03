@@ -28,12 +28,12 @@ Node::~Node()
 
 void Node::Update(double curFrame, double deltaFrame)
 {
+	updateWorldTransform();
+
 	//调用子节点的Update
 	for (int i = 0; i < m_Children.size(); i++) {
 		m_Children[i]->Update(curFrame, deltaFrame);
 	}
-
-	updateChildWorldTransform();
 }
 
 void Node::Render()
@@ -126,19 +126,19 @@ Node* Node::GetChildAt(int index)
 void Node::SetScale(float scaleX, float scaleY, float scaleZ)
 {
 	m_Scale = glm::vec3(scaleX, scaleY, scaleZ);
-	m_TransformDirty = true;
+	SetTransformDirty(true);
 }
 
 void Node::SetRotate(float rotateX, float rotateY, float rotateZ)
 {
-	m_Rotate = glm::vec3(rotateX, rotateY, rotateZ);
-	m_TransformDirty = true;
+	m_Rotate = glm::vec3(rotateX, rotateY, rotateZ);	
+	SetTransformDirty(true);
 }
 
 void Node::SetTranslate(float translateX, float translateY, float translateZ)
 {
 	m_Translate = glm::vec3(translateX, translateY, translateZ);
-	m_TransformDirty = true;
+	SetTransformDirty(true);
 }
 
 bool Node::GetTransformDirty()
@@ -149,6 +149,9 @@ bool Node::GetTransformDirty()
 void Node::SetTransformDirty(bool value)
 {
 	m_TransformDirty = value;
+	for (int i = 0; i < m_Children.size(); i++) {
+		m_Children[i]->SetTransformDirty(true);
+	}
 }
 
 void Node::removeChild(Node* node)
@@ -180,28 +183,25 @@ void Node::addChild(Node* node)
 	m_Children.push_back(node);
 }
 
-void Node::updateChildWorldTransform()
+void Node::updateWorldTransform()
 {
-	if ((m_Parent != 0 && m_Parent->GetTransformDirty()) || m_TransformDirty)
+	if (m_TransformDirty)
 	{
-		m_LocalTransform = glm::mat4();
+		std::cout << "update transform" << std::endl;
+		glm::mat4 localTransform;
 
-		m_LocalTransform = glm::translate(m_LocalTransform, m_Translate);
+		localTransform = glm::translate(localTransform, m_Translate);
 
-		m_LocalTransform = glm::rotate(m_LocalTransform, glm::radians(m_Rotate.y), glm::vec3(0.0f, 1.0f, 0.0f));
-		m_LocalTransform = glm::rotate(m_LocalTransform, glm::radians(m_Rotate.x), glm::vec3(1.0f, 0.0f, 0.0f));
-		m_LocalTransform = glm::rotate(m_LocalTransform, glm::radians(m_Rotate.z), glm::vec3(0.0f, 0.0f, 1.0f));
+		localTransform = glm::rotate(localTransform, glm::radians(m_Rotate.y), glm::vec3(0.0f, 1.0f, 0.0f));
+		localTransform = glm::rotate(localTransform, glm::radians(m_Rotate.x), glm::vec3(1.0f, 0.0f, 0.0f));
+		localTransform = glm::rotate(localTransform, glm::radians(m_Rotate.z), glm::vec3(0.0f, 0.0f, 1.0f));
 
-		m_LocalTransform = glm::scale(m_LocalTransform, m_Scale);
+		localTransform = glm::scale(localTransform, m_Scale);
 
 		if (m_Parent != 0) {
-			m_WorldTransform = m_Parent->GetWorldTransform() * m_LocalTransform;
+			m_WorldTransform = m_Parent->GetWorldTransform() * localTransform;
 		}
 
 		m_TransformDirty = false;
-	}
-
-	for (int i = 0; i < m_Children.size(); i++) {
-		m_Children[i]->updateChildWorldTransform();
 	}
 }

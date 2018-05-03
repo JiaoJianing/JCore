@@ -48,14 +48,13 @@ private:
 	void removeChild(Node* node);
 	void addChild(Node* node);
 
-	//更新子节点的世界矩阵
-	void updateChildWorldTransform();
+	//更新世界矩阵
+	void updateWorldTransform();
 
 private:
 	Node* m_Parent;
 	std::vector<Node*> m_Children;
 	glm::mat4 m_WorldTransform;
-	glm::mat4 m_LocalTransform;
 	unsigned long m_ID;
 	std::string m_Name;
 

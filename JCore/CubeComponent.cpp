@@ -1,6 +1,7 @@
 #include "stdafx.h"
-#include "Cube.h"
+#include "CubeComponent.h"
 #include "ResourceManager.h"
+#include "Node.h"
 
 //立方体数据
 float cubeVertices[] = {
@@ -11,14 +12,14 @@ float cubeVertices[] = {
 	0.5f, 0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 1.0f, 1.0f,  // top-right
 	-0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f,  // bottom-left
 	-0.5f, 0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 0.0f, 1.0f,// top-left
-	// Front face
+													  // Front face
 	-0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, // bottom-left
 	0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f,  // bottom-right
 	0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,  // top-right
 	0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, // top-right
 	-0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,  // top-left
 	-0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,  // bottom-left
-	// Left face
+	 // Left face
 	-0.5f, 0.5f, 0.5f, -1.0f, 0.0f, 0.0f, 1.0f, 0.0f, // top-right
 	-0.5f, 0.5f, -0.5f, -1.0f, 0.0f, 0.0f, 1.0f, 1.0f, // top-left
 	-0.5f, -0.5f, -0.5f, -1.0f, 0.0f, 0.0f, 0.0f, 1.0f,  // bottom-left
@@ -48,12 +49,10 @@ float cubeVertices[] = {
 	-0.5f, 0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f // bottom-left   
 };
 
-Cube::Cube()
+CubeComponent::CubeComponent()
+	: m_Color(1.0f)
 {
-	m_texture.setID(Texture::loadTexture("asset/resources/default.png"));
 	m_Shader = ResourceManager::getInstance()->GetShader("cube");
-
-	m_color = glm::vec3(1.0f);
 
 	glGenVertexArrays(1, &m_VAO);
 	glGenBuffers(1, &m_VBO);
@@ -72,26 +71,35 @@ Cube::Cube()
 }
 
 
-Cube::~Cube()
+CubeComponent::~CubeComponent()
 {
 	glDeleteVertexArrays(1, &m_VAO);
 }
 
-void Cube::Draw(const glm::mat4& model)
+void CubeComponent::Update(double curFrame, double deltaFrame)
 {
-	m_Shader.use();
-	m_Shader.setMatrix4("model", model);
-	m_Shader.setVec3("cubeColor", m_color);
-	m_Shader.setInt("cubeTexture", 0);
 
-	glBindVertexArray(m_VAO);
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, m_texture.GetID());
-	glDrawArrays(GL_TRIANGLES, 0, 36);
-	glBindVertexArray(0);
 }
 
-void Cube::SetColor(const glm::vec3& color)
+std::string CubeComponent::GetTypeName()
 {
-	m_color = color;
+	return "CubeComponent";
+}
+
+void CubeComponent::Render()
+{
+	if (GetOwner()) {
+		m_Shader.use();
+		m_Shader.setMatrix4("model", GetOwner()->GetWorldTransform());
+		m_Shader.setVec3("cubeColor", m_Color);
+
+		glBindVertexArray(m_VAO);
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+		glBindVertexArray(0);
+	}
+}
+
+void CubeComponent::SetColor(const glm::vec3& color)
+{
+	m_Color = color;
 }

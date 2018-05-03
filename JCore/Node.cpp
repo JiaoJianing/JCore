@@ -23,6 +23,12 @@ Node& Node::operator=(const Node& other)
 
 Node::~Node()
 {
+	for (std::vector<BaseComponent*>::iterator it = m_Components.begin(); it != m_Components.end(); it++) {
+		if ((*it) != 0) {
+			delete *it;
+			*it = 0;
+		}
+	}
 }
 
 void Node::Update(double curFrame, double deltaFrame)
@@ -37,7 +43,11 @@ void Node::Update(double curFrame, double deltaFrame)
 
 void Node::Render()
 {
-	m_Cube.Draw(GetWorldTransform());
+	for (std::vector<BaseComponent*>::iterator it = m_Components.begin(); it != m_Components.end(); it++) {
+		if ((*it) != 0) {
+			(*it)->Render();
+		}
+	}
 
 	for (int i = 0; i < m_Children.size(); i++) {
 		m_Children[i]->Render();
@@ -109,7 +119,6 @@ glm::vec3& Node::GetColor()
 void Node::SetColor(const glm::vec3& color)
 {
 	m_Color = color;
-	m_Cube.SetColor(color);
 }
 
 int Node::GetChildCount()
@@ -151,6 +160,18 @@ void Node::SetTransformDirty(bool value)
 	for (int i = 0; i < m_Children.size(); i++) {
 		m_Children[i]->SetTransformDirty(true);
 	}
+}
+
+void Node::AddComponent(BaseComponent* component)
+{
+	for (std::vector<BaseComponent*>::iterator it = m_Components.begin(); it != m_Components.end(); it++) {
+		if ((*it)->GetTypeName() == component->GetTypeName()) {
+			throw "Same Component has existed";
+		}
+	}
+
+	m_Components.push_back(component);
+	component->SetOwner(this);
 }
 
 void Node::removeChild(Node* node)

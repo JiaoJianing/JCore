@@ -1,8 +1,8 @@
 #pragma once
 #include <glm.hpp>
 #include <vector>
-#include "Cube.h"
 #include "SRTTransform.h"
+#include "BaseComponent.h"
 
 //抽象节点类
 class Node
@@ -39,6 +39,8 @@ public:
 	bool GetTransformDirty();
 	void SetTransformDirty(bool value);
 
+	void AddComponent(BaseComponent* component);
+
 private:
 	Node(const std::string& name);
 	Node(const Node& other);
@@ -60,9 +62,9 @@ private:
 	std::string m_Name;
 	glm::vec3 m_Color;
 
+	std::vector<BaseComponent*> m_Components;
+
 	bool m_TransformDirty;
 	SRTTransform m_SRT;
-
-	Cube m_Cube;
 };
 

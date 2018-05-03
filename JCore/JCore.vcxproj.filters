@@ -21,9 +21,6 @@
     <ClCompile Include="Camera.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Cube.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="glad.c">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -69,12 +66,15 @@
     <ClCompile Include="SRTTransformComponent.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="BaseComponent.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CubeComponent.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Cube.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Mesh.h">
@@ -120,6 +120,12 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="SRTTransformComponent.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseComponent.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CubeComponent.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

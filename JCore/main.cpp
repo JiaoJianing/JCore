@@ -2,6 +2,7 @@
 #include "ResourceManager.h"
 #include "Scene.h"
 #include "Camera.h"
+#include "CubeComponent.h"
 
 float screenWidth = 800, screenHeight = 600;
 float deltaFrame = 0.0f, lastFrame = 0.0f;
@@ -44,8 +45,11 @@ void key_click_callback(GLFWwindow* window, int key, int scancode, int action, i
 	case GLFW_KEY_A:
 	{
 		Node* node = scene.AddNode("test" + std::to_string(nodeID++));
+		CubeComponent* cube = new CubeComponent();
+		cube->SetColor(glm::vec3(rand() % 255 / 255.0f, rand() % 255 / 255.0f, rand() % 255 / 255.0f));
+		node->AddComponent(cube);
+
 		node->SetTranslate(-10 + rand() % 20, -10 + rand() % 20, -10 + rand() % 20);
-		node->SetColor(glm::vec3(rand() % 255 / 255.0f, rand() % 255 / 255.0f, rand() % 255 / 255.0f));
 		node->SetParent(scene.FindNode("child1") ? scene.FindNode("child1") : scene.GetRootNode());
 		std::cout << "添加子节点: " << node->GetName() << std::endl;
 	}
@@ -69,24 +73,24 @@ void processInput(GLFWwindow* window) {
 	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
 		scene.OnKeyboard(GLFW_KEY_UP);
 	}
-	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
-		scene.OnKeyboard(GLFW_KEY_W);
-	}
-	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
-		scene.OnKeyboard(GLFW_KEY_S);
-	}
+	//if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
+	//	scene.OnKeyboard(GLFW_KEY_W);
+	//}
+	//if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
+	//	scene.OnKeyboard(GLFW_KEY_S);
+	//}
 	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
 		scene.OnKeyboard(GLFW_KEY_DOWN);
 	}
-	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
-		scene.OnKeyboard(GLFW_KEY_A);
-	}
+	//if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
+	//	scene.OnKeyboard(GLFW_KEY_A);
+	//}
 	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) {
 		scene.OnKeyboard(GLFW_KEY_LEFT);
 	}
-	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
-		scene.OnKeyboard(GLFW_KEY_D);
-	}
+	//if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
+	//	scene.OnKeyboard(GLFW_KEY_D);
+	//}
 	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
 		scene.OnKeyboard(GLFW_KEY_RIGHT);
 	}
@@ -129,13 +133,25 @@ int main(int argc, char** argv) {
 
 	scene.Initialize();
 	Node* parent1 = scene.AddNode("parent1");
+	CubeComponent* cubeCmp1 = new CubeComponent();
+	cubeCmp1->SetColor(glm::vec3(0.5f, 0.5f, 0.0f));
+	parent1->AddComponent(cubeCmp1);
+
 	Node* parent2 = scene.AddNode("parent2");
+	CubeComponent* cubeCmp2 = new CubeComponent();
+	cubeCmp2->SetColor(glm::vec3(0.0f, 0.5f, 0.5f));
+	parent2->AddComponent(cubeCmp2);
+
 	Node* child1 = scene.AddNode("child1");
+	CubeComponent* cubeCmp3 = new CubeComponent();
+	cubeCmp3->SetColor(glm::vec3(0.5f, 0.0f, 0.5f));
+	child1->AddComponent(cubeCmp3);
+
 	Node* child2 = scene.AddNode("child2");
-	parent1->SetColor(glm::vec3(0.5f, 0.5f, 0.0f));
-	parent2->SetColor(glm::vec3(0.0f, 0.5f, 0.5f));
-	child1->SetColor(glm::vec3(0.5f, 0.0f, 0.5f));
-	child2->SetColor(glm::vec3(0.5f, 0.0f, 1.0f));
+	CubeComponent* cubeCmp4 = new CubeComponent();
+	cubeCmp4->SetColor(glm::vec3(0.5f, 0.0f, 1.0f));
+	child2->AddComponent(cubeCmp4);
+
 
 	child1->SetParent(parent1);
 	child2->SetParent(parent2);
@@ -155,8 +171,11 @@ int main(int argc, char** argv) {
 		deltaFrame = currentFrame - lastFrame;
 		lastFrame = currentFrame;
 
-		child1->SetTranslate(2.0f*sin(currentFrame), 0.0f, 2.0f*cos(currentFrame));
-		child1->SetRotate(currentFrame*50, currentFrame * 50, currentFrame * 50);
+		Node* n = scene.FindNode("child1");
+		if (n) {
+			n->SetTranslate(2.0f*sin(currentFrame), 0.0f, 2.0f*cos(currentFrame));
+			n->SetRotate(currentFrame * 50, currentFrame * 50, currentFrame * 50);
+		}
 
 		processInput(window);
 		scene.Update(currentFrame, deltaFrame);

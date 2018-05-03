@@ -2,6 +2,7 @@
 #include <glm.hpp>
 #include <vector>
 #include "Cube.h"
+#include "SRTTransform.h"
 
 //抽象节点类
 class Node
@@ -57,14 +58,10 @@ private:
 	glm::mat4 m_WorldTransform;
 	unsigned long m_ID;
 	std::string m_Name;
-
-	glm::vec3 m_Scale;
-	glm::vec3 m_Rotate;
-	glm::vec3 m_Translate;
-	bool m_TransformDirty;
-
 	glm::vec3 m_Color;
-	bool m_Visible;
+
+	bool m_TransformDirty;
+	SRTTransform m_SRT;
 
 	Cube m_Cube;
 };

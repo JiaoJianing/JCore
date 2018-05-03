@@ -7,7 +7,6 @@ Node::Node(const std::string& name)
 	, m_ID(0)
 	, m_Name(name)
 	, m_TransformDirty(true)
-	, m_Scale(1.0f)
 	, m_Color(1.0f)
 {
 }
@@ -125,19 +124,19 @@ Node* Node::GetChildAt(int index)
 
 void Node::SetScale(float scaleX, float scaleY, float scaleZ)
 {
-	m_Scale = glm::vec3(scaleX, scaleY, scaleZ);
+	m_SRT.SetScale(glm::vec3(scaleX, scaleY, scaleZ));
 	SetTransformDirty(true);
 }
 
 void Node::SetRotate(float rotateX, float rotateY, float rotateZ)
 {
-	m_Rotate = glm::vec3(rotateX, rotateY, rotateZ);	
+	m_SRT.SetRotate(glm::vec3(rotateX, rotateY, rotateZ));	
 	SetTransformDirty(true);
 }
 
 void Node::SetTranslate(float translateX, float translateY, float translateZ)
 {
-	m_Translate = glm::vec3(translateX, translateY, translateZ);
+	m_SRT.SetTranslation(glm::vec3(translateX, translateY, translateZ));
 	SetTransformDirty(true);
 }
 
@@ -187,19 +186,8 @@ void Node::updateWorldTransform()
 {
 	if (m_TransformDirty)
 	{
-		std::cout << "update transform" << std::endl;
-		glm::mat4 localTransform;
-
-		localTransform = glm::translate(localTransform, m_Translate);
-
-		localTransform = glm::rotate(localTransform, glm::radians(m_Rotate.y), glm::vec3(0.0f, 1.0f, 0.0f));
-		localTransform = glm::rotate(localTransform, glm::radians(m_Rotate.x), glm::vec3(1.0f, 0.0f, 0.0f));
-		localTransform = glm::rotate(localTransform, glm::radians(m_Rotate.z), glm::vec3(0.0f, 0.0f, 1.0f));
-
-		localTransform = glm::scale(localTransform, m_Scale);
-
 		if (m_Parent != 0) {
-			m_WorldTransform = m_Parent->GetWorldTransform() * localTransform;
+			m_WorldTransform = m_Parent->GetWorldTransform() * m_SRT.GetTransformMatrix();
 		}
 
 		m_TransformDirty = false;

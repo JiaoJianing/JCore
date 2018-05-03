@@ -52,6 +52,33 @@ void key_click_callback(GLFWwindow* window, int key, int scancode, int action, i
 	}
 }
 
+void processInput(GLFWwindow* window) {
+	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
+		scene.OnKeyboard(GLFW_KEY_UP);
+	}
+	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
+		scene.OnKeyboard(GLFW_KEY_W);
+	}
+	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
+		scene.OnKeyboard(GLFW_KEY_S);
+	}
+	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
+		scene.OnKeyboard(GLFW_KEY_DOWN);
+	}
+	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
+		scene.OnKeyboard(GLFW_KEY_A);
+	}
+	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) {
+		scene.OnKeyboard(GLFW_KEY_LEFT);
+	}
+	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
+		scene.OnKeyboard(GLFW_KEY_D);
+	}
+	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
+		scene.OnKeyboard(GLFW_KEY_RIGHT);
+	}
+}
+
 void scroll_callback(GLFWwindow* window, double xOffset, double yOffset) {
 	scene.OnMouseScroll(xOffset, yOffset);
 }
@@ -118,6 +145,7 @@ int main(int argc, char** argv) {
 		child1->SetTranslate(2.0f*sin(currentFrame), 0.0f, 2.0f*cos(currentFrame));
 		child1->SetRotate(currentFrame*50, currentFrame * 50, currentFrame * 50);
 
+		processInput(window);
 		scene.Update(currentFrame, deltaFrame);
 		scene.Render();
 

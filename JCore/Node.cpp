@@ -33,12 +33,18 @@ Node::~Node()
 
 void Node::Update(double curFrame, double deltaFrame)
 {
-	updateWorldTransform();
+	for (std::vector<BaseComponent*>::iterator it = m_Components.begin(); it != m_Components.end(); it++) {
+		if ((*it) != 0) {
+			(*it)->Update(curFrame, deltaFrame);
+		}
+	}
 
 	//调用子节点的Update
 	for (int i = 0; i < m_Children.size(); i++) {
 		m_Children[i]->Update(curFrame, deltaFrame);
 	}
+
+	m_TransformDirty = false;
 }
 
 void Node::Render()
@@ -131,24 +137,6 @@ Node* Node::GetChildAt(int index)
 	return m_Children[index];
 }
 
-void Node::SetScale(float scaleX, float scaleY, float scaleZ)
-{
-	m_SRT.SetScale(glm::vec3(scaleX, scaleY, scaleZ));
-	SetTransformDirty(true);
-}
-
-void Node::SetRotate(float rotateX, float rotateY, float rotateZ)
-{
-	m_SRT.SetRotate(glm::vec3(rotateX, rotateY, rotateZ));	
-	SetTransformDirty(true);
-}
-
-void Node::SetTranslate(float translateX, float translateY, float translateZ)
-{
-	m_SRT.SetTranslation(glm::vec3(translateX, translateY, translateZ));
-	SetTransformDirty(true);
-}
-
 bool Node::GetTransformDirty()
 {
 	return m_TransformDirty;
@@ -157,9 +145,6 @@ bool Node::GetTransformDirty()
 void Node::SetTransformDirty(bool value)
 {
 	m_TransformDirty = value;
-	for (int i = 0; i < m_Children.size(); i++) {
-		m_Children[i]->SetTransformDirty(true);
-	}
 }
 
 void Node::AddComponent(BaseComponent* component)
@@ -173,6 +158,19 @@ void Node::AddComponent(BaseComponent* component)
 	m_Components.push_back(component);
 	component->SetOwner(this);
 }
+
+//template<typename T>
+//T* Node::FindComponent()
+//{
+//	for (std::vector<BaseComponent*>::iterator it = m_Components.begin(); it != m_Components.end(); it++) {
+//		T* ret = dynamic_cast<T*>(*it);
+//		if (ret != 0) {
+//			return ret;
+//		}
+//	}
+//
+//	return 0;
+//}
 
 void Node::removeChild(Node* node)
 {
@@ -201,16 +199,4 @@ void Node::addChild(Node* node)
 	}
 
 	m_Children.push_back(node);
-}
-
-void Node::updateWorldTransform()
-{
-	if (m_TransformDirty)
-	{
-		if (m_Parent != 0) {
-			m_WorldTransform = m_Parent->GetWorldTransform() * m_SRT.GetTransformMatrix();
-		}
-
-		m_TransformDirty = false;
-	}
 }

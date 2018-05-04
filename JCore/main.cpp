@@ -3,6 +3,7 @@
 #include "Scene.h"
 #include "Camera.h"
 #include "CubeComponent.h"
+#include "SRTTransformComponent.h"
 
 float screenWidth = 800, screenHeight = 600;
 float deltaFrame = 0.0f, lastFrame = 0.0f;
@@ -45,11 +46,13 @@ void key_click_callback(GLFWwindow* window, int key, int scancode, int action, i
 	case GLFW_KEY_A:
 	{
 		Node* node = scene.AddNode("test" + std::to_string(nodeID++));
+		SRTTransformComponent* srt = new SRTTransformComponent();
+		node->AddComponent(srt);
 		CubeComponent* cube = new CubeComponent();
 		cube->SetColor(glm::vec3(rand() % 255 / 255.0f, rand() % 255 / 255.0f, rand() % 255 / 255.0f));
 		node->AddComponent(cube);
 
-		node->SetTranslate(-10 + rand() % 20, -10 + rand() % 20, -10 + rand() % 20);
+		srt->SetTranslation(glm::vec3(-10 + rand() % 20, -10 + rand() % 20, -10 + rand() % 20));
 		node->SetParent(scene.FindNode("child1") ? scene.FindNode("child1") : scene.GetRootNode());
 		std::cout << "添加子节点: " << node->GetName() << std::endl;
 	}
@@ -133,36 +136,42 @@ int main(int argc, char** argv) {
 
 	scene.Initialize();
 	Node* parent1 = scene.AddNode("parent1");
+	SRTTransformComponent* srt1 = new SRTTransformComponent();
+	parent1->AddComponent(srt1);
 	CubeComponent* cubeCmp1 = new CubeComponent();
 	cubeCmp1->SetColor(glm::vec3(0.5f, 0.5f, 0.0f));
 	parent1->AddComponent(cubeCmp1);
 
 	Node* parent2 = scene.AddNode("parent2");
+	SRTTransformComponent* srt2 = new SRTTransformComponent();
+	parent2->AddComponent(srt2);
 	CubeComponent* cubeCmp2 = new CubeComponent();
 	cubeCmp2->SetColor(glm::vec3(0.0f, 0.5f, 0.5f));
 	parent2->AddComponent(cubeCmp2);
 
 	Node* child1 = scene.AddNode("child1");
+	SRTTransformComponent* srt3 = new SRTTransformComponent();
+	child1->AddComponent(srt3);
 	CubeComponent* cubeCmp3 = new CubeComponent();
 	cubeCmp3->SetColor(glm::vec3(0.5f, 0.0f, 0.5f));
 	child1->AddComponent(cubeCmp3);
+	child1->SetParent(parent1);
 
 	Node* child2 = scene.AddNode("child2");
+	SRTTransformComponent* srt4 = new SRTTransformComponent();
+	child2->AddComponent(srt4);
 	CubeComponent* cubeCmp4 = new CubeComponent();
 	cubeCmp4->SetColor(glm::vec3(0.5f, 0.0f, 1.0f));
 	child2->AddComponent(cubeCmp4);
-
-
-	child1->SetParent(parent1);
 	child2->SetParent(parent2);
 
-	parent1->SetTranslate(2.0f, 0.0f, 0.0f);
-	parent2->SetTranslate(-2.0f, 0.0f, 0.0f);
+	srt1->SetTranslation(glm::vec3(.0f, 0.0f, 0.0f));
+	srt2->SetTranslation(glm::vec3(-2.0f, 0.0f, 0.0f));
 
-	child1->SetTranslate(2.0f, 0.0f, 0.0f);
-	child1->SetScale(0.5f, 0.5f, 0.5f);
-	child2->SetTranslate(-2.0f, 0.0f, 0.0f);
-	child2->SetScale(0.5f, 1.0f, 0.5f);
+	srt3->SetTranslation(glm::vec3(2.0f, 0.0f, 0.0f));
+	srt3->SetScale(glm::vec3(0.5f, 0.5f, 0.5f));
+	srt4->SetTranslation(glm::vec3(-2.0f, 0.0f, 0.0f));
+	srt4->SetScale(glm::vec3(0.5f, 1.0f, 0.5f));
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -173,8 +182,12 @@ int main(int argc, char** argv) {
 
 		Node* n = scene.FindNode("child1");
 		if (n) {
-			n->SetTranslate(2.0f*sin(currentFrame), 0.0f, 2.0f*cos(currentFrame));
-			n->SetRotate(currentFrame * 50, currentFrame * 50, currentFrame * 50);
+			SRTTransformComponent* srt = 0;
+			srt = n->FindComponent<SRTTransformComponent>();
+			if (srt) {
+				srt->SetTranslation(glm::vec3(2.0f*sin(currentFrame), 0.0f, 2.0f*cos(currentFrame)));
+				srt->SetRotate(glm::vec3(currentFrame * 50, currentFrame * 50, currentFrame * 50));
+			}
 		}
 
 		processInput(window);

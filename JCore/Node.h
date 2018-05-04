@@ -32,14 +32,12 @@ public:
 	int GetChildCount();
 	Node* GetChildAt(int index);
 
-	void SetScale(float scaleX, float scaleY, float scaleZ);
-	void SetRotate(float rotateX, float rotateY, float rotateZ);
-	void SetTranslate(float translateX, float translateY, float translateZ);
-
 	bool GetTransformDirty();
 	void SetTransformDirty(bool value);
 
 	void AddComponent(BaseComponent* component);
+	template<typename T>
+	T* FindComponent();
 
 private:
 	Node(const std::string& name);
@@ -50,9 +48,6 @@ private:
 private:
 	void removeChild(Node* node);
 	void addChild(Node* node);
-
-	//更新世界矩阵
-	void updateWorldTransform();
 
 private:
 	Node* m_Parent;
@@ -65,6 +60,17 @@ private:
 	std::vector<BaseComponent*> m_Components;
 
 	bool m_TransformDirty;
-	SRTTransform m_SRT;
 };
+
+template<typename T>
+T* Node::FindComponent() {
+	for (std::vector<BaseComponent*>::iterator it = m_Components.begin(); it != m_Components.end(); it++) {
+		T* ret = dynamic_cast<T*>(*it);
+		if (ret != 0) {
+			return ret;
+		}
+	}
+
+	return 0;
+}
 

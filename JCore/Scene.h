@@ -2,9 +2,10 @@
 #include <vector>
 #include <map>
 #include "Node.h"
-#include "Camera.h"
 #include "Text.h"
 #include "PostProcessor.h"
+#include "FreeCameraComponent.h"
+#include "FollowCameraComponent.h"
 
 //场景管理类
 class Scene
@@ -45,12 +46,19 @@ public:
 
 	void OnMouseScroll(double xOffset, double yOffset);
 
+	void ToFree(const glm::vec3& position);
+
+	void ToFollow(Node* node);
+
+	CameraComponent* GetActiveCamera();
+
 private:
 	std::map<unsigned long, Node*> m_Nodes;//场景中所有的节点，使用map便于查询
 	std::vector<Node*> m_NodesToDestroy;//将要删除的节点，一般在下一帧删除
 	Node* m_RootNode;//场景根节点
 	unsigned long m_CurNodeID;//管理节点id
-	Camera* m_Camera;
+	FreeCameraComponent* m_FreeCamera;
+	FollowCameraComponent* m_FollowCamera;
 	int m_WindowWidth;
 	int m_WindowHeight;
 

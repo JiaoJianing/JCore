@@ -5,7 +5,8 @@
 Scene::Scene(int windowWidth, int windowHeight)
 	: m_RootNode(0)
 	, m_CurNodeID(0)
-	, m_Camera(0)
+	, m_FreeCamera(0)
+	, m_FollowCamera(0)
 	, m_TextRender(0)
 	, m_Effects(0)
 	, m_WindowWidth(windowWidth)
@@ -27,9 +28,14 @@ Scene::~Scene()
 		m_RootNode = 0;
 	}
 
-	if (m_Camera != 0) {
-		delete m_Camera;
-		m_Camera = 0;
+	if (m_FreeCamera != 0) {
+		delete m_FreeCamera;
+		m_FreeCamera = 0;
+	}
+
+	if (m_FollowCamera != 0) {
+		delete m_FollowCamera;
+		m_FollowCamera = 0;
 	}
 
 	if (m_TextRender != 0) {
@@ -56,7 +62,10 @@ void Scene::Initialize()
 
 	m_RootNode = new Node("Scene_Root");
 
-	m_Camera = new Camera(m_WindowWidth, m_WindowHeight);
+	m_FreeCamera = new FreeCameraComponent(m_WindowWidth, m_WindowHeight);
+	m_FreeCamera->SetIsActive(true);
+	m_FollowCamera = new FollowCameraComponent(m_WindowWidth, m_WindowHeight);
+	m_FollowCamera->SetIsActive(false);
 
 	m_TextRender = new Text(m_WindowWidth, m_WindowHeight);
 	m_TextRender->Load("asset/fonts/msyh.ttf", 36);
@@ -66,14 +75,6 @@ void Scene::Initialize()
 
 void Scene::Update(double curFrame, double deltaFrame)
 {
-	m_Camera->Update(curFrame, deltaFrame);
-	glm::mat4 view = glm::lookAt(m_Camera->GetPos(), m_Camera->GetPos() + m_Camera->GetTarget(), m_Camera->GetUp());
-	glm::mat4 projection = glm::perspective(m_Camera->GetFov(), (float)m_WindowWidth / m_WindowHeight, 0.1f, 100.0f);
-	ResourceManager::getInstance()->GetShader("cube").use().setMatrix4("view", view);
-	ResourceManager::getInstance()->GetShader("cube").setMatrix4("projection", projection);
-	ResourceManager::getInstance()->GetShader("model").use().setMatrix4("view", view);
-	ResourceManager::getInstance()->GetShader("model").setMatrix4("projection", projection);
-
 	glm::mat4 worldTransform;
 	if (m_RootNode != 0) {
 		m_RootNode->SetWorldTransform(worldTransform);
@@ -90,6 +91,15 @@ void Scene::Update(double curFrame, double deltaFrame)
 	}
 
 	m_NodesToDestroy.clear();
+
+	GetActiveCamera()->Update(curFrame, deltaFrame);
+	glm::mat4 view = GetActiveCamera()->GetViewTransform();
+	glm::mat4 projection = GetActiveCamera()->GetProjectionTransform();
+	ResourceManager::getInstance()->GetShader("cube").use().setMatrix4("view", view);
+	ResourceManager::getInstance()->GetShader("cube").setMatrix4("projection", projection);
+	ResourceManager::getInstance()->GetShader("model").use().setMatrix4("view", view);
+	ResourceManager::getInstance()->GetShader("model").setMatrix4("projection", projection);
+
 }
 
 void Scene::Render()
@@ -131,6 +141,12 @@ bool Scene::RemoveNode(unsigned long id)
 {
 	std::map<unsigned long, Node*>::iterator ret = m_Nodes.find(id);
 	if (ret != m_Nodes.end()) {
+		//若清除的是点前follow相机跟随的节点，则切换状态
+		if (m_FollowCamera->GetFollowNode() == ret->second) {
+			m_FollowCamera->SetFollowNode(0);
+			m_FollowCamera->SetIsActive(false);
+			m_FreeCamera->SetIsActive(true);
+		}
 		ret->second->SetParent(0);
 		m_Nodes.erase(ret);
 	}
@@ -160,25 +176,49 @@ Node* Scene::GetRootNode()
 
 void Scene::OnMouseMove(double xPos, double yPos)
 {
-	m_Camera->OnMouseMove(xPos, yPos);
+	GetActiveCamera()->OnMouseMove(xPos, yPos);
 }
 
 void Scene::OnMouseDown()
 {
-	m_Camera->OnMouseDown();
+	GetActiveCamera()->OnMouseDown();
 }
 
 void Scene::OnMouseUp()
 {
-	m_Camera->OnMouseUp();
+	GetActiveCamera()->OnMouseUp();
 }
 
 void Scene::OnKeyboard(int key)
 {
-	m_Camera->OnKeyboard(key);
+	GetActiveCamera()->OnKeyboard(key);
 }
 
 void Scene::OnMouseScroll(double xOffset, double yOffset)
 {
-	m_Camera->OnMouseScroll(xOffset, yOffset);
+	GetActiveCamera()->OnMouseScroll(xOffset, yOffset);
+}
+
+void Scene::ToFree(const glm::vec3& position)
+{
+	m_FreeCamera->SetIsActive(true);
+	m_FreeCamera->SetPos(position);
+	m_FollowCamera->SetIsActive(false);
+}
+
+void Scene::ToFollow(Node* node)
+{
+	m_FreeCamera->SetIsActive(false);
+	m_FollowCamera->SetIsActive(true);
+	m_FollowCamera->SetFollowNode(node);
+}
+
+CameraComponent* Scene::GetActiveCamera()
+{
+	if (m_FreeCamera->GetIsActive()) {
+		return m_FreeCamera;
+	}
+	if (m_FollowCamera->GetIsActive()) {
+		return m_FollowCamera;
+	}
 }

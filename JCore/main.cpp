@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "ResourceManager.h"
 #include "Scene.h"
-#include "Camera.h"
 #include "CubeComponent.h"
 #include "SRTTransformComponent.h"
 #include "ModelComponent.h"
@@ -67,6 +66,19 @@ void key_click_callback(GLFWwindow* window, int key, int scancode, int action, i
 		}
 	}
 		break;
+	case GLFW_KEY_1://切换free相机模式
+	{
+		scene.ToFree(glm::vec3(0.0f, 0.0f, 3.0f));
+	}
+	break;
+	case GLFW_KEY_2://切换follow相机模式
+	{
+		Node * node = scene.FindNode("parent1");
+		if (node) {
+			scene.ToFollow(node);
+		}
+	}
+	break;
 	default:
 		scene.OnKeyboard(key);
 		break;
@@ -193,7 +205,7 @@ int main(int argc, char** argv) {
 			srt = n->FindComponent<SRTTransformComponent>();
 			if (srt) {
 				srt->SetTranslation(glm::vec3(2.0f*sin(currentFrame), 0.0f, 2.0f*cos(currentFrame)));
-				srt->SetRotate(glm::vec3(currentFrame * 50, currentFrame * 50, currentFrame * 50));
+				//srt->SetRotate(glm::vec3(currentFrame * 50, currentFrame * 50, currentFrame * 50));
 			}
 		}
 

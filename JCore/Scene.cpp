@@ -38,6 +38,7 @@ void Scene::Initialize()
 {
 	//shader
 	ResourceManager::getInstance()->LoadShader("cube", "asset/shaders/jcore/cube.vs", "asset/shaders/jcore/cube.fs");
+	ResourceManager::getInstance()->LoadShader("model", "asset/shaders/jcore/model.vs", "asset/shaders/jcore/model.fs");
 
 	m_RootNode = new Node("Scene_Root");
 
@@ -49,8 +50,10 @@ void Scene::Update(double curFrame, double deltaFrame)
 	m_Camera->Update(curFrame, deltaFrame);
 	glm::mat4 view = glm::lookAt(m_Camera->GetPos(), m_Camera->GetPos() + m_Camera->GetTarget(), m_Camera->GetUp());
 	glm::mat4 projection = glm::perspective(m_Camera->GetFov(), (float)m_WindowWidth / m_WindowHeight, 0.1f, 100.0f);
-	ResourceManager::getInstance()->GetShader("cube").setMatrix4("view", view);
+	ResourceManager::getInstance()->GetShader("cube").use().setMatrix4("view", view);
 	ResourceManager::getInstance()->GetShader("cube").setMatrix4("projection", projection);
+	ResourceManager::getInstance()->GetShader("model").use().setMatrix4("view", view);
+	ResourceManager::getInstance()->GetShader("model").setMatrix4("projection", projection);
 
 	glm::mat4 worldTransform;
 	if (m_RootNode != 0) {
@@ -72,7 +75,7 @@ void Scene::Update(double curFrame, double deltaFrame)
 
 void Scene::Render()
 {
-	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+	glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	m_RootNode->Render();

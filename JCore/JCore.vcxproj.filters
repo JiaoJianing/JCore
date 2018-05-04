@@ -72,6 +72,9 @@
     <ClCompile Include="CubeComponent.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="ModelComponent.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -126,6 +129,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="CubeComponent.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelComponent.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

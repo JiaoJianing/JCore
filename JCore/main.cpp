@@ -4,6 +4,7 @@
 #include "Camera.h"
 #include "CubeComponent.h"
 #include "SRTTransformComponent.h"
+#include "ModelComponent.h"
 
 float screenWidth = 800, screenHeight = 600;
 float deltaFrame = 0.0f, lastFrame = 0.0f;
@@ -138,9 +139,11 @@ int main(int argc, char** argv) {
 	Node* parent1 = scene.AddNode("parent1");
 	SRTTransformComponent* srt1 = new SRTTransformComponent();
 	parent1->AddComponent(srt1);
-	CubeComponent* cubeCmp1 = new CubeComponent();
-	cubeCmp1->SetColor(glm::vec3(0.5f, 0.5f, 0.0f));
-	parent1->AddComponent(cubeCmp1);
+	//CubeComponent* cubeCmp1 = new CubeComponent();
+	//cubeCmp1->SetColor(glm::vec3(0.5f, 0.5f, 0.0f));
+	//parent1->AddComponent(cubeCmp1);
+	ModelComponent* model1 = new ModelComponent("asset/models/nanosuit/nanosuit.obj");
+	parent1->AddComponent(model1);
 
 	Node* parent2 = scene.AddNode("parent2");
 	SRTTransformComponent* srt2 = new SRTTransformComponent();
@@ -152,9 +155,11 @@ int main(int argc, char** argv) {
 	Node* child1 = scene.AddNode("child1");
 	SRTTransformComponent* srt3 = new SRTTransformComponent();
 	child1->AddComponent(srt3);
-	CubeComponent* cubeCmp3 = new CubeComponent();
-	cubeCmp3->SetColor(glm::vec3(0.5f, 0.0f, 0.5f));
-	child1->AddComponent(cubeCmp3);
+	//CubeComponent* cubeCmp3 = new CubeComponent();
+	//cubeCmp3->SetColor(glm::vec3(0.5f, 0.0f, 0.5f));
+	//child1->AddComponent(cubeCmp3);
+	ModelComponent* model2 = new ModelComponent("asset/models/cyborg/cyborg.obj");
+	child1->AddComponent(model2);
 	child1->SetParent(parent1);
 
 	Node* child2 = scene.AddNode("child2");
@@ -165,7 +170,8 @@ int main(int argc, char** argv) {
 	child2->AddComponent(cubeCmp4);
 	child2->SetParent(parent2);
 
-	srt1->SetTranslation(glm::vec3(.0f, 0.0f, 0.0f));
+	srt1->SetTranslation(glm::vec3(2.0f, -1.0f, 0.0f));
+	srt1->SetScale(glm::vec3(0.2f));
 	srt2->SetTranslation(glm::vec3(-2.0f, 0.0f, 0.0f));
 
 	srt3->SetTranslation(glm::vec3(2.0f, 0.0f, 0.0f));
@@ -179,6 +185,7 @@ int main(int argc, char** argv) {
 		float currentFrame = glfwGetTime();
 		deltaFrame = currentFrame - lastFrame;
 		lastFrame = currentFrame;
+		glfwPollEvents();
 
 		Node* n = scene.FindNode("child1");
 		if (n) {
@@ -194,7 +201,6 @@ int main(int argc, char** argv) {
 		scene.Update(currentFrame, deltaFrame);
 		scene.Render();
 
-		glfwPollEvents();
 		glfwSwapBuffers(window);
 	}
 

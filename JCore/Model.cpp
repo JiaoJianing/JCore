@@ -151,6 +151,7 @@ std::vector<Texture> Model::loadMaterialTextures(aiMaterial* mat, aiTextureType 
 			//如果纹理没有加载过，就加载
 			std::string fullPath = directory + "/" + str.C_Str();
 			Texture texture(fullPath);
+			texture.setType(typeName);
 			textures.push_back(texture);
 			textures_loaded.push_back(texture);
 		}

@@ -6,6 +6,8 @@ Scene::Scene(int windowWidth, int windowHeight)
 	: m_RootNode(0)
 	, m_CurNodeID(0)
 	, m_Camera(0)
+	, m_TextRender(0)
+	, m_Effects(0)
 	, m_WindowWidth(windowWidth)
 	, m_WindowHeight(windowHeight)
 {
@@ -30,6 +32,16 @@ Scene::~Scene()
 		m_Camera = 0;
 	}
 
+	if (m_TextRender != 0) {
+		delete m_TextRender;
+		m_TextRender = 0;
+	}
+
+	if (m_Effects != 0) {
+		delete m_Effects;
+		m_Effects = 0;
+	}
+
 	m_Nodes.clear();
 	m_NodesToDestroy.clear();
 }
@@ -39,10 +51,17 @@ void Scene::Initialize()
 	//shader
 	ResourceManager::getInstance()->LoadShader("cube", "asset/shaders/jcore/cube.vs", "asset/shaders/jcore/cube.fs");
 	ResourceManager::getInstance()->LoadShader("model", "asset/shaders/jcore/model.vs", "asset/shaders/jcore/model.fs");
+	ResourceManager::getInstance()->LoadShader("text", "asset/shaders/jcore/text.vs", "asset/shaders/jcore/text.fs");
+	ResourceManager::getInstance()->LoadShader("post", "asset/shaders/jcore/post.vs", "asset/shaders/jcore/post.fs");
 
 	m_RootNode = new Node("Scene_Root");
 
 	m_Camera = new Camera(m_WindowWidth, m_WindowHeight);
+
+	m_TextRender = new Text(m_WindowWidth, m_WindowHeight);
+	m_TextRender->Load("asset/fonts/msyh.ttf", 36);
+
+	m_Effects = new PostProcessor(ResourceManager::getInstance()->GetShader("post"), m_WindowWidth, m_WindowHeight);
 }
 
 void Scene::Update(double curFrame, double deltaFrame)
@@ -75,10 +94,15 @@ void Scene::Update(double curFrame, double deltaFrame)
 
 void Scene::Render()
 {
-	glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	m_Effects->BeginRender();
 
 	m_RootNode->Render();
+
+	m_Effects->EndRender();
+
+	m_Effects->Render();
+
+	m_TextRender->Draw(L"Welcome to JCore", 15.0f, 15.0f, 1.0f, glm::vec3(1.0f, 0.5f, 0.5f));
 }
 
 Node* Scene::AddNode(const std::string& name)

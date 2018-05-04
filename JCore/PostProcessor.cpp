@@ -15,23 +15,29 @@ float postVertices[] = {
 PostProcessor::PostProcessor(Shader shader, unsigned int width, unsigned int height)
 	: PostProcessShader(shader), Width(width), Height(height)
 {
+	glGenFramebuffers(1, &m_MSFBO);
 	glGenFramebuffers(1, &m_FBO);
 	glGenRenderbuffers(1, &m_RBO);
 
+	//初始化多重采样帧缓冲
+	glBindFramebuffer(GL_FRAMEBUFFER, m_MSFBO);
+	glBindRenderbuffer(GL_RENDERBUFFER, m_RBO);
+	glRenderbufferStorageMultisample(GL_RENDERBUFFER, 8, GL_RGB, width, height);
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, m_RBO);
+	//深度附件
+	unsigned int depthRBO;
+	glGenRenderbuffers(1, &depthRBO);
+	glBindRenderbuffer(GL_RENDERBUFFER, depthRBO);
+	glRenderbufferStorageMultisample(GL_RENDERBUFFER, 8, GL_DEPTH_COMPONENT, width, height);
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthRBO);
+	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
+		std::cout << "Failed to initialize MS FBO" << std::endl;
+	}
+
 	//初始化全屏帧缓冲
 	glBindFramebuffer(GL_FRAMEBUFFER, m_FBO);
-	
-	//颜色附件
 	this->Texture.Generate(width, height, 0);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, this->Texture.GetID(), 0);
-	
-	//深度附件
-	glBindRenderbuffer(GL_RENDERBUFFER, m_RBO);
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, width, height);
-	glBindRenderbuffer(GL_RENDERBUFFER, 0);
-	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_RBO);
-
-	//检查帧缓冲完整性
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
 		std::cout << "Failed to initialize FBO" << std::endl;
 	}
@@ -45,6 +51,7 @@ PostProcessor::PostProcessor(Shader shader, unsigned int width, unsigned int hei
 
 PostProcessor::~PostProcessor()
 {
+	glDeleteFramebuffers(1, &m_MSFBO);
 	glDeleteFramebuffers(1, &m_FBO);
 
 	glDeleteVertexArrays(1, &m_VAO);
@@ -52,19 +59,23 @@ PostProcessor::~PostProcessor()
 
 void PostProcessor::BeginRender()
 {
-	//渲染到帧缓冲
-	glBindFramebuffer(GL_FRAMEBUFFER, m_FBO);
-	glEnable(GL_DEPTH_TEST);
-	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+	//渲染到多重采样帧缓冲
+	glBindFramebuffer(GL_FRAMEBUFFER, m_MSFBO);
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glEnable(GL_DEPTH_TEST);
 }
 
 void PostProcessor::EndRender()
 {
+	//将多重采样帧缓冲复制到 全屏帧缓冲
+	glBindFramebuffer(GL_READ_FRAMEBUFFER, m_MSFBO);
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, m_FBO);
+	glBlitFramebuffer(0, 0, this->Width, this->Height, 0, 0, this->Width, this->Height, GL_COLOR_BUFFER_BIT, GL_NEAREST);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-void PostProcessor::Render(float dt)
+void PostProcessor::Render()
 {
 	glClear(GL_COLOR_BUFFER_BIT);
 	glDisable(GL_DEPTH_TEST);

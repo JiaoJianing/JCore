@@ -53,5 +53,9 @@ private:
 	Camera* m_Camera;
 	int m_WindowWidth;
 	int m_WindowHeight;
+
+	Text* m_TextRender;
+
+	PostProcessor* m_Effects;
 };
 

@@ -81,9 +81,9 @@ void CubeComponent::Update(double curFrame, double deltaFrame)
 
 }
 
-std::string CubeComponent::GetTypeName()
+stringT CubeComponent::GetTypeName()
 {
-	return "CubeComponent";
+	return _T("CubeComponent");
 }
 
 void CubeComponent::Render()

@@ -2,7 +2,7 @@
 #include "Node.h"
 #include "ResourceManager.h"
 
-Node::Node(const std::string& name)
+Node::Node(const stringT& name)
 	: m_Parent(0)
 	, m_ID(0)
 	, m_Name(name)
@@ -97,12 +97,12 @@ void Node::SetWorldTransform(const glm::mat4& value)
 	}
 }
 
-std::string& Node::GetName()
+stringT& Node::GetName()
 {
 	return m_Name;
 }
 
-void Node::SetName(const std::string& name)
+void Node::SetName(const stringT& name)
 {
 	m_Name = name;
 }

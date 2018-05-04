@@ -15,9 +15,9 @@ FollowCameraComponent::~FollowCameraComponent()
 {
 }
 
-std::string FollowCameraComponent::GetTypeName()
+stringT FollowCameraComponent::GetTypeName()
 {
-	return "FollowCameraComponent";
+	return _T("FollowCameraComponent");
 }
 
 void FollowCameraComponent::Update(double curFrame, double deltaFrame)

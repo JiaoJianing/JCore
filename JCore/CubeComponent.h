@@ -10,7 +10,7 @@ public:
 
 	virtual void Update(double curFrame, double deltaFrame);
 
-	virtual std::string GetTypeName();
+	virtual stringT GetTypeName();
 
 	virtual void Render();
 

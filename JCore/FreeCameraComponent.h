@@ -11,7 +11,7 @@ public:
 
 	virtual void OnMouseScroll(double xOffset, double yOffset);
 
-	virtual std::string GetTypeName();
+	virtual stringT GetTypeName();
 
 private:
 	float m_Yaw;

@@ -47,7 +47,7 @@ void FreeCameraComponent::OnMouseScroll(double xOffset, double yOffset)
 	m_Pos += cameraSpeed * m_Target;
 }
 
-std::string FreeCameraComponent::GetTypeName()
+stringT FreeCameraComponent::GetTypeName()
 {
-	return "FreeCameraComponent";
+	return _T("FreeCameraComponent");
 }

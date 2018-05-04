@@ -20,8 +20,8 @@ public:
 	const glm::mat4& GetWorldTransform();
 	void SetWorldTransform(const glm::mat4& value);
 
-	std::string& GetName();
-	void SetName(const std::string& name);
+	stringT& GetName();
+	void SetName(const stringT& name);
 
 	unsigned long GetID();
 	void SetID(unsigned long id);
@@ -40,7 +40,7 @@ public:
 	T* FindComponent();
 
 private:
-	Node(const std::string& name);
+	Node(const stringT& name);
 	Node(const Node& other);
 	Node& operator=(const Node& other);
 	~Node();
@@ -54,7 +54,7 @@ private:
 	std::vector<Node*> m_Children;
 	glm::mat4 m_WorldTransform;
 	unsigned long m_ID;
-	std::string m_Name;
+	stringT m_Name;
 	glm::vec3 m_Color;
 
 	std::vector<BaseComponent*> m_Components;

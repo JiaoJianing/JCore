@@ -146,5 +146,8 @@
     <ClInclude Include="FollowCameraComponent.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="typedefs.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

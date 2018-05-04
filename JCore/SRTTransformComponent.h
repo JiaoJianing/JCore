@@ -17,7 +17,7 @@ public:
 	glm::vec3 GetTranslation();
 	void SetTranslation(const glm::vec3& translation);
 
-	virtual std::string GetTypeName();
+	virtual stringT GetTypeName();
 
 	virtual void Update(double curFrame, double deltaFrame);
 

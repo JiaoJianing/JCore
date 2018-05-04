@@ -60,7 +60,7 @@ void Scene::Initialize()
 	ResourceManager::getInstance()->LoadShader("text", "asset/shaders/jcore/text.vs", "asset/shaders/jcore/text.fs");
 	ResourceManager::getInstance()->LoadShader("post", "asset/shaders/jcore/post.vs", "asset/shaders/jcore/post.fs");
 
-	m_RootNode = new Node("Scene_Root");
+	m_RootNode = new Node(_T("Scene_Root"));
 
 	m_FreeCamera = new FreeCameraComponent(m_WindowWidth, m_WindowHeight);
 	m_FreeCamera->SetIsActive(true);
@@ -112,10 +112,15 @@ void Scene::Render()
 
 	m_Effects->Render();
 
-	m_TextRender->Draw(L"Welcome to JCore", 15.0f, 15.0f, 1.0f, glm::vec3(1.0f, 0.5f, 0.5f));
+	if (m_FreeCamera->GetIsActive()) {
+		m_TextRender->Draw(std::wstring(L"自由相机"), 15.0f, 15.0f, 0.5f, glm::vec3(1.0f, 0.5f, 0.5f));
+	}
+	else if (m_FollowCamera->GetIsActive()) {
+		m_TextRender->Draw(std::wstring(L"跟随相机: ") + m_FollowCamera->GetFollowNode()->GetName(), 15.0f, 15.0f, 0.5f, glm::vec3(1.0f, 0.5f, 0.5f));
+	}
 }
 
-Node* Scene::AddNode(const std::string& name)
+Node* Scene::AddNode(const stringT& name)
 {
 	Node* ret = new Node(name);
 	ret->SetID(m_CurNodeID++);
@@ -157,7 +162,7 @@ bool Scene::RemoveNode(unsigned long id)
 	return true;
 }
 
-Node* Scene::FindNode(const std::string& name)
+Node* Scene::FindNode(const stringT& name)
 {
 	for (std::map<unsigned long, Node*>::iterator it = m_Nodes.begin(); it != m_Nodes.end(); it++) {
 		if (it->second != 0) {

@@ -9,7 +9,7 @@ public:
 	ModelComponent(const std::string& path);
 	~ModelComponent();
 
-	virtual std::string GetTypeName();
+	virtual stringT GetTypeName();
 
 	virtual void Update(double curFrame, double deltaFrame);
 

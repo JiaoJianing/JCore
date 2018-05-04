@@ -10,6 +10,9 @@ float deltaFrame = 0.0f, lastFrame = 0.0f;
 Scene scene(screenWidth, screenHeight);
 int nodeID = 0;
 
+std::vector<Node*> nodes;
+int nodeIndex = 0;
+
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
 	screenWidth = width;
 	screenHeight = height;
@@ -45,7 +48,7 @@ void key_click_callback(GLFWwindow* window, int key, int scancode, int action, i
 		break;
 	case GLFW_KEY_A:
 	{
-		Node* node = scene.AddNode("test" + std::to_string(nodeID++));
+		Node* node = scene.AddNode(_T("test") + std::to_wstring(nodeID++));
 		SRTTransformComponent* srt = new SRTTransformComponent();
 		node->AddComponent(srt);
 		CubeComponent* cube = new CubeComponent();
@@ -53,17 +56,19 @@ void key_click_callback(GLFWwindow* window, int key, int scancode, int action, i
 		node->AddComponent(cube);
 
 		srt->SetTranslation(glm::vec3(-10 + rand() % 20, -10 + rand() % 20, -10 + rand() % 20));
-		node->SetParent(scene.FindNode("child1") ? scene.FindNode("child1") : scene.GetRootNode());
-		std::cout << "添加子节点: " << node->GetName() << std::endl;
+		node->SetParent(scene.FindNode(_T("child1")) ? scene.FindNode(_T("child1")) : scene.GetRootNode());
+		std::wcout << _T("添加子节点: ") << node->GetName() << std::endl;
+		
+		nodes.push_back(node);
 	}
 		break;
 	case GLFW_KEY_D:
 	{
-		Node * node = scene.FindNode("parent1");
-		if (node) {
-			scene.RemoveNode(node);
-			std::cout << "删除 parent1 及其子节点" << std::endl;
-		}
+		//Node * node = scene.FindNode("parent1");
+		//if (node) {
+		//	scene.RemoveNode(node);
+		//	std::cout << "删除 parent1 及其子节点" << std::endl;
+		//}
 	}
 		break;
 	case GLFW_KEY_1://切换free相机模式
@@ -73,10 +78,7 @@ void key_click_callback(GLFWwindow* window, int key, int scancode, int action, i
 	break;
 	case GLFW_KEY_2://切换follow相机模式
 	{
-		Node * node = scene.FindNode("parent1");
-		if (node) {
-			scene.ToFollow(node);
-		}
+		scene.ToFollow(nodes.at(nodeIndex++ % nodes.size()));
 	}
 	break;
 	default:
@@ -89,24 +91,12 @@ void processInput(GLFWwindow* window) {
 	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
 		scene.OnKeyboard(GLFW_KEY_UP);
 	}
-	//if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
-	//	scene.OnKeyboard(GLFW_KEY_W);
-	//}
-	//if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
-	//	scene.OnKeyboard(GLFW_KEY_S);
-	//}
 	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
 		scene.OnKeyboard(GLFW_KEY_DOWN);
 	}
-	//if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
-	//	scene.OnKeyboard(GLFW_KEY_A);
-	//}
 	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) {
 		scene.OnKeyboard(GLFW_KEY_LEFT);
 	}
-	//if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
-	//	scene.OnKeyboard(GLFW_KEY_D);
-	//}
 	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
 		scene.OnKeyboard(GLFW_KEY_RIGHT);
 	}
@@ -148,7 +138,7 @@ int main(int argc, char** argv) {
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	scene.Initialize();
-	Node* parent1 = scene.AddNode("parent1");
+	Node* parent1 = scene.AddNode(_T("parent1"));
 	SRTTransformComponent* srt1 = new SRTTransformComponent();
 	parent1->AddComponent(srt1);
 	//CubeComponent* cubeCmp1 = new CubeComponent();
@@ -157,14 +147,14 @@ int main(int argc, char** argv) {
 	ModelComponent* model1 = new ModelComponent("asset/models/nanosuit/nanosuit.obj");
 	parent1->AddComponent(model1);
 
-	Node* parent2 = scene.AddNode("parent2");
+	Node* parent2 = scene.AddNode(_T("parent2"));
 	SRTTransformComponent* srt2 = new SRTTransformComponent();
 	parent2->AddComponent(srt2);
 	CubeComponent* cubeCmp2 = new CubeComponent();
 	cubeCmp2->SetColor(glm::vec3(0.0f, 0.5f, 0.5f));
 	parent2->AddComponent(cubeCmp2);
 
-	Node* child1 = scene.AddNode("child1");
+	Node* child1 = scene.AddNode(_T("child1"));
 	SRTTransformComponent* srt3 = new SRTTransformComponent();
 	child1->AddComponent(srt3);
 	//CubeComponent* cubeCmp3 = new CubeComponent();
@@ -174,7 +164,7 @@ int main(int argc, char** argv) {
 	child1->AddComponent(model2);
 	child1->SetParent(parent1);
 
-	Node* child2 = scene.AddNode("child2");
+	Node* child2 = scene.AddNode(_T("child2"));
 	SRTTransformComponent* srt4 = new SRTTransformComponent();
 	child2->AddComponent(srt4);
 	CubeComponent* cubeCmp4 = new CubeComponent();
@@ -191,6 +181,11 @@ int main(int argc, char** argv) {
 	srt4->SetTranslation(glm::vec3(-2.0f, 0.0f, 0.0f));
 	srt4->SetScale(glm::vec3(0.5f, 1.0f, 0.5f));
 
+	nodes.push_back(parent1);
+	nodes.push_back(parent2);
+	nodes.push_back(child1);
+	nodes.push_back(child2);
+
 	while (!glfwWindowShouldClose(window))
 	{
 		//绘制
@@ -199,7 +194,7 @@ int main(int argc, char** argv) {
 		lastFrame = currentFrame;
 		glfwPollEvents();
 
-		Node* n = scene.FindNode("child1");
+		Node* n = scene.FindNode(_T("child1"));
 		if (n) {
 			SRTTransformComponent* srt = 0;
 			srt = n->FindComponent<SRTTransformComponent>();

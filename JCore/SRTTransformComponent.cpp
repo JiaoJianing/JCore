@@ -45,9 +45,9 @@ void SRTTransformComponent::SetTranslation(const glm::vec3& translation)
 	m_TransformDirty = true;
 }
 
-std::string SRTTransformComponent::GetTypeName()
+stringT SRTTransformComponent::GetTypeName()
 {
-	return "SRTTransformComponent";
+	return _T("SRTTransformComponent");
 }
 
 void SRTTransformComponent::Update(double curFrame, double deltaFrame)

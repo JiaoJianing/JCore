@@ -7,7 +7,7 @@ public:
 	CameraComponent(int width, int height);
 	~CameraComponent();
 
-	virtual std::string GetTypeName();
+	virtual stringT GetTypeName();
 
 	virtual void Update(double curFrame, double deltaFrame);
 

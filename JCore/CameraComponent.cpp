@@ -25,9 +25,9 @@ CameraComponent::~CameraComponent()
 {
 }
 
-std::string CameraComponent::GetTypeName()
+stringT CameraComponent::GetTypeName()
 {
-	return "CameraComponent";
+	return _T("CameraComponent");
 }
 
 void CameraComponent::Update(double curFrame, double deltaFrame)

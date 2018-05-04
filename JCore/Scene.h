@@ -21,7 +21,7 @@ public:
 	void Render();
 
 	//场景中节点的name可能重复，但ID唯一
-	Node* AddNode(const std::string& name);
+	Node* AddNode(const stringT& name);
 
 	//删除节点，先将节点及其子节点移动到m_NodesToDestroy，在下一帧统一删除
 	bool RemoveNode(Node* node);
@@ -30,7 +30,7 @@ public:
 	bool RemoveNode(unsigned long id);
 
 	//找到场景中第一个名字匹配的节点
-	Node* FindNode(const std::string& name);
+	Node* FindNode(const stringT& name);
 
 	//获得场景根节点
 	Node* GetRootNode();

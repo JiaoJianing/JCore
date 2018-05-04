@@ -13,9 +13,9 @@ ModelComponent::~ModelComponent()
 {
 }
 
-std::string ModelComponent::GetTypeName()
+stringT ModelComponent::GetTypeName()
 {
-	return "ModelComponent";
+	return _T("ModelComponent");
 }
 
 void ModelComponent::Update(double curFrame, double deltaFrame)

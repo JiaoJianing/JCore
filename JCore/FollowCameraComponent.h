@@ -8,7 +8,7 @@ public:
 	FollowCameraComponent(int width, int height);
 	~FollowCameraComponent();
 
-	virtual std::string GetTypeName();
+	virtual stringT GetTypeName();
 
 	virtual void Update(double curFrame, double deltaFrame);
 

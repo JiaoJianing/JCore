@@ -11,6 +11,7 @@ Scene::Scene(int windowWidth, int windowHeight)
 	, m_Effects(0)
 	, m_PickingSys(0)
 	, m_TestQuad(0)
+	, m_PickingNode(0)
 	, m_WindowWidth(windowWidth)
 	, m_WindowHeight(windowHeight)
 {
@@ -148,6 +149,10 @@ void Scene::Render()
 	else if (m_FollowCamera->GetIsActive()) {
 		m_TextRender->Draw(std::wstring(L"跟随相机: ") + m_FollowCamera->GetFollowNode()->GetName(), 15.0f, 15.0f, 0.5f, glm::vec3(1.0f, 0.5f, 0.5f));
 	}
+
+	if (m_PickingNode != 0) {
+		m_TextRender->Draw(std::wstring(L"当前拾取: ") + m_PickingNode->GetName(), 15.0f, 35.0f, 0.5f, glm::vec3(1.0f, 0.5f, 0.5f));
+	}
 }
 
 Node* Scene::AddNode(const stringT& name)
@@ -217,6 +222,7 @@ Node* Scene::PickNode(unsigned int x, unsigned int y)
 		ret = m_Nodes[pick.nodeID];
 	}
 
+	m_PickingNode = ret;
 	return ret;
 }
 

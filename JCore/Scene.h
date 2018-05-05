@@ -72,6 +72,7 @@ private:
 	PostProcessor* m_Effects;
 
 	PickingSystem* m_PickingSys;
+	Node* m_PickingNode;
 
 	Quad* m_TestQuad;
 };

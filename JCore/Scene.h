@@ -6,6 +6,8 @@
 #include "PostProcessor.h"
 #include "FreeCameraComponent.h"
 #include "FollowCameraComponent.h"
+#include "PickingSystem.h"
+#include "Quad.h"
 
 //场景管理类
 class Scene
@@ -35,6 +37,9 @@ public:
 	//获得场景根节点
 	Node* GetRootNode();
 
+	//拾取
+	Node* PickNode(unsigned int x, unsigned int y);
+
 	//UI事件
 	void OnMouseMove(double xPos, double yPos);
 
@@ -56,7 +61,7 @@ private:
 	std::map<unsigned long, Node*> m_Nodes;//场景中所有的节点，使用map便于查询
 	std::vector<Node*> m_NodesToDestroy;//将要删除的节点，一般在下一帧删除
 	Node* m_RootNode;//场景根节点
-	unsigned long m_CurNodeID;//管理节点id
+	unsigned long m_CurNodeID;//管理节点id 从1开始
 	FreeCameraComponent* m_FreeCamera;
 	FollowCameraComponent* m_FollowCamera;
 	int m_WindowWidth;
@@ -65,5 +70,9 @@ private:
 	Text* m_TextRender;
 
 	PostProcessor* m_Effects;
+
+	PickingSystem* m_PickingSys;
+
+	Quad* m_TestQuad;
 };
 

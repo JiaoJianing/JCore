@@ -13,6 +13,8 @@ public:
 
 	virtual void Render();
 
+	virtual void Render(Shader shader);
+
 	virtual void Resize(int width, int height);
 
 	virtual void OnKeyboard(int key);

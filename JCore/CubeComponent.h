@@ -14,6 +14,8 @@ public:
 
 	virtual void Render();
 
+	virtual void Render(Shader shader);
+
 	void SetColor(const glm::vec3& color);
 
 private:

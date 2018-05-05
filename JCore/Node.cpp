@@ -4,7 +4,7 @@
 
 Node::Node(const stringT& name)
 	: m_Parent(0)
-	, m_ID(0)
+	, m_ID(1)
 	, m_Name(name)
 	, m_TransformDirty(true)
 	, m_Color(1.0f)
@@ -57,6 +57,21 @@ void Node::Render()
 
 	for (int i = 0; i < m_Children.size(); i++) {
 		m_Children[i]->Render();
+	}
+}
+
+void Node::Render(Shader shader)
+{
+	shader.use();
+	shader.setInt("nodeID", GetID());
+	for (std::vector<BaseComponent*>::iterator it = m_Components.begin(); it != m_Components.end(); it++) {
+		if ((*it) != 0) {
+			(*it)->Render(shader);
+		}
+	}
+
+	for (int i = 0; i < m_Children.size(); i++) {
+		m_Children[i]->Render(shader);
 	}
 }
 

@@ -23,6 +23,8 @@ public:
 
 	virtual void Render();
 
+	virtual void Render(Shader shader);
+
 private:
 	SRTTransform m_SRT;
 	bool m_TransformDirty;

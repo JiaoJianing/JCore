@@ -3,6 +3,7 @@
 #include <vector>
 #include "SRTTransform.h"
 #include "BaseComponent.h"
+#include "Shader.h"
 
 //抽象节点类
 class Node
@@ -12,6 +13,8 @@ public:
 	void Update(double curFrame, double deltaFrame);
 
 	void Render();
+
+	void Render(Shader shader);
 
 public:
 	Node * GetParent();
@@ -53,7 +56,7 @@ private:
 	Node* m_Parent;
 	std::vector<Node*> m_Children;
 	glm::mat4 m_WorldTransform;
-	unsigned long m_ID;
+	unsigned long m_ID; //ID从1开始
 	stringT m_Name;
 	glm::vec3 m_Color;
 

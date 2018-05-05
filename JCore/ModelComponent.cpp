@@ -32,3 +32,13 @@ void ModelComponent::Render()
 		m_Model.Draw(m_Shader);
 	}
 }
+
+void ModelComponent::Render(Shader shader)
+{
+	if (GetOwner()) {
+		shader.use();
+		shader.setMatrix4("model", GetOwner()->GetWorldTransform());
+
+		m_Model.Draw(shader);
+	}
+}

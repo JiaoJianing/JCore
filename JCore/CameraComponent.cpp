@@ -40,6 +40,11 @@ void CameraComponent::Render()
 {
 }
 
+void CameraComponent::Render(Shader shader)
+{
+
+}
+
 void CameraComponent::Resize(int width, int height)
 {
 	m_WindowWidth = width;

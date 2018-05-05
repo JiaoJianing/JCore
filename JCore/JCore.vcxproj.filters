@@ -81,6 +81,12 @@
     <ClCompile Include="FollowCameraComponent.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="PickingSystem.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Quad.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Mesh.h">
@@ -147,6 +153,12 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="typedefs.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="PickingSystem.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Quad.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

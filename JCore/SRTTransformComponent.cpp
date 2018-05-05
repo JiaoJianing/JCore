@@ -70,3 +70,8 @@ void SRTTransformComponent::Render()
 {
 
 }
+
+void SRTTransformComponent::Render(Shader shader)
+{
+
+}

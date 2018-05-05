@@ -15,6 +15,8 @@ public:
 
 	virtual void Render();
 
+	virtual void Render(Shader shader);
+
 private:
 	Model m_Model;
 	Shader m_Shader;

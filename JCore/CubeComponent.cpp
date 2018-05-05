@@ -99,6 +99,18 @@ void CubeComponent::Render()
 	}
 }
 
+void CubeComponent::Render(Shader shader)
+{
+	if (GetOwner()) {
+		shader.use();
+		shader.setMatrix4("model", GetOwner()->GetWorldTransform());
+
+		glBindVertexArray(m_VAO);
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+		glBindVertexArray(0);
+	}
+}
+
 void CubeComponent::SetColor(const glm::vec3& color)
 {
 	m_Color = color;

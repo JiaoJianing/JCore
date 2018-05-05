@@ -4,11 +4,13 @@
 
 Scene::Scene(int windowWidth, int windowHeight)
 	: m_RootNode(0)
-	, m_CurNodeID(0)
+	, m_CurNodeID(1)
 	, m_FreeCamera(0)
 	, m_FollowCamera(0)
 	, m_TextRender(0)
 	, m_Effects(0)
+	, m_PickingSys(0)
+	, m_TestQuad(0)
 	, m_WindowWidth(windowWidth)
 	, m_WindowHeight(windowHeight)
 {
@@ -48,6 +50,16 @@ Scene::~Scene()
 		m_Effects = 0;
 	}
 
+	if (m_PickingSys != 0) {
+		delete m_PickingSys;
+		m_PickingSys = 0;
+	}
+
+	if (m_TestQuad != 0) {
+		delete m_TestQuad;
+		m_TestQuad = 0;
+	}
+
 	m_Nodes.clear();
 	m_NodesToDestroy.clear();
 }
@@ -59,6 +71,8 @@ void Scene::Initialize()
 	ResourceManager::getInstance()->LoadShader("model", "asset/shaders/jcore/model.vs", "asset/shaders/jcore/model.fs");
 	ResourceManager::getInstance()->LoadShader("text", "asset/shaders/jcore/text.vs", "asset/shaders/jcore/text.fs");
 	ResourceManager::getInstance()->LoadShader("post", "asset/shaders/jcore/post.vs", "asset/shaders/jcore/post.fs");
+	ResourceManager::getInstance()->LoadShader("pick", "asset/shaders/jcore/pick.vs", "asset/shaders/jcore/pick.fs");
+	ResourceManager::getInstance()->LoadShader("quad", "asset/shaders/jcore/quad.vs", "asset/shaders/jcore/quad.fs");
 
 	m_RootNode = new Node(_T("Scene_Root"));
 
@@ -71,6 +85,11 @@ void Scene::Initialize()
 	m_TextRender->Load("asset/fonts/msyh.ttf", 36);
 
 	m_Effects = new PostProcessor(ResourceManager::getInstance()->GetShader("post"), m_WindowWidth, m_WindowHeight);
+
+	m_PickingSys = new PickingSystem(m_WindowWidth, m_WindowHeight);
+
+	m_TestQuad = new Quad();
+	ResourceManager::getInstance()->GetShader("quad").use().setInt("texture1", 0);
 }
 
 void Scene::Update(double curFrame, double deltaFrame)
@@ -99,11 +118,21 @@ void Scene::Update(double curFrame, double deltaFrame)
 	ResourceManager::getInstance()->GetShader("cube").setMatrix4("projection", projection);
 	ResourceManager::getInstance()->GetShader("model").use().setMatrix4("view", view);
 	ResourceManager::getInstance()->GetShader("model").setMatrix4("projection", projection);
-
+	ResourceManager::getInstance()->GetShader("pick").use().setMatrix4("view", view);
+	ResourceManager::getInstance()->GetShader("pick").setMatrix4("projection", projection);
+	ResourceManager::getInstance()->GetShader("pick").setMatrix4("model", glm::mat4());
 }
 
 void Scene::Render()
 {
+	//拾取系统
+	m_PickingSys->BeginRender();
+
+	m_RootNode->Render(ResourceManager::getInstance()->GetShader("pick"));
+
+	m_PickingSys->EndRender();
+
+	//后期
 	m_Effects->BeginRender();
 
 	m_RootNode->Render();
@@ -112,6 +141,7 @@ void Scene::Render()
 
 	m_Effects->Render();
 
+	//文字
 	if (m_FreeCamera->GetIsActive()) {
 		m_TextRender->Draw(std::wstring(L"自由相机"), 15.0f, 15.0f, 0.5f, glm::vec3(1.0f, 0.5f, 0.5f));
 	}
@@ -179,6 +209,17 @@ Node* Scene::GetRootNode()
 	return m_RootNode;
 }
 
+Node* Scene::PickNode(unsigned int x, unsigned int y)
+{
+	Node* ret = 0;
+	PickInfo pick = m_PickingSys->Pick(x, y);
+	if (m_Nodes.find(pick.nodeID) != m_Nodes.end()) {
+		ret = m_Nodes[pick.nodeID];
+	}
+
+	return ret;
+}
+
 void Scene::OnMouseMove(double xPos, double yPos)
 {
 	GetActiveCamera()->OnMouseMove(xPos, yPos);
@@ -226,4 +267,6 @@ CameraComponent* Scene::GetActiveCamera()
 	if (m_FollowCamera->GetIsActive()) {
 		return m_FollowCamera;
 	}
+
+	return 0;
 }

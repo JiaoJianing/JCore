@@ -27,6 +27,10 @@ void mouse_click_callback(GLFWwindow* window, int button, int action, int mods) 
 	if (button == GLFW_MOUSE_BUTTON_LEFT) {
 		if (action == GLFW_PRESS) {
 			scene.OnMouseDown();
+
+			double x, y;
+			glfwGetCursorPos(window, &x, &y);
+			Node* select = scene.PickNode(x, screenHeight - y - 1);
 		}
 		else if (action == GLFW_RELEASE) {
 			scene.OnMouseUp();

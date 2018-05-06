@@ -126,13 +126,6 @@ void Scene::Update(double curFrame, double deltaFrame)
 
 void Scene::Render()
 {
-	//拾取系统
-	m_PickingSys->BeginRender();
-
-	m_RootNode->Render(ResourceManager::getInstance()->GetShader("pick"));
-
-	m_PickingSys->EndRender();
-
 	//后期
 	m_Effects->BeginRender();
 
@@ -216,6 +209,13 @@ Node* Scene::GetRootNode()
 
 Node* Scene::PickNode(unsigned int x, unsigned int y)
 {
+	//拾取系统
+	m_PickingSys->BeginRender();
+
+	m_RootNode->Render(ResourceManager::getInstance()->GetShader("pick"));
+
+	m_PickingSys->EndRender();
+
 	Node* ret = 0;
 	PickInfo pick = m_PickingSys->Pick(x, y);
 	if (m_Nodes.find(pick.nodeID) != m_Nodes.end()) {

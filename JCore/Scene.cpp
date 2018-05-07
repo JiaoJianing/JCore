@@ -74,6 +74,7 @@ void Scene::Initialize()
 	ResourceManager::getInstance()->LoadShader("post", "asset/shaders/jcore/post.vs", "asset/shaders/jcore/post.fs");
 	ResourceManager::getInstance()->LoadShader("pick", "asset/shaders/jcore/pick.vs", "asset/shaders/jcore/pick.fs");
 	ResourceManager::getInstance()->LoadShader("quad", "asset/shaders/jcore/quad.vs", "asset/shaders/jcore/quad.fs");
+	ResourceManager::getInstance()->LoadShader("outline", "asset/shaders/jcore/outline.vs", "asset/shaders/jcore/outline.fs");
 
 	m_RootNode = new Node(_T("Scene_Root"));
 
@@ -91,6 +92,7 @@ void Scene::Initialize()
 
 	m_TestQuad = new Quad();
 	ResourceManager::getInstance()->GetShader("quad").use().setInt("texture1", 0);
+	ResourceManager::getInstance()->GetShader("outline").use().setVec3("outlineColor", glm::vec3(1.0f));
 }
 
 void Scene::Update(double curFrame, double deltaFrame)
@@ -126,6 +128,9 @@ void Scene::Update(double curFrame, double deltaFrame)
 	ResourceManager::getInstance()->GetShader("pick").use().setMatrix4("view", view);
 	ResourceManager::getInstance()->GetShader("pick").setMatrix4("projection", projection);
 	ResourceManager::getInstance()->GetShader("pick").setMatrix4("model", glm::mat4());
+
+	ResourceManager::getInstance()->GetShader("outline").use().setMatrix4("view", view);
+	ResourceManager::getInstance()->GetShader("outline").setMatrix4("projection", projection);
 }
 
 void Scene::Render()

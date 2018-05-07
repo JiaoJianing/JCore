@@ -89,6 +89,19 @@ stringT CubeComponent::GetTypeName()
 void CubeComponent::Render()
 {
 	if (GetOwner()) {
+		if (GetHighLight()) {
+			glCullFace(GL_FRONT);
+			glLineWidth(2.0f);
+			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+			ResourceManager::getInstance()->GetShader("outline").use().setMatrix4("model", GetOwner()->GetWorldTransform());
+			glBindVertexArray(m_VAO);
+			glDrawArrays(GL_TRIANGLES, 0, 36);
+			glBindVertexArray(0);
+		}
+
+		glCullFace(GL_BACK);
+		glLineWidth(1.0f);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		m_Shader.use();
 		m_Shader.setMatrix4("model", GetOwner()->GetWorldTransform());
 		m_Shader.setVec3("cubeColor", m_Color);

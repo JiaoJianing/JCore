@@ -26,6 +26,18 @@ void ModelComponent::Update(double curFrame, double deltaFrame)
 void ModelComponent::Render()
 {
 	if (GetOwner()) {
+
+		if (GetHighLight()) {
+			glCullFace(GL_FRONT);
+			glLineWidth(2.0f);
+			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+			ResourceManager::getInstance()->GetShader("outline").use().setMatrix4("model", GetOwner()->GetWorldTransform());
+			m_Model.Draw(ResourceManager::getInstance()->GetShader("outline"));
+		}
+
+		glCullFace(GL_BACK);
+		glLineWidth(1.0f);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		m_Shader.use();
 		m_Shader.setMatrix4("model", GetOwner()->GetWorldTransform());
 		m_Shader.setInt("highLight", GetHighLight());

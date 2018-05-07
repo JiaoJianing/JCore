@@ -140,6 +140,7 @@ int main(int argc, char** argv) {
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_CULL_FACE);
 
 	scene.Initialize();
 	Node* parent1 = scene.AddNode(_T("parent1"));
@@ -149,6 +150,7 @@ int main(int argc, char** argv) {
 	//cubeCmp1->SetColor(glm::vec3(0.5f, 0.5f, 0.0f));
 	//parent1->AddComponent(cubeCmp1);
 	ModelComponent* model1 = new ModelComponent("asset/models/nanosuit/nanosuit.obj");
+	model1->SetHighLightColor(glm::vec3(1.0f, 0.0f, 1.0f));
 	parent1->AddComponent(model1);
 
 	Node* parent2 = scene.AddNode(_T("parent2"));
@@ -156,6 +158,7 @@ int main(int argc, char** argv) {
 	parent2->AddComponent(srt2);
 	CubeComponent* cubeCmp2 = new CubeComponent();
 	cubeCmp2->SetColor(glm::vec3(0.0f, 0.5f, 0.5f));
+	cubeCmp2->SetHighLightColor(glm::vec3(1.0f, 0.0f, 1.0f));
 	parent2->AddComponent(cubeCmp2);
 
 	Node* child1 = scene.AddNode(_T("child1"));
@@ -165,6 +168,7 @@ int main(int argc, char** argv) {
 	//cubeCmp3->SetColor(glm::vec3(0.5f, 0.0f, 0.5f));
 	//child1->AddComponent(cubeCmp3);
 	ModelComponent* model2 = new ModelComponent("asset/models/cyborg/cyborg.obj");
+	model2->SetHighLightColor(glm::vec3(1.0f, 0.0f, 1.0f));
 	child1->AddComponent(model2);
 	child1->SetParent(parent1);
 
@@ -173,6 +177,7 @@ int main(int argc, char** argv) {
 	child2->AddComponent(srt4);
 	CubeComponent* cubeCmp4 = new CubeComponent();
 	cubeCmp4->SetColor(glm::vec3(0.5f, 0.0f, 1.0f));
+	cubeCmp4->SetHighLightColor(glm::vec3(1.0f, 0.0f, 1.0f));
 	child2->AddComponent(cubeCmp4);
 	child2->SetParent(parent2);
 

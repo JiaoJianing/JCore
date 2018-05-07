@@ -149,6 +149,19 @@ void Node::SetHightLight(bool value)
 	}
 }
 
+bool Node::GetPickable()
+{
+	bool result = true;
+	for (std::vector<BaseComponent*>::iterator it = m_Components.begin(); it != m_Components.end(); it++) {
+		if (!(*it)->GetPickable()) {
+			result = false;
+			break;
+		}
+	}
+
+	return result;
+}
+
 int Node::GetChildCount()
 {
 	return m_Children.size();

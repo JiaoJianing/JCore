@@ -227,7 +227,7 @@ Node* Scene::PickNode(unsigned int x, unsigned int y)
 
 	Node* ret = 0;
 	PickInfo pick = m_PickingSys->Pick(x, y);
-	if (m_Nodes.find(pick.nodeID) != m_Nodes.end()) {
+	if (m_Nodes.find(pick.nodeID) != m_Nodes.end() && m_Nodes[pick.nodeID]->GetPickable()) {
 		ret = m_Nodes[pick.nodeID];
 	}
 

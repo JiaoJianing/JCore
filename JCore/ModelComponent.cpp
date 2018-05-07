@@ -28,6 +28,7 @@ void ModelComponent::Render()
 	if (GetOwner()) {
 
 		if (GetHighLight()) {
+			glEnable(GL_CULL_FACE);
 			glCullFace(GL_FRONT);
 			glLineWidth(2.0f);
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -35,7 +36,7 @@ void ModelComponent::Render()
 			m_Model.Draw(ResourceManager::getInstance()->GetShader("outline"));
 		}
 
-		glCullFace(GL_BACK);
+		glDisable(GL_CULL_FACE);
 		glLineWidth(1.0f);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		m_Shader.use();

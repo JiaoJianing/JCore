@@ -25,13 +25,17 @@ public:
 	bool GetHighLight();
 	void SetHighLight(bool value);
 
+	bool GetPickable();
+	void SetPickable(bool value);
+
 	const glm::vec3& GetHighLightColor() const;
 	void SetHighLightColor(const glm::vec3& color);
 
-private:
+protected:
 	Node * m_Owner;
 
 	bool m_HighLight;
 	glm::vec3 m_HighLightColor;
+	bool m_Pickable;
 };
 

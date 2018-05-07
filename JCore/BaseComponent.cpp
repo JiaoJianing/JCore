@@ -5,6 +5,7 @@ BaseComponent::BaseComponent()
 	: m_Owner(0)
 	, m_HighLight(false)
 	, m_HighLightColor(1.0f, 1.0f, 0.0f)
+	, m_Pickable(true)
 {
 }
 
@@ -33,6 +34,16 @@ void BaseComponent::SetHighLight(bool value)
 	if (value != m_HighLight) {
 		m_HighLight = value;
 	}
+}
+
+bool BaseComponent::GetPickable()
+{
+	return m_Pickable;
+}
+
+void BaseComponent::SetPickable(bool value)
+{
+	m_Pickable = value;
 }
 
 const glm::vec3& BaseComponent::GetHighLightColor() const

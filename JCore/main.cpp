@@ -140,9 +140,20 @@ int main(int argc, char** argv) {
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glEnable(GL_CULL_FACE);
+	//glEnable(GL_CULL_FACE);
 
 	scene.Initialize();
+
+	Node* floor = scene.AddNode(_T("floor"));
+	SRTTransformComponent* floorSRT = new SRTTransformComponent();
+	floorSRT->SetScale(glm::vec3(10.0f, 0.1f, 10.0f));
+	floorSRT->SetTranslation(glm::vec3(0.0f, -1.0f, 0.0f));
+	floor->AddComponent(floorSRT);
+	CubeComponent* floorCube = new CubeComponent("asset/resources/wood.png");
+	floorCube->SetColor(glm::vec3(1.0f));
+	floorCube->SetPickable(false);
+	floor->AddComponent(floorCube);
+
 	Node* parent1 = scene.AddNode(_T("parent1"));
 	SRTTransformComponent* srt1 = new SRTTransformComponent();
 	parent1->AddComponent(srt1);

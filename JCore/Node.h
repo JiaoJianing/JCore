@@ -34,6 +34,8 @@ public:
 
 	void SetHightLight(bool value);
 
+	bool GetPickable();
+
 	int GetChildCount();
 	Node* GetChildAt(int index);
 

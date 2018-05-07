@@ -2,6 +2,7 @@
 #include "CubeComponent.h"
 #include "ResourceManager.h"
 #include "Node.h"
+#include "Texture.h"
 
 //立方体数据
 float cubeVertices[] = {
@@ -51,6 +52,7 @@ float cubeVertices[] = {
 
 CubeComponent::CubeComponent()
 	: m_Color(1.0f)
+	, m_UseTexture(false)
 {
 	m_Shader = ResourceManager::getInstance()->GetShader("cube");
 
@@ -71,6 +73,14 @@ CubeComponent::CubeComponent()
 }
 
 
+CubeComponent::CubeComponent(const std::string& texturePath)
+	: CubeComponent()
+{
+	m_UseTexture = true;
+	m_Texture = Texture::loadTexture(texturePath);
+	m_Shader.use().setInt("cubeTexture", 0);
+}
+
 CubeComponent::~CubeComponent()
 {
 	glDeleteVertexArrays(1, &m_VAO);
@@ -90,6 +100,7 @@ void CubeComponent::Render()
 {
 	if (GetOwner()) {
 		if (GetHighLight()) {
+			glEnable(GL_CULL_FACE);
 			glCullFace(GL_FRONT);
 			glLineWidth(2.0f);
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -99,10 +110,15 @@ void CubeComponent::Render()
 			glBindVertexArray(0);
 		}
 
-		glCullFace(GL_BACK);
+		glDisable(GL_CULL_FACE);
 		glLineWidth(1.0f);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		m_Shader.use();
+		if (m_UseTexture) {
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, m_Texture);
+		}
+		m_Shader.setInt("useTexture", m_UseTexture);
 		m_Shader.setMatrix4("model", GetOwner()->GetWorldTransform());
 		m_Shader.setVec3("cubeColor", m_Color);
 		m_Shader.setInt("highLight", GetHighLight());

@@ -28,6 +28,8 @@ void ModelComponent::Render()
 	if (GetOwner()) {
 		m_Shader.use();
 		m_Shader.setMatrix4("model", GetOwner()->GetWorldTransform());
+		m_Shader.setInt("highLight", GetHighLight());
+		m_Shader.setVec3("highLightColor", GetHighLightColor());
 
 		m_Model.Draw(m_Shader);
 	}

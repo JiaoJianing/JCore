@@ -142,6 +142,13 @@ void Node::SetColor(const glm::vec3& color)
 	m_Color = color;
 }
 
+void Node::SetHightLight(bool value)
+{
+	for (std::vector<BaseComponent*>::iterator it = m_Components.begin(); it != m_Components.end(); it++) {
+		(*it)->SetHighLight(value);
+	}
+}
+
 int Node::GetChildCount()
 {
 	return m_Children.size();

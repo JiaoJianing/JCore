@@ -117,8 +117,12 @@ void Scene::Update(double curFrame, double deltaFrame)
 	glm::mat4 projection = GetActiveCamera()->GetProjectionTransform();
 	ResourceManager::getInstance()->GetShader("cube").use().setMatrix4("view", view);
 	ResourceManager::getInstance()->GetShader("cube").setMatrix4("projection", projection);
+	ResourceManager::getInstance()->GetShader("cube").setVec3("viewPos", GetActiveCamera()->GetPos());
+
 	ResourceManager::getInstance()->GetShader("model").use().setMatrix4("view", view);
 	ResourceManager::getInstance()->GetShader("model").setMatrix4("projection", projection);
+	ResourceManager::getInstance()->GetShader("model").setVec3("viewPos", GetActiveCamera()->GetPos());
+
 	ResourceManager::getInstance()->GetShader("pick").use().setMatrix4("view", view);
 	ResourceManager::getInstance()->GetShader("pick").setMatrix4("projection", projection);
 	ResourceManager::getInstance()->GetShader("pick").setMatrix4("model", glm::mat4());
@@ -222,7 +226,15 @@ Node* Scene::PickNode(unsigned int x, unsigned int y)
 		ret = m_Nodes[pick.nodeID];
 	}
 
-	m_PickingNode = ret;
+	if (m_PickingNode != ret) {
+		if (m_PickingNode != 0) {
+			m_PickingNode->SetHightLight(false);
+		}
+		m_PickingNode = ret;
+		if (m_PickingNode != 0) {
+			m_PickingNode->SetHightLight(true);
+		}
+	}
 	return ret;
 }
 

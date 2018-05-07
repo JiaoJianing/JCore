@@ -92,6 +92,8 @@ void CubeComponent::Render()
 		m_Shader.use();
 		m_Shader.setMatrix4("model", GetOwner()->GetWorldTransform());
 		m_Shader.setVec3("cubeColor", m_Color);
+		m_Shader.setInt("highLight", GetHighLight());
+		m_Shader.setVec3("highLightColor", GetHighLightColor());
 
 		glBindVertexArray(m_VAO);
 		glDrawArrays(GL_TRIANGLES, 0, 36);

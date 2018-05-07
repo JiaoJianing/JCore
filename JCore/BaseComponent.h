@@ -21,7 +21,17 @@ public:
 
 	virtual void Render(Shader shader) = 0;
 
+public:
+	bool GetHighLight();
+	void SetHighLight(bool value);
+
+	const glm::vec3& GetHighLightColor() const;
+	void SetHighLightColor(const glm::vec3& color);
+
 private:
 	Node * m_Owner;
+
+	bool m_HighLight;
+	glm::vec3 m_HighLightColor;
 };
 

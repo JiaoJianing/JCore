@@ -16,6 +16,7 @@ public:
 
 	virtual void Render(Shader shader);
 
+public:
 	void SetColor(const glm::vec3& color);
 
 private:
@@ -23,6 +24,5 @@ private:
 	unsigned int m_VBO, m_VAO;
 	unsigned int m_TextureID;
 	Shader m_Shader;
-
 };
 

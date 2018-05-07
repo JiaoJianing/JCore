@@ -32,6 +32,8 @@ public:
 	glm::vec3& GetColor();
 	void SetColor(const glm::vec3& color);
 
+	void SetHightLight(bool value);
+
 	int GetChildCount();
 	Node* GetChildAt(int index);
 

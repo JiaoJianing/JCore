@@ -158,7 +158,6 @@ int main(int argc, char** argv) {
 	parent2->AddComponent(srt2);
 	CubeComponent* cubeCmp2 = new CubeComponent();
 	cubeCmp2->SetColor(glm::vec3(0.0f, 0.5f, 0.5f));
-	cubeCmp2->SetHighLightColor(glm::vec3(1.0f, 0.0f, 1.0f));
 	parent2->AddComponent(cubeCmp2);
 
 	Node* child1 = scene.AddNode(_T("child1"));
@@ -170,14 +169,13 @@ int main(int argc, char** argv) {
 	ModelComponent* model2 = new ModelComponent("asset/models/cyborg/cyborg.obj");
 	model2->SetHighLightColor(glm::vec3(1.0f, 0.0f, 1.0f));
 	child1->AddComponent(model2);
-	child1->SetParent(parent1);
+	//child1->SetParent(parent1);
 
 	Node* child2 = scene.AddNode(_T("child2"));
 	SRTTransformComponent* srt4 = new SRTTransformComponent();
 	child2->AddComponent(srt4);
 	CubeComponent* cubeCmp4 = new CubeComponent();
 	cubeCmp4->SetColor(glm::vec3(0.5f, 0.0f, 1.0f));
-	cubeCmp4->SetHighLightColor(glm::vec3(1.0f, 0.0f, 1.0f));
 	child2->AddComponent(cubeCmp4);
 	child2->SetParent(parent2);
 
@@ -185,8 +183,8 @@ int main(int argc, char** argv) {
 	srt1->SetScale(glm::vec3(0.2f));
 	srt2->SetTranslation(glm::vec3(-2.0f, 0.0f, 0.0f));
 
-	srt3->SetTranslation(glm::vec3(2.0f, 0.0f, 0.0f));
-	srt3->SetScale(glm::vec3(0.5f, 0.5f, 0.5f));
+	srt3->SetTranslation(glm::vec3(1.0f, 0.0f, 2.0f));
+	//srt3->SetScale(glm::vec3(0.5f, 0.5f, 0.5f));
 	srt4->SetTranslation(glm::vec3(-2.0f, 0.0f, 0.0f));
 	srt4->SetScale(glm::vec3(0.5f, 1.0f, 0.5f));
 
@@ -208,8 +206,8 @@ int main(int argc, char** argv) {
 			SRTTransformComponent* srt = 0;
 			srt = n->FindComponent<SRTTransformComponent>();
 			if (srt) {
-				srt->SetTranslation(glm::vec3(2.0f*sin(currentFrame), 0.0f, 2.0f*cos(currentFrame)));
-				//srt->SetRotate(glm::vec3(currentFrame * 50, currentFrame * 50, currentFrame * 50));
+				//srt->SetTranslation(glm::vec3(2.0f*sin(currentFrame), 0.0f, 2.0f*cos(currentFrame)));
+				srt->SetRotate(glm::vec3(0, currentFrame * 50, 0));
 			}
 		}
 

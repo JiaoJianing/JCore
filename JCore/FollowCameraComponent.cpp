@@ -4,7 +4,7 @@
 FollowCameraComponent::FollowCameraComponent(int width, int height)
 	: CameraComponent(width, height)
 	, m_FollowNode(0)
-	, m_ViewDistance(0)
+	, m_ViewDistance(5)
 	, m_MinViewDistance(1.0f)
 	, m_Pitch(0)
 {
@@ -115,4 +115,8 @@ Node* FollowCameraComponent::GetFollowNode()
 void FollowCameraComponent::SetFollowNode(Node* node)
 {
 	m_FollowNode = node;
+	if (m_FollowNode != 0) {
+		glm::vec3 nodePos = m_FollowNode->GetWorldTransform()[3];
+		m_Pos = glm::vec3(nodePos.x, nodePos.y, 5.0f);
+	}
 }

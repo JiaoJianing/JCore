@@ -2,8 +2,7 @@
 #include <iostream>
 #include "stb_image.h"
 #include "Model.h"
-
-
+#include "ResourceManager.h"
 
 Model::Model(const char* path)
 {
@@ -24,8 +23,29 @@ void Model::LoadModel(const char* path)
 	loadModel(path);
 }
 
-void Model::Draw(Shader shader)
+void Model::Render(Shader shader)
 {
+	if (GetHighLight()) {
+		glEnable(GL_CULL_FACE);
+		glCullFace(GL_FRONT);
+		glLineWidth(2.0f);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		ResourceManager::getInstance()->GetShader("outline").use().setMatrix4("model", GetWorldTransform());
+
+		for (unsigned int i = 0; i < meshes.size(); i++) {
+			meshes[i].Draw(shader);
+		}
+	}
+
+	glDisable(GL_CULL_FACE);
+	glLineWidth(1.0f);
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	shader.use();
+	shader.setMatrix4("model", GetWorldTransform());
+	shader.setInt("highLight", GetHighLight());
+	shader.setVec3("highLightColor", GetHighLightColor());
+	shader.setInt("nodeID", GetID());
+
 	for (unsigned int i = 0; i < meshes.size(); i++) {
 		meshes[i].Draw(shader);
 	}
@@ -34,6 +54,50 @@ void Model::Draw(Shader shader)
 std::vector<Mesh>& Model::getMeshes()
 {
 	return meshes;
+}
+
+void Model::SetWorldTransform(const glm::mat4& mat)
+{
+	if (m_WorldTransform != mat) {
+		m_WorldTransform = mat;
+	}
+}
+
+glm::mat4& Model::GetWorldTransform()
+{
+	return m_WorldTransform;
+}
+
+void Model::SetHighLight(bool value)
+{
+	m_HighLight = value;
+}
+
+bool Model::GetHighLight()
+{
+	return m_HighLight;
+}
+
+void Model::SetHighLightColor(const glm::vec3& color)
+{
+	if (m_HighLightColor != color) {
+		m_HighLightColor = color;
+	}
+}
+
+glm::vec3& Model::GetHighLightColor()
+{
+	return m_HighLightColor;
+}
+
+void Model::SetID(unsigned long id)
+{
+	m_ID = id;
+}
+
+unsigned long Model::GetID()
+{
+	return m_ID;
 }
 
 void Model::loadModel(std::string path)

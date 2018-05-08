@@ -16,9 +16,21 @@ public:
 
 	void LoadModel(const char* path);
 
-	void Draw(Shader shader);
+	void Render(Shader shader);
 
 	std::vector<Mesh>& getMeshes();
+
+	void SetWorldTransform(const glm::mat4& mat);
+	glm::mat4& GetWorldTransform();
+
+	void SetHighLight(bool value);
+	bool GetHighLight();
+
+	void SetHighLightColor(const glm::vec3& color);
+	glm::vec3& GetHighLightColor();
+
+	void SetID(unsigned long id);
+	unsigned long GetID();
 
 private:
 	std::vector<Mesh> meshes;
@@ -34,5 +46,10 @@ private:
 
 private:
 	std::vector<Texture> textures_loaded;
+
+	glm::mat4 m_WorldTransform;
+	bool m_HighLight;
+	glm::vec3 m_HighLightColor;
+	unsigned long m_ID;
 };
 

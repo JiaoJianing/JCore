@@ -1,6 +1,6 @@
 #pragma once
 #include "BaseComponent.h"
-#include "Shader.h"
+#include "Cube.h"
 
 class CubeComponent : public BaseComponent
 {
@@ -13,19 +13,11 @@ public:
 
 	virtual stringT GetTypeName();
 
-	virtual void Render();
+	virtual void OnAddToWorld(World* world);
 
-	virtual void Render(Shader shader);
-
-public:
-	void SetColor(const glm::vec3& color);
+	virtual void OnRemoveFromWorld(World* world);
 
 private:
-	glm::vec3 m_Color;
-	unsigned int m_VBO, m_VAO;
-	unsigned int m_TextureID;
-	Shader m_Shader;
-	unsigned int m_Texture;
-	bool m_UseTexture;
+	Cube m_Cube;
 };
 

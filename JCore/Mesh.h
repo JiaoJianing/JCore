@@ -1,8 +1,16 @@
 #pragma once
 #include <vector>
-#include "Vertex.h"
 #include "Texture.h"
 #include "Shader.h"
+
+//顶点数据
+struct Vertex {
+	glm::vec3 position;
+	glm::vec3 normal;
+	glm::vec2 texCoord;
+	glm::vec3 tangent;
+	glm::vec3 bitangent;
+};
 
 //网格信息
 class Mesh

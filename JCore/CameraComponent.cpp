@@ -36,15 +36,6 @@ void CameraComponent::Update(double curFrame, double deltaFrame)
 	m_DeltaFrame = deltaFrame;
 }
 
-void CameraComponent::Render()
-{
-}
-
-void CameraComponent::Render(Shader shader)
-{
-
-}
-
 void CameraComponent::Resize(int width, int height)
 {
 	m_WindowWidth = width;
@@ -92,6 +83,16 @@ void CameraComponent::OnMouseMove(double x, double y)
 		m_MouseY = y;
 		m_FirstMouse = false;
 	}
+}
+
+void CameraComponent::OnAddToWorld(World* world)
+{
+
+}
+
+void CameraComponent::OnRemoveFromWorld(World* world)
+{
+
 }
 
 const glm::vec3& CameraComponent::GetPos() const

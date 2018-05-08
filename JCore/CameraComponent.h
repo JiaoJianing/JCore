@@ -11,10 +11,6 @@ public:
 
 	virtual void Update(double curFrame, double deltaFrame);
 
-	virtual void Render();
-
-	virtual void Render(Shader shader);
-
 	virtual void Resize(int width, int height);
 
 	virtual void OnKeyboard(int key);
@@ -23,6 +19,9 @@ public:
 	virtual void OnMouseMove(double x, double y);
 
 	virtual void OnMouseScroll(double xOffset, double yOffset) = 0;
+
+	virtual void OnAddToWorld(World* world);
+	virtual void OnRemoveFromWorld(World* world);
 
 	const glm::vec3&  GetPos() const;
 	void SetPos(const glm::vec3& value);

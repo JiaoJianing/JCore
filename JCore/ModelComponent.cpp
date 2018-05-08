@@ -2,11 +2,11 @@
 #include "Node.h"
 #include "ModelComponent.h"
 #include "ResourceManager.h"
+#include "World.h"
 
 ModelComponent::ModelComponent(const std::string& path)
 {
 	m_Model.LoadModel(path.c_str());
-	m_Shader = ResourceManager::getInstance()->GetShader("model");
 }
 
 ModelComponent::~ModelComponent()
@@ -20,39 +20,21 @@ stringT ModelComponent::GetTypeName()
 
 void ModelComponent::Update(double curFrame, double deltaFrame)
 {
-
+	m_Model.SetWorldTransform(GetOwner()->GetWorldTransform());
+	m_Model.SetHighLight(GetOwner()->GetHighLight());
+	m_Model.SetHighLightColor(GetOwner()->GetHighLightColor());
+	m_Model.SetID(GetOwner()->GetID());
 }
 
-void ModelComponent::Render()
+void ModelComponent::OnAddToWorld(World* world)
 {
-	if (GetOwner()) {
-		if (GetOwner()->GetHighLight()) {
-			glEnable(GL_CULL_FACE);
-			glCullFace(GL_FRONT);
-			glLineWidth(2.0f);
-			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-			ResourceManager::getInstance()->GetShader("outline").use().setMatrix4("model", GetOwner()->GetWorldTransform());
-			m_Model.Draw(ResourceManager::getInstance()->GetShader("outline"));
-		}
-
-		glDisable(GL_CULL_FACE);
-		glLineWidth(1.0f);
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-		m_Shader.use();
-		m_Shader.setMatrix4("model", GetOwner()->GetWorldTransform());
-		m_Shader.setInt("highLight", GetOwner()->GetHighLight());
-		m_Shader.setVec3("highLightColor", GetOwner()->GetHighLightColor());
-
-		m_Model.Draw(m_Shader);
-	}
+	world->GetScene()->GetModels().push_back(&m_Model);
 }
 
-void ModelComponent::Render(Shader shader)
+void ModelComponent::OnRemoveFromWorld(World* world)
 {
-	if (GetOwner()) {
-		shader.use();
-		shader.setMatrix4("model", GetOwner()->GetWorldTransform());
-
-		m_Model.Draw(shader);
+	auto it = std::find(world->GetScene()->GetModels().begin(), world->GetScene()->GetModels().end(), &m_Model);
+	if (it != world->GetScene()->GetModels().end()) {
+		world->GetScene()->GetModels().erase(it);
 	}
 }

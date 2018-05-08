@@ -21,9 +21,9 @@ public:
 
 	virtual void Update(double curFrame, double deltaFrame);
 
-	virtual void Render();
+	virtual void OnAddToWorld(World* world);
 
-	virtual void Render(Shader shader);
+	virtual void OnRemoveFromWorld(World* world);
 
 private:
 	SRTTransform m_SRT;

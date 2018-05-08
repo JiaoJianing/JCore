@@ -11,6 +11,7 @@ Node::Node(const stringT& name)
 	, m_HighLight(false)
 	, m_HighLightColor(1.0f, 1.0f, 0.0f)
 	, m_Pickable(true)
+	, m_World(0)
 {
 }
 
@@ -48,34 +49,6 @@ void Node::Update(double curFrame, double deltaFrame)
 	}
 
 	m_TransformDirty = false;
-}
-
-void Node::Render()
-{
-	for (std::vector<BaseComponent*>::iterator it = m_Components.begin(); it != m_Components.end(); it++) {
-		if ((*it) != 0) {
-			(*it)->Render();
-		}
-	}
-
-	for (int i = 0; i < m_Children.size(); i++) {
-		m_Children[i]->Render();
-	}
-}
-
-void Node::Render(Shader shader)
-{
-	shader.use();
-	shader.setInt("nodeID", GetID());
-	for (std::vector<BaseComponent*>::iterator it = m_Components.begin(); it != m_Components.end(); it++) {
-		if ((*it) != 0) {
-			(*it)->Render(shader);
-		}
-	}
-
-	for (int i = 0; i < m_Children.size(); i++) {
-		m_Children[i]->Render(shader);
-	}
 }
 
 Node * Node::GetParent()
@@ -175,6 +148,7 @@ void Node::AddComponent(BaseComponent* component)
 
 	m_Components.push_back(component);
 	component->SetOwner(this);
+	component->OnAddToWorld(GetWorld());
 }
 
 bool Node::GetHighLight()
@@ -209,6 +183,26 @@ void Node::SetHighLightColor(const glm::vec3& color)
 	if (m_HighLightColor != color) {
 		m_HighLightColor = color;
 	}
+}
+
+World* Node::GetWorld()
+{
+	return m_World;
+}
+
+void Node::SetWorld(World* world)
+{
+	m_World = world;
+}
+
+void Node::OnRemoveFromWorld(World* world)
+{
+	for (std::vector<BaseComponent*>::iterator it = m_Components.begin(); it != m_Components.end(); it++) {
+		if (*it != 0) {
+			(*it)->OnRemoveFromWorld(world);
+		}
+	}
+	this->SetWorld(0);
 }
 
 void Node::removeChild(Node* node)

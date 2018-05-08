@@ -66,12 +66,12 @@ void SRTTransformComponent::Update(double curFrame, double deltaFrame)
 	}
 }
 
-void SRTTransformComponent::Render()
+void SRTTransformComponent::OnAddToWorld(World* world)
 {
 
 }
 
-void SRTTransformComponent::Render(Shader shader)
+void SRTTransformComponent::OnRemoveFromWorld(World* world)
 {
 
 }

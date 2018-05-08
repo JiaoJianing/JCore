@@ -8,13 +8,9 @@
 //抽象节点类
 class Node
 {
-	friend class Scene;
+	friend class World;
 public:
 	void Update(double curFrame, double deltaFrame);
-
-	void Render();
-
-	void Render(Shader shader);
 
 public:
 	Node * GetParent();
@@ -51,6 +47,11 @@ public:
 	const glm::vec3& GetHighLightColor() const;
 	void SetHighLightColor(const glm::vec3& color);
 
+	World* GetWorld();
+	void SetWorld(World* world);
+
+	void OnRemoveFromWorld(World* world);
+
 private:
 	Node(const stringT& name);
 	Node(const Node& other);
@@ -76,6 +77,8 @@ private:
 	bool m_HighLight;
 	glm::vec3 m_HighLightColor;
 	bool m_Pickable;
+
+	World* m_World;
 };
 
 template<typename T>

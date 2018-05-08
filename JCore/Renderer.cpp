@@ -27,9 +27,8 @@ void Renderer::Render(Scene* scene, RenderContext* context)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glEnable(GL_DEPTH_TEST);
 
-	Shader shaderOutline = ResourceManager::getInstance()->GetShader("outline");
-	shaderOutline.use().setMatrix4("view", context->MatView);
-	shaderOutline.use().setMatrix4("projection", context->MatProj);
+	//äÖÈ¾ÂÖÀª
+	m_SilhouetteRenderer.Render(scene, context);
 
 	//äÖÈ¾Model
 	Shader shaderModel = ResourceManager::getInstance()->GetShader("model");

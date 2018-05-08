@@ -25,21 +25,6 @@ void Model::LoadModel(const char* path)
 
 void Model::Render(Shader shader)
 {
-	if (GetHighLight()) {
-		glEnable(GL_CULL_FACE);
-		glCullFace(GL_FRONT);
-		glLineWidth(2.0f);
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-		ResourceManager::getInstance()->GetShader("outline").use().setMatrix4("model", GetWorldTransform());
-
-		for (unsigned int i = 0; i < meshes.size(); i++) {
-			meshes[i].Draw(shader);
-		}
-	}
-
-	glDisable(GL_CULL_FACE);
-	glLineWidth(1.0f);
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	shader.use();
 	shader.setMatrix4("model", GetWorldTransform());
 	shader.setInt("highLight", GetHighLight());

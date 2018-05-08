@@ -1,6 +1,7 @@
 #pragma once
 #include "Scene.h"
 #include "CameraComponent.h"
+#include "SilhouetteRenderer.h"
 #include <glm.hpp>
 
 class RenderContext {
@@ -29,5 +30,6 @@ public:
 protected:
 	int m_Width;
 	int m_Height;
+	SilhouetteRenderer m_SilhouetteRenderer;
 };
 

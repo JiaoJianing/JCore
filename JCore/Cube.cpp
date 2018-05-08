@@ -76,21 +76,8 @@ Cube::~Cube()
 
 void Cube::Render(Shader shader)
 {
-	if (GetHighLight()) {
-		glEnable(GL_CULL_FACE);
-		glCullFace(GL_FRONT);
-		glLineWidth(2.0f);
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-		ResourceManager::getInstance()->GetShader("outline").use().setMatrix4("model", GetWorldTransform());
-		glBindVertexArray(m_VAO);
-		glDrawArrays(GL_TRIANGLES, 0, 36);
-		glBindVertexArray(0);
-	}
-
-	glDisable(GL_CULL_FACE);
-	glLineWidth(1.0f);
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	shader.use();
+
 	if (GetUseTexture()) {
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, m_TextureID);

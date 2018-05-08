@@ -28,6 +28,9 @@
     <Filter Include="3rd">
       <UniqueIdentifier>{df816b23-337f-43c2-9e77-8e267de8ac5c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Renderer">
+      <UniqueIdentifier>{29c3ce69-70a1-435c-83b7-791cce0375de}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -81,19 +84,10 @@
     <ClCompile Include="Node.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="Renderer.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
     <ClCompile Include="Scene.cpp">
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="World.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="PickRenderer.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="PostEffectRenderer.cpp">
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="SphereComponent.cpp">
@@ -116,6 +110,18 @@
     </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>RenderObject</Filter>
+    </ClCompile>
+    <ClCompile Include="PickRenderer.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="PostEffectRenderer.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="SilhouetteRenderer.cpp">
+      <Filter>Renderer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -170,19 +176,10 @@
     <ClInclude Include="Node.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Renderer.h">
-      <Filter>Core</Filter>
-    </ClInclude>
     <ClInclude Include="Scene.h">
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="World.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="PickRenderer.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="PostEffectRenderer.h">
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="SphereComponent.h">
@@ -202,6 +199,18 @@
     </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>RenderObject</Filter>
+    </ClInclude>
+    <ClInclude Include="PickRenderer.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="PostEffectRenderer.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="SilhouetteRenderer.h">
+      <Filter>Renderer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -4,15 +4,17 @@
 class Renderer
 {
 public:
-	Renderer();
+	Renderer(int width, int height);
 	~Renderer();
 
-	void Initialize();
+	virtual void Initialize();
 
-	void Render(Scene* scene);
+	virtual void Render(Scene* scene);
 
-	void Render(Scene* scene, Shader shader);
+	virtual void Resize(int width, int height);
 
-	void Resize(int width, int height);
+protected:
+	int m_Width;
+	int m_Height;
 };
 

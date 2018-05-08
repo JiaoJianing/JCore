@@ -6,10 +6,10 @@
 #include "PostProcessor.h"
 #include "FreeCameraComponent.h"
 #include "FollowCameraComponent.h"
-#include "PickingSystem.h"
 #include "Quad.h"
 #include "Scene.h"
 #include "Renderer.h"
+#include "PickRenderer.h"
 
 class World
 {
@@ -74,12 +74,12 @@ private:
 
 	PostProcessor* m_Effects;
 
-	PickingSystem* m_PickingSys;
 	Node* m_PickingNode;
 
 	Quad* m_TestQuad;
 
 	Scene* m_Scene;
 	Renderer* m_Renderer;
+	PickRenderer* m_PickRenderer;
 };
 

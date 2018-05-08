@@ -9,11 +9,11 @@ World::World(int windowWidth, int windowHeight)
 	, m_FollowCamera(0)
 	, m_TextRender(0)
 	, m_Effects(0)
-	, m_PickingSys(0)
 	, m_TestQuad(0)
 	, m_PickingNode(0)
 	, m_Scene(0)
 	, m_Renderer(0)
+	, m_PickRenderer(0)
 	, m_WindowWidth(windowWidth)
 	, m_WindowHeight(windowHeight)
 {
@@ -54,11 +54,6 @@ World::~World()
 		m_Effects = 0;
 	}
 
-	if (m_PickingSys != 0) {
-		delete m_PickingSys;
-		m_PickingSys = 0;
-	}
-
 	if (m_TestQuad != 0) {
 		delete m_TestQuad;
 		m_TestQuad = 0;
@@ -72,6 +67,11 @@ World::~World()
 	if (m_Renderer != 0) {
 		delete m_Renderer;
 		m_Renderer = 0;
+	}
+
+	if (m_PickRenderer != 0) {
+		delete m_PickRenderer;
+		m_PickRenderer = 0;
 	}
 
 	m_Nodes.clear();
@@ -101,8 +101,6 @@ void World::Initialize()
 
 	m_Effects = new PostProcessor(ResourceManager::getInstance()->GetShader("post"), m_WindowWidth, m_WindowHeight);
 
-	m_PickingSys = new PickingSystem(m_WindowWidth, m_WindowHeight);
-
 	m_TestQuad = new Quad();
 	ResourceManager::getInstance()->GetShader("quad").use().setInt("texture1", 0);
 	ResourceManager::getInstance()->GetShader("cube").use().setInt("cubeTexture", 0);
@@ -110,7 +108,8 @@ void World::Initialize()
 
 	m_Scene = new Scene();
 
-	m_Renderer = new Renderer();
+	m_Renderer = new Renderer(m_WindowWidth, m_WindowHeight);
+	m_PickRenderer = new PickRenderer(m_WindowWidth, m_WindowHeight);
 }
 
 void World::Update(double curFrame, double deltaFrame)
@@ -239,14 +238,10 @@ Node* World::GetRootNode()
 Node* World::PickNode(unsigned int x, unsigned int y)
 {
 	//ʰȡϵͳ
-	m_PickingSys->BeginRender();
-
-	m_Renderer->Render(m_Scene, ResourceManager::getInstance()->GetShader("pick"));
-
-	m_PickingSys->EndRender();
+	m_PickRenderer->Render(m_Scene);
 
 	Node* ret = 0;
-	PickInfo pick = m_PickingSys->Pick(x, y);
+	PickInfo pick = m_PickRenderer->Pick(x, y);
 	if (m_Nodes.find(pick.nodeID) != m_Nodes.end() && m_Nodes[pick.nodeID]->GetPickable()) {
 		ret = m_Nodes[pick.nodeID];
 	}

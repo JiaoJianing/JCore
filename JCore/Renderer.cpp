@@ -5,7 +5,9 @@
 #include "Sphere.h"
 #include "ResourceManager.h"
 
-Renderer::Renderer()
+Renderer::Renderer(int width, int height)
+	: m_Width(width)
+	, m_Height(height)
 {
 }
 
@@ -33,25 +35,6 @@ void Renderer::Render(Scene* scene)
 	shaderCube.use();
 	for (std::vector<Cube*>::iterator it = scene->GetCubes().begin(); it != scene->GetCubes().end(); it++) {
 		(*it)->Render(shaderCube);
-	}
-
-	//äÖÈ¾Sphere
-	for (std::vector<Sphere*>::iterator it = scene->GetSpheres().begin(); it != scene->GetSpheres().end(); it++) {
-
-	}
-}
-
-void Renderer::Render(Scene* scene, Shader shader)
-{
-	shader.use();
-	//äÖÈ¾Model
-	for (std::vector<Model*>::iterator it = scene->GetModels().begin(); it != scene->GetModels().end(); it++) {
-		(*it)->Render(shader);
-	}
-
-	//äÖÈ¾Cube
-	for (std::vector<Cube*>::iterator it = scene->GetCubes().begin(); it != scene->GetCubes().end(); it++) {
-		(*it)->Render(shader);
 	}
 
 	//äÖÈ¾Sphere

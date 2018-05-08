@@ -76,8 +76,8 @@ World::~World()
 void World::Initialize()
 {
 	//shader
-	ResourceManager::getInstance()->LoadShader("cube", "asset/shaders/jcore/cube.vs", "asset/shaders/jcore/cube.fs");
-	ResourceManager::getInstance()->GetShader("cube").use().setInt("cubeTexture", 0);
+	ResourceManager::getInstance()->LoadShader("custom", "asset/shaders/jcore/custom.vs", "asset/shaders/jcore/custom.fs");
+	ResourceManager::getInstance()->GetShader("custom").use().setInt("customTexture", 0);
 	ResourceManager::getInstance()->LoadShader("model", "asset/shaders/jcore/model.vs", "asset/shaders/jcore/model.fs");
 	ResourceManager::getInstance()->LoadShader("text", "asset/shaders/jcore/text.vs", "asset/shaders/jcore/text.fs");
 	ResourceManager::getInstance()->LoadShader("quad", "asset/shaders/jcore/quad.vs", "asset/shaders/jcore/quad.fs");
@@ -127,9 +127,9 @@ void World::Update(double curFrame, double deltaFrame)
 	GetActiveCamera()->Update(curFrame, deltaFrame);
 	glm::mat4 view = GetActiveCamera()->GetViewTransform();
 	glm::mat4 projection = GetActiveCamera()->GetProjectionTransform();
-	ResourceManager::getInstance()->GetShader("cube").use().setMatrix4("view", view);
-	ResourceManager::getInstance()->GetShader("cube").setMatrix4("projection", projection);
-	ResourceManager::getInstance()->GetShader("cube").setVec3("viewPos", GetActiveCamera()->GetPos());
+	ResourceManager::getInstance()->GetShader("custom").use().setMatrix4("view", view);
+	ResourceManager::getInstance()->GetShader("custom").setMatrix4("projection", projection);
+	ResourceManager::getInstance()->GetShader("custom").setVec3("viewPos", GetActiveCamera()->GetPos());
 
 	ResourceManager::getInstance()->GetShader("model").use().setMatrix4("view", view);
 	ResourceManager::getInstance()->GetShader("model").setMatrix4("projection", projection);

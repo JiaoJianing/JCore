@@ -105,6 +105,9 @@
     <ClCompile Include="PostEffectRenderer.cpp">
       <Filter>Core</Filter>
     </ClCompile>
+    <ClCompile Include="SphereComponent.cpp">
+      <Filter>Component</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ResourceManager.h">
@@ -184,6 +187,9 @@
     </ClInclude>
     <ClInclude Include="PostEffectRenderer.h">
       <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="SphereComponent.h">
+      <Filter>Component</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

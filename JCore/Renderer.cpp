@@ -35,15 +35,15 @@ void Renderer::Render(Scene* scene)
 	}
 
 	//äÖÈ¾Cube
-	Shader shaderCube = ResourceManager::getInstance()->GetShader("cube");
-	shaderCube.use();
+	Shader shaderCustom = ResourceManager::getInstance()->GetShader("custom");
+	shaderCustom.use();
 	for (std::vector<Cube*>::iterator it = scene->GetCubes().begin(); it != scene->GetCubes().end(); it++) {
-		(*it)->Render(shaderCube);
+		(*it)->Render(shaderCustom);
 	}
 
 	//äÖÈ¾Sphere
 	for (std::vector<Sphere*>::iterator it = scene->GetSpheres().begin(); it != scene->GetSpheres().end(); it++) {
-
+		(*it)->Render(shaderCustom);
 	}
 }
 

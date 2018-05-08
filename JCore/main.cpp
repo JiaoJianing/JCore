@@ -4,6 +4,7 @@
 #include "CubeComponent.h"
 #include "SRTTransformComponent.h"
 #include "ModelComponent.h"
+#include "SphereComponent.h"
 
 float screenWidth = 800, screenHeight = 600;
 float deltaFrame = 0.0f, lastFrame = 0.0f;
@@ -166,8 +167,8 @@ int main(int argc, char** argv) {
 	parent2->SetColor(glm::vec3(0.0f, 0.5f, 0.5f));
 	SRTTransformComponent* srt2 = new SRTTransformComponent();
 	parent2->AddComponent(srt2);
-	CubeComponent* cubeCmp2 = new CubeComponent();
-	parent2->AddComponent(cubeCmp2);
+	SphereComponent* sphereCmp = new SphereComponent("asset/resources/container.jpg");
+	parent2->AddComponent(sphereCmp);
 
 	Node* child1 = world.AddNode(_T("child1"));
 	child1->SetHighLightColor(glm::vec3(1.0f, 0.0f, 1.0f));

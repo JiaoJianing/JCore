@@ -1,5 +1,6 @@
 #pragma once
 #include "Renderer.h"
+#include "Shader.h"
 
 struct PickInfo {
 	float nodeID;
@@ -25,5 +26,6 @@ private:
 	unsigned int m_FBO;
 	unsigned int m_PickTexture;
 	unsigned int m_DepthTexture;
+	Shader m_PickShader;
 };
 

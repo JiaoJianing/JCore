@@ -143,6 +143,7 @@ int main(int argc, char** argv) {
 	//glEnable(GL_CULL_FACE);
 
 	world.Initialize();
+	world.SetEnablePostEffect(false);
 
 	Node* floor = world.AddNode(_T("floor"));
 	floor->SetColor(glm::vec3(1.0f));

@@ -3,13 +3,13 @@
 #include <map>
 #include "Node.h"
 #include "Text.h"
-#include "PostProcessor.h"
 #include "FreeCameraComponent.h"
 #include "FollowCameraComponent.h"
 #include "Quad.h"
 #include "Scene.h"
 #include "Renderer.h"
 #include "PickRenderer.h"
+#include "PostEffectRenderer.h"
 
 class World
 {
@@ -60,6 +60,9 @@ public:
 
 	Scene* GetScene();
 
+	bool GetEnablePostEffect();
+	void SetEnablePostEffect(bool value);
+
 private:
 	std::map<unsigned long, Node*> m_Nodes;//场景中所有的节点，使用map便于查询
 	std::vector<Node*> m_NodesToDestroy;//将要删除的节点，一般在下一帧删除
@@ -69,10 +72,9 @@ private:
 	FollowCameraComponent* m_FollowCamera;
 	int m_WindowWidth;
 	int m_WindowHeight;
+	bool m_EnablePostEffect;
 
 	Text* m_TextRender;
-
-	PostProcessor* m_Effects;
 
 	Node* m_PickingNode;
 
@@ -81,5 +83,6 @@ private:
 	Scene* m_Scene;
 	Renderer* m_Renderer;
 	PickRenderer* m_PickRenderer;
+	PostEffectRenderer* m_PostRenderer;
 };
 

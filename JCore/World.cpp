@@ -8,14 +8,15 @@ World::World(int windowWidth, int windowHeight)
 	, m_FreeCamera(0)
 	, m_FollowCamera(0)
 	, m_TextRender(0)
-	, m_Effects(0)
 	, m_TestQuad(0)
 	, m_PickingNode(0)
 	, m_Scene(0)
 	, m_Renderer(0)
 	, m_PickRenderer(0)
+	, m_PostRenderer(0)
 	, m_WindowWidth(windowWidth)
 	, m_WindowHeight(windowHeight)
+	, m_EnablePostEffect(false)
 {
 
 }
@@ -49,11 +50,6 @@ World::~World()
 		m_TextRender = 0;
 	}
 
-	if (m_Effects != 0) {
-		delete m_Effects;
-		m_Effects = 0;
-	}
-
 	if (m_TestQuad != 0) {
 		delete m_TestQuad;
 		m_TestQuad = 0;
@@ -74,6 +70,11 @@ World::~World()
 		m_PickRenderer = 0;
 	}
 
+	if (m_PostRenderer != 0) {
+		delete m_PostRenderer;
+		m_PostRenderer = 0;
+	}
+
 	m_Nodes.clear();
 	m_NodesToDestroy.clear();
 }
@@ -84,8 +85,6 @@ void World::Initialize()
 	ResourceManager::getInstance()->LoadShader("cube", "asset/shaders/jcore/cube.vs", "asset/shaders/jcore/cube.fs");
 	ResourceManager::getInstance()->LoadShader("model", "asset/shaders/jcore/model.vs", "asset/shaders/jcore/model.fs");
 	ResourceManager::getInstance()->LoadShader("text", "asset/shaders/jcore/text.vs", "asset/shaders/jcore/text.fs");
-	ResourceManager::getInstance()->LoadShader("post", "asset/shaders/jcore/post.vs", "asset/shaders/jcore/post.fs");
-	ResourceManager::getInstance()->LoadShader("pick", "asset/shaders/jcore/pick.vs", "asset/shaders/jcore/pick.fs");
 	ResourceManager::getInstance()->LoadShader("quad", "asset/shaders/jcore/quad.vs", "asset/shaders/jcore/quad.fs");
 	ResourceManager::getInstance()->LoadShader("outline", "asset/shaders/jcore/outline.vs", "asset/shaders/jcore/outline.fs");
 
@@ -99,8 +98,6 @@ void World::Initialize()
 	m_TextRender = new Text(m_WindowWidth, m_WindowHeight);
 	m_TextRender->Load("asset/fonts/msyh.ttf", 36);
 
-	m_Effects = new PostProcessor(ResourceManager::getInstance()->GetShader("post"), m_WindowWidth, m_WindowHeight);
-
 	m_TestQuad = new Quad();
 	ResourceManager::getInstance()->GetShader("quad").use().setInt("texture1", 0);
 	ResourceManager::getInstance()->GetShader("cube").use().setInt("cubeTexture", 0);
@@ -109,7 +106,11 @@ void World::Initialize()
 	m_Scene = new Scene();
 
 	m_Renderer = new Renderer(m_WindowWidth, m_WindowHeight);
+	m_Renderer->Initialize();
 	m_PickRenderer = new PickRenderer(m_WindowWidth, m_WindowHeight);
+	m_PickRenderer->Initialize();
+	m_PostRenderer = new PostEffectRenderer(m_WindowWidth, m_WindowHeight);
+	m_PostRenderer->Initialize();
 }
 
 void World::Update(double curFrame, double deltaFrame)
@@ -153,13 +154,16 @@ void World::Update(double curFrame, double deltaFrame)
 void World::Render()
 {
 	//ºóÆÚ
-	m_Effects->BeginRender();
+	if (GetEnablePostEffect()) {
+		m_PostRenderer->BeginRender();
+	}
 
 	m_Renderer->Render(m_Scene);
 
-	m_Effects->EndRender();
-
-	m_Effects->Render();
+	if (GetEnablePostEffect()) {
+		m_PostRenderer->EndRender();
+		m_PostRenderer->Render(m_Scene);
+	}
 
 	//ÎÄ×Ö
 	if (m_FreeCamera->GetIsActive()) {
@@ -312,4 +316,14 @@ CameraComponent* World::GetActiveCamera()
 Scene* World::GetScene()
 {
 	return m_Scene;
+}
+
+bool World::GetEnablePostEffect()
+{
+	return m_EnablePostEffect;
+}
+
+void World::SetEnablePostEffect(bool value)
+{
+	m_EnablePostEffect = value;
 }

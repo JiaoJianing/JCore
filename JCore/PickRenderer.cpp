@@ -42,6 +42,7 @@ PickRenderer::~PickRenderer()
 
 void PickRenderer::Initialize()
 {
+	m_PickShader = ResourceManager::getInstance()->LoadShader("pick", "asset/shaders/jcore/pick.vs", "asset/shaders/jcore/pick.fs");
 }
 
 void PickRenderer::Render(Scene* scene)
@@ -51,16 +52,15 @@ void PickRenderer::Render(Scene* scene)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glEnable(GL_DEPTH_TEST);
 
-	Shader shader = ResourceManager::getInstance()->GetShader("pick");
-	shader.use();
+	m_PickShader.use();
 	//‰÷»æModel
 	for (std::vector<Model*>::iterator it = scene->GetModels().begin(); it != scene->GetModels().end(); it++) {
-		(*it)->Render(shader);
+		(*it)->Render(m_PickShader);
 	}
 
 	//‰÷»æCube
 	for (std::vector<Cube*>::iterator it = scene->GetCubes().begin(); it != scene->GetCubes().end(); it++) {
-		(*it)->Render(shader);
+		(*it)->Render(m_PickShader);
 	}
 
 	//‰÷»æSphere
@@ -82,7 +82,7 @@ PickInfo PickRenderer::Pick(unsigned int x, unsigned int y)
 	PickInfo pick;
 	glReadPixels(x, y, 1, 1, GL_RGB, GL_FLOAT, &pick);
 
-	glBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 	return pick;
 }

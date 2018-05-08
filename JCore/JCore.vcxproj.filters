@@ -30,9 +30,6 @@
     <ClCompile Include="glad.c">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="PostProcessor.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="ResourceManager.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -105,11 +102,11 @@
     <ClCompile Include="PickRenderer.cpp">
       <Filter>Core</Filter>
     </ClCompile>
+    <ClCompile Include="PostEffectRenderer.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="PostProcessor.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="ResourceManager.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -183,6 +180,9 @@
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="PickRenderer.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="PostEffectRenderer.h">
       <Filter>Core</Filter>
     </ClInclude>
   </ItemGroup>

@@ -16,7 +16,7 @@ public:
 
 	virtual void Initialize();
 
-	virtual void Render(Scene* scene);
+	virtual void Render(Scene* scene, RenderContext* context);
 
 	virtual void Resize(int width, int height);
 

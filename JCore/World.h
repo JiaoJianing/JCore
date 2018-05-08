@@ -51,6 +51,8 @@ public:
 
 	void OnMouseScroll(double xOffset, double yOffset);
 
+	void OnResize(int width, int height);
+
 	void ToFree(const glm::vec3& position);
 
 	void ToFollow(Node* node);
@@ -66,6 +68,7 @@ private:
 	std::map<unsigned long, Node*> m_Nodes;//场景中所有的节点，使用map便于查询
 	std::vector<Node*> m_NodesToDestroy;//将要删除的节点，一般在下一帧删除
 	Node* m_RootNode;//场景根节点
+	Node* m_CameraNode;//放相机的节点
 	unsigned long m_CurNodeID;//管理节点id 从1开始
 	FreeCameraComponent* m_FreeCamera;
 	FollowCameraComponent* m_FollowCamera;

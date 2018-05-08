@@ -44,7 +44,7 @@ void FreeCameraComponent::OnMouseScroll(double xOffset, double yOffset)
 {
 	float cameraSpeed = m_KeySensitivity * yOffset * 0.1f;
 
-	m_Pos += cameraSpeed * m_Target;
+	m_Camera.SetPosition(m_Camera.GetPosition() + cameraSpeed * m_Target);
 }
 
 stringT FreeCameraComponent::GetTypeName()

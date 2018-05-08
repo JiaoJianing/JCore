@@ -1,9 +1,9 @@
 #include "stdafx.h"
 #include "CameraComponent.h"
+#include "World.h"
 
 CameraComponent::CameraComponent(int width, int height)
-	: m_Pos(0.0f, 0.0f, 3.0f)
-	, m_Target(0.0f, 0.0f, -1.0f)
+	: m_Target(0.0f, 0.0f, -1.0f)
 	, m_Up(0.0f, 1.0f, 0.0f)
 	, m_CurFrame(0)
 	, m_DeltaFrame(0)
@@ -12,12 +12,13 @@ CameraComponent::CameraComponent(int width, int height)
 	, m_MouseSensitivity(5)
 	, m_KeySensitivity(5)
 	, m_MousePress(false)
-	, m_WindowWidth(width)
-	, m_WindowHeight(height)
-	, m_Fov(45.0f)
 	, m_FirstMouse(true)
 	, m_IsActive(false)
 {
+	m_Camera.SetViewportRect(glm::vec4(0.0f, 0.0f, width, height));
+	m_Camera.SetAspect((float)width / height);
+	m_Camera.SetProjTransform(glm::perspective(m_Camera.GetFov(), m_Camera.GetAspect(), m_Camera.GetNear(), m_Camera.GetFar()));
+	m_Camera.SetViewTransform(glm::lookAt(m_Camera.GetPosition(), m_Camera.GetPosition() + GetTarget(), GetUp()));
 }
 
 
@@ -34,12 +35,15 @@ void CameraComponent::Update(double curFrame, double deltaFrame)
 {
 	m_CurFrame = curFrame;
 	m_DeltaFrame = deltaFrame;
+
+	m_Camera.SetIsActive(GetIsActive());
 }
 
 void CameraComponent::Resize(int width, int height)
 {
-	m_WindowWidth = width;
-	m_WindowHeight = height;
+	m_Camera.SetViewportRect(glm::vec4(0.0f, 0.0f, width, height));
+	m_Camera.SetAspect((float)width / height);
+	m_Camera.SetProjTransform(glm::perspective(m_Camera.GetFov(), m_Camera.GetAspect(), m_Camera.GetNear(), m_Camera.GetFar()));
 }
 
 void CameraComponent::OnKeyboard(int key)
@@ -49,16 +53,16 @@ void CameraComponent::OnKeyboard(int key)
 	switch (key)
 	{
 	case GLFW_KEY_UP:
-		m_Pos += cameraSpeed * m_Target;
+		m_Camera.SetPosition(m_Camera.GetPosition() + cameraSpeed * m_Target);
 		break;
 	case GLFW_KEY_DOWN:
-		m_Pos -= cameraSpeed * m_Target;
+		m_Camera.SetPosition(m_Camera.GetPosition() - cameraSpeed * m_Target);
 		break;
 	case GLFW_KEY_LEFT:
-		m_Pos -= glm::normalize(glm::cross(m_Target, m_Up)) * cameraSpeed;
+		m_Camera.SetPosition(m_Camera.GetPosition() - glm::normalize(glm::cross(m_Target, m_Up)) * cameraSpeed);
 		break;
 	case GLFW_KEY_RIGHT:
-		m_Pos += glm::normalize(glm::cross(m_Target, m_Up)) * cameraSpeed;
+		m_Camera.SetPosition(m_Camera.GetPosition() + glm::normalize(glm::cross(m_Target, m_Up)) * cameraSpeed);
 		break;
 	default:
 		break;
@@ -87,47 +91,51 @@ void CameraComponent::OnMouseMove(double x, double y)
 
 void CameraComponent::OnAddToWorld(World* world)
 {
-
+	world->GetScene()->GetCameras().push_back(&m_Camera);
 }
 
 void CameraComponent::OnRemoveFromWorld(World* world)
 {
-
+	auto it = std::find(world->GetScene()->GetCameras().begin(), world->GetScene()->GetCameras().end(), &m_Camera);
+	if (it != world->GetScene()->GetCameras().end()) {
+		world->GetScene()->GetCameras().erase(it);
+	}
 }
 
-const glm::vec3& CameraComponent::GetPos() const
+glm::vec3& CameraComponent::GetPos()
 {
-	return m_Pos;
+	return m_Camera.GetPosition();
 }
 
 void CameraComponent::SetPos(const glm::vec3& value)
 {
-	m_Pos = value;
+	m_Camera.SetPosition(value);
 }
 
-const glm::vec3& CameraComponent::GetTarget() const
+glm::vec3& CameraComponent::GetTarget()
 {
 	return m_Target;
 }
 
-const glm::vec3& CameraComponent::GetUp() const
+glm::vec3& CameraComponent::GetUp()
 {
 	return m_Up;
 }
 
-const float CameraComponent::GetFov() const
+float CameraComponent::GetFov()
 {
-	return m_Fov;
+	return m_Camera.GetFov();
 }
 
 glm::mat4 CameraComponent::GetViewTransform()
 {
-	return glm::lookAt(GetPos(), GetPos() + GetTarget(), GetUp());
+	m_Camera.SetViewTransform(glm::lookAt(m_Camera.GetPosition(), m_Camera.GetPosition() + GetTarget(), GetUp()));
+	return m_Camera.GetViewTransform();
 }
 
 glm::mat4 CameraComponent::GetProjectionTransform()
 {
-	return glm::perspective(GetFov(), (float)m_WindowWidth / m_WindowHeight, 0.1f, 100.0f);
+	return m_Camera.GetProjTransform();
 }
 
 bool CameraComponent::GetIsActive()
@@ -138,4 +146,9 @@ bool CameraComponent::GetIsActive()
 void CameraComponent::SetIsActive(bool value)
 {
 	m_IsActive = value;
+}
+
+Camera* CameraComponent::GetCamera()
+{
+	return &m_Camera;
 }

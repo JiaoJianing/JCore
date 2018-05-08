@@ -182,7 +182,7 @@ int main(int argc, char** argv) {
 	child2->SetColor(glm::vec3(0.5f, 0.0f, 1.0f));
 	SRTTransformComponent* srt4 = new SRTTransformComponent();
 	child2->AddComponent(srt4);
-	CubeComponent* cubeCmp4 = new CubeComponent();
+	CubeComponent* cubeCmp4 = new CubeComponent("asset/resources/container2.png");
 	child2->AddComponent(cubeCmp4);
 	child2->SetParent(parent2);
 

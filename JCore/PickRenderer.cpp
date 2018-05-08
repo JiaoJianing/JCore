@@ -45,7 +45,7 @@ void PickRenderer::Initialize()
 	m_PickShader = ResourceManager::getInstance()->LoadShader("pick", "asset/shaders/jcore/pick.vs", "asset/shaders/jcore/pick.fs");
 }
 
-void PickRenderer::Render(Scene* scene)
+void PickRenderer::Render(Scene* scene, RenderContext* context)
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, m_FBO);
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -53,6 +53,9 @@ void PickRenderer::Render(Scene* scene)
 	glEnable(GL_DEPTH_TEST);
 
 	m_PickShader.use();
+	m_PickShader.setMatrix4("view", context->MatView);
+	m_PickShader.setMatrix4("projection", context->MatProj);
+	m_PickShader.setMatrix4("model", glm::mat4());
 	//‰÷»æModel
 	for (std::vector<Model*>::iterator it = scene->GetModels().begin(); it != scene->GetModels().end(); it++) {
 		(*it)->Render(m_PickShader);

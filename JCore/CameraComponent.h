@@ -1,5 +1,6 @@
 #pragma once
 #include "BaseComponent.h"
+#include "Camera.h"
 
 class CameraComponent : public BaseComponent
 {
@@ -11,6 +12,10 @@ public:
 
 	virtual void Update(double curFrame, double deltaFrame);
 
+	virtual void OnAddToWorld(World* world);
+
+	virtual void OnRemoveFromWorld(World* world);
+
 	virtual void Resize(int width, int height);
 
 	virtual void OnKeyboard(int key);
@@ -20,14 +25,11 @@ public:
 
 	virtual void OnMouseScroll(double xOffset, double yOffset) = 0;
 
-	virtual void OnAddToWorld(World* world);
-	virtual void OnRemoveFromWorld(World* world);
-
-	const glm::vec3&  GetPos() const;
+	glm::vec3&  GetPos();
 	void SetPos(const glm::vec3& value);
-	const glm::vec3&  GetTarget() const;
-	const glm::vec3&  GetUp() const;
-	const float GetFov() const;
+	glm::vec3&  GetTarget();
+	glm::vec3&  GetUp();
+	float GetFov();
 
 	glm::mat4 GetViewTransform();
 
@@ -36,6 +38,8 @@ public:
 	bool GetIsActive();
 	void SetIsActive(bool value);
 
+	Camera* GetCamera();
+
 protected:
 	float m_MouseX;
 	float m_MouseY;
@@ -43,14 +47,12 @@ protected:
 	float m_KeySensitivity;
 	float m_CurFrame;
 	float m_DeltaFrame;
-	int m_WindowWidth;
-	int m_WindowHeight;
 	bool m_MousePress;
-	glm::vec3 m_Pos;
 	glm::vec3 m_Target;
 	glm::vec3 m_Up;
-	float m_Fov;
 	bool m_IsActive;
+
+	Camera m_Camera;
 
 private:
 

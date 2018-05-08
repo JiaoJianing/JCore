@@ -50,7 +50,7 @@ void PostEffectRenderer::Initialize()
 	m_PostShader.setInt("scene", 0);
 }
 
-void PostEffectRenderer::Render(Scene* scene)
+void PostEffectRenderer::Render(Scene* scene, RenderContext* context)
 {
 	glClear(GL_COLOR_BUFFER_BIT);
 	glDisable(GL_DEPTH_TEST);

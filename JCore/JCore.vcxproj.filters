@@ -22,33 +22,24 @@
     <Filter Include="Core">
       <UniqueIdentifier>{389c63d2-ad1b-4a1f-9520-b50e314c42f7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Graphics">
+      <UniqueIdentifier>{34abb233-a329-4271-85ec-f552b6d342d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rd">
+      <UniqueIdentifier>{df816b23-337f-43c2-9e77-8e267de8ac5c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="glad.c">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="ResourceManager.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Shader.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="stb_image.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Text.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Texture.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="stdafx.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="SRTTransform.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="BaseComponent.cpp">
@@ -108,27 +99,33 @@
     <ClCompile Include="SphereComponent.cpp">
       <Filter>Component</Filter>
     </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="SRTTransform.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="stb_image.cpp">
+      <Filter>3rd</Filter>
+    </ClCompile>
+    <ClCompile Include="glad.c">
+      <Filter>3rd</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>RenderObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ResourceManager.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Shader.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="stb_image.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="Text.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Texture.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="stdafx.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="SRTTransform.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="typedefs.h">
@@ -190,6 +187,21 @@
     </ClInclude>
     <ClInclude Include="SphereComponent.h">
       <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="SRTTransform.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="stb_image.h">
+      <Filter>3rd</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>RenderObject</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

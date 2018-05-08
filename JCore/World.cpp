@@ -4,6 +4,7 @@
 
 World::World(int windowWidth, int windowHeight)
 	: m_RootNode(0)
+	, m_CameraNode(0)
 	, m_CurNodeID(1)
 	, m_FreeCamera(0)
 	, m_FollowCamera(0)
@@ -32,16 +33,6 @@ World::~World()
 	if (m_RootNode != 0) {
 		delete m_RootNode;
 		m_RootNode = 0;
-	}
-
-	if (m_FreeCamera != 0) {
-		delete m_FreeCamera;
-		m_FreeCamera = 0;
-	}
-
-	if (m_FollowCamera != 0) {
-		delete m_FollowCamera;
-		m_FollowCamera = 0;
 	}
 
 	if (m_TextRender != 0) {
@@ -85,18 +76,25 @@ void World::Initialize()
 	ResourceManager::getInstance()->LoadShader("outline", "asset/shaders/jcore/outline.vs", "asset/shaders/jcore/outline.fs");
 	ResourceManager::getInstance()->GetShader("outline").use().setVec3("outlineColor", glm::vec3(1.0f));
 
+	//场景管理器
+	m_Scene = new Scene();
+
+	//场景根节点
 	m_RootNode = new Node(_T("Scene_Root"));
 
+	//相机节点
+	m_CameraNode = AddNode(_T("MainCamera"));
 	m_FreeCamera = new FreeCameraComponent(m_WindowWidth, m_WindowHeight);
 	m_FreeCamera->SetIsActive(true);
 	m_FollowCamera = new FollowCameraComponent(m_WindowWidth, m_WindowHeight);
 	m_FollowCamera->SetIsActive(false);
+	m_CameraNode->AddComponent(m_FreeCamera);
+	m_CameraNode->AddComponent(m_FollowCamera);
 
 	m_TextRender = new Text(m_WindowWidth, m_WindowHeight);
 	m_TextRender->Load("asset/fonts/msyh.ttf", 36);
 
-	m_Scene = new Scene();
-
+	//渲染器
 	m_Renderer = new Renderer(m_WindowWidth, m_WindowHeight);
 	m_Renderer->Initialize();
 	m_PickRenderer = new PickRenderer(m_WindowWidth, m_WindowHeight);
@@ -123,38 +121,23 @@ void World::Update(double curFrame, double deltaFrame)
 	}
 
 	m_NodesToDestroy.clear();
-
-	GetActiveCamera()->Update(curFrame, deltaFrame);
-	glm::mat4 view = GetActiveCamera()->GetViewTransform();
-	glm::mat4 projection = GetActiveCamera()->GetProjectionTransform();
-	ResourceManager::getInstance()->GetShader("custom").use().setMatrix4("view", view);
-	ResourceManager::getInstance()->GetShader("custom").setMatrix4("projection", projection);
-	ResourceManager::getInstance()->GetShader("custom").setVec3("viewPos", GetActiveCamera()->GetPos());
-
-	ResourceManager::getInstance()->GetShader("model").use().setMatrix4("view", view);
-	ResourceManager::getInstance()->GetShader("model").setMatrix4("projection", projection);
-	ResourceManager::getInstance()->GetShader("model").setVec3("viewPos", GetActiveCamera()->GetPos());
-
-	ResourceManager::getInstance()->GetShader("pick").use().setMatrix4("view", view);
-	ResourceManager::getInstance()->GetShader("pick").setMatrix4("projection", projection);
-	ResourceManager::getInstance()->GetShader("pick").setMatrix4("model", glm::mat4());
-
-	ResourceManager::getInstance()->GetShader("outline").use().setMatrix4("view", view);
-	ResourceManager::getInstance()->GetShader("outline").setMatrix4("projection", projection);
 }
 
 void World::Render()
 {
+	RenderContext context;
+	context.GetParamsFromCamera(GetActiveCamera());
+
 	//后期
 	if (GetEnablePostEffect()) {
 		m_PostRenderer->BeginRender();
 	}
 
-	m_Renderer->Render(m_Scene);
+	m_Renderer->Render(m_Scene, &context);
 
 	if (GetEnablePostEffect()) {
 		m_PostRenderer->EndRender();
-		m_PostRenderer->Render(m_Scene);
+		m_PostRenderer->Render(m_Scene, &context);
 	}
 
 	//文字
@@ -234,7 +217,9 @@ Node* World::GetRootNode()
 Node* World::PickNode(unsigned int x, unsigned int y)
 {
 	//拾取系统
-	m_PickRenderer->Render(m_Scene);
+	RenderContext context;
+	context.GetParamsFromCamera(GetActiveCamera());
+	m_PickRenderer->Render(m_Scene, &context);
 
 	Node* ret = 0;
 	PickInfo pick = m_PickRenderer->Pick(x, y);
@@ -277,6 +262,16 @@ void World::OnKeyboard(int key)
 void World::OnMouseScroll(double xOffset, double yOffset)
 {
 	GetActiveCamera()->OnMouseScroll(xOffset, yOffset);
+}
+
+void World::OnResize(int width, int height)
+{
+	m_FreeCamera->Resize(width, height);
+	m_FollowCamera->Resize(width, height);
+
+	m_Renderer->Resize(width, height);
+	m_PickRenderer->Resize(width, height);
+	m_PostRenderer->Resize(width, height);
 }
 
 void World::ToFree(const glm::vec3& position)

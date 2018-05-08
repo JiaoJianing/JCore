@@ -32,10 +32,6 @@ public:
 	glm::vec3& GetColor();
 	void SetColor(const glm::vec3& color);
 
-	void SetHightLight(bool value);
-
-	bool GetPickable();
-
 	int GetChildCount();
 	Node* GetChildAt(int index);
 
@@ -45,6 +41,15 @@ public:
 	void AddComponent(BaseComponent* component);
 	template<typename T>
 	T* FindComponent();
+
+	bool GetHighLight();
+	void SetHighLight(bool value);
+
+	bool GetPickable();
+	void SetPickable(bool value);
+
+	const glm::vec3& GetHighLightColor() const;
+	void SetHighLightColor(const glm::vec3& color);
 
 private:
 	Node(const stringT& name);
@@ -67,6 +72,10 @@ private:
 	std::vector<BaseComponent*> m_Components;
 
 	bool m_TransformDirty;
+
+	bool m_HighLight;
+	glm::vec3 m_HighLightColor;
+	bool m_Pickable;
 };
 
 template<typename T>

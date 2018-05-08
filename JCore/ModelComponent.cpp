@@ -26,8 +26,7 @@ void ModelComponent::Update(double curFrame, double deltaFrame)
 void ModelComponent::Render()
 {
 	if (GetOwner()) {
-
-		if (GetHighLight()) {
+		if (GetOwner()->GetHighLight()) {
 			glEnable(GL_CULL_FACE);
 			glCullFace(GL_FRONT);
 			glLineWidth(2.0f);
@@ -41,8 +40,8 @@ void ModelComponent::Render()
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		m_Shader.use();
 		m_Shader.setMatrix4("model", GetOwner()->GetWorldTransform());
-		m_Shader.setInt("highLight", GetHighLight());
-		m_Shader.setVec3("highLightColor", GetHighLightColor());
+		m_Shader.setInt("highLight", GetOwner()->GetHighLight());
+		m_Shader.setVec3("highLightColor", GetOwner()->GetHighLightColor());
 
 		m_Model.Draw(m_Shader);
 	}

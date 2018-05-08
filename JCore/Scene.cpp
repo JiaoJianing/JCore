@@ -233,11 +233,11 @@ Node* Scene::PickNode(unsigned int x, unsigned int y)
 
 	if (m_PickingNode != ret) {
 		if (m_PickingNode != 0) {
-			m_PickingNode->SetHightLight(false);
+			m_PickingNode->SetHighLight(false);
 		}
 		m_PickingNode = ret;
 		if (m_PickingNode != 0) {
-			m_PickingNode->SetHightLight(true);
+			m_PickingNode->SetHighLight(true);
 		}
 	}
 	return ret;

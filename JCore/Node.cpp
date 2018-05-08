@@ -8,6 +8,9 @@ Node::Node(const stringT& name)
 	, m_Name(name)
 	, m_TransformDirty(true)
 	, m_Color(1.0f)
+	, m_HighLight(false)
+	, m_HighLightColor(1.0f, 1.0f, 0.0f)
+	, m_Pickable(true)
 {
 }
 
@@ -142,26 +145,6 @@ void Node::SetColor(const glm::vec3& color)
 	m_Color = color;
 }
 
-void Node::SetHightLight(bool value)
-{
-	for (std::vector<BaseComponent*>::iterator it = m_Components.begin(); it != m_Components.end(); it++) {
-		(*it)->SetHighLight(value);
-	}
-}
-
-bool Node::GetPickable()
-{
-	bool result = true;
-	for (std::vector<BaseComponent*>::iterator it = m_Components.begin(); it != m_Components.end(); it++) {
-		if (!(*it)->GetPickable()) {
-			result = false;
-			break;
-		}
-	}
-
-	return result;
-}
-
 int Node::GetChildCount()
 {
 	return m_Children.size();
@@ -194,18 +177,39 @@ void Node::AddComponent(BaseComponent* component)
 	component->SetOwner(this);
 }
 
-//template<typename T>
-//T* Node::FindComponent()
-//{
-//	for (std::vector<BaseComponent*>::iterator it = m_Components.begin(); it != m_Components.end(); it++) {
-//		T* ret = dynamic_cast<T*>(*it);
-//		if (ret != 0) {
-//			return ret;
-//		}
-//	}
-//
-//	return 0;
-//}
+bool Node::GetHighLight()
+{
+	return m_HighLight;
+}
+
+void Node::SetHighLight(bool value)
+{
+	if (value != m_HighLight) {
+		m_HighLight = value;
+	}
+}
+
+bool Node::GetPickable()
+{
+	return m_Pickable;
+}
+
+void Node::SetPickable(bool value)
+{
+	m_Pickable = value;
+}
+
+const glm::vec3& Node::GetHighLightColor() const
+{
+	return m_HighLightColor;
+}
+
+void Node::SetHighLightColor(const glm::vec3& color)
+{
+	if (m_HighLightColor != color) {
+		m_HighLightColor = color;
+	}
+}
 
 void Node::removeChild(Node* node)
 {

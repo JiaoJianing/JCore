@@ -145,23 +145,23 @@ int main(int argc, char** argv) {
 	scene.Initialize();
 
 	Node* floor = scene.AddNode(_T("floor"));
+	floor->SetPickable(false);
 	SRTTransformComponent* floorSRT = new SRTTransformComponent();
-	floorSRT->SetScale(glm::vec3(10.0f, 0.1f, 10.0f));
+	floorSRT->SetScale(glm::vec3(20.0f, 0.1f, 20.0f));
 	floorSRT->SetTranslation(glm::vec3(0.0f, -1.0f, 0.0f));
 	floor->AddComponent(floorSRT);
 	CubeComponent* floorCube = new CubeComponent("asset/resources/wood.png");
 	floorCube->SetColor(glm::vec3(1.0f));
-	floorCube->SetPickable(false);
 	floor->AddComponent(floorCube);
 
 	Node* parent1 = scene.AddNode(_T("parent1"));
+	parent1->SetHighLightColor(glm::vec3(1.0f, 0.0f, 1.0f));
 	SRTTransformComponent* srt1 = new SRTTransformComponent();
 	parent1->AddComponent(srt1);
 	//CubeComponent* cubeCmp1 = new CubeComponent();
 	//cubeCmp1->SetColor(glm::vec3(0.5f, 0.5f, 0.0f));
 	//parent1->AddComponent(cubeCmp1);
 	ModelComponent* model1 = new ModelComponent("asset/models/nanosuit/nanosuit.obj");
-	model1->SetHighLightColor(glm::vec3(1.0f, 0.0f, 1.0f));
 	parent1->AddComponent(model1);
 
 	Node* parent2 = scene.AddNode(_T("parent2"));
@@ -172,13 +172,13 @@ int main(int argc, char** argv) {
 	parent2->AddComponent(cubeCmp2);
 
 	Node* child1 = scene.AddNode(_T("child1"));
+	child1->SetHighLightColor(glm::vec3(1.0f, 0.0f, 1.0f));
 	SRTTransformComponent* srt3 = new SRTTransformComponent();
 	child1->AddComponent(srt3);
 	//CubeComponent* cubeCmp3 = new CubeComponent();
 	//cubeCmp3->SetColor(glm::vec3(0.5f, 0.0f, 0.5f));
 	//child1->AddComponent(cubeCmp3);
 	ModelComponent* model2 = new ModelComponent("asset/models/cyborg/cyborg.obj");
-	model2->SetHighLightColor(glm::vec3(1.0f, 0.0f, 1.0f));
 	child1->AddComponent(model2);
 	//child1->SetParent(parent1);
 

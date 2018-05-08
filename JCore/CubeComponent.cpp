@@ -99,7 +99,7 @@ stringT CubeComponent::GetTypeName()
 void CubeComponent::Render()
 {
 	if (GetOwner()) {
-		if (GetHighLight()) {
+		if (GetOwner()->GetHighLight()) {
 			glEnable(GL_CULL_FACE);
 			glCullFace(GL_FRONT);
 			glLineWidth(2.0f);
@@ -121,8 +121,8 @@ void CubeComponent::Render()
 		m_Shader.setInt("useTexture", m_UseTexture);
 		m_Shader.setMatrix4("model", GetOwner()->GetWorldTransform());
 		m_Shader.setVec3("cubeColor", m_Color);
-		m_Shader.setInt("highLight", GetHighLight());
-		m_Shader.setVec3("highLightColor", GetHighLightColor());
+		m_Shader.setInt("highLight", GetOwner()->GetHighLight());
+		m_Shader.setVec3("highLightColor", GetOwner()->GetHighLightColor());
 
 		glBindVertexArray(m_VAO);
 		glDrawArrays(GL_TRIANGLES, 0, 36);

@@ -7,7 +7,7 @@ public:
 	Quad();
 	~Quad();
 
-	void Draw(Shader shader);
+	void Render(Shader shader);
 
 private:
 	unsigned int m_VAO, m_VBO;

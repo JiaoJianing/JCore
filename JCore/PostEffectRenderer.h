@@ -2,6 +2,7 @@
 #include "Renderer.h"
 #include "Shader.h"
 #include "Texture.h"
+#include "Quad.h"
 
 class PostEffectRenderer : public Renderer
 {
@@ -22,8 +23,8 @@ public:
 private:
 	unsigned int m_MSFBO, m_FBO;
 	unsigned int m_RBO;
-	unsigned int m_VAO, m_VBO;
 	Shader m_PostShader;
 	Texture m_Texture;
+	Quad m_Quad;
 };
 

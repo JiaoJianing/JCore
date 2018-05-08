@@ -2,17 +2,6 @@
 #include "PostEffectRenderer.h"
 #include "ResourceManager.h"
 
-float postVertices[] = {
-	// Pos        // Tex
-	-1.0f, -1.0f, 0.0f, 0.0f,
-	1.0f,  1.0f, 1.0f, 1.0f,
-	-1.0f,  1.0f, 0.0f, 1.0f,
-
-	-1.0f, -1.0f, 0.0f, 0.0f,
-	1.0f, -1.0f, 1.0f, 0.0f,
-	1.0f,  1.0f, 1.0f, 1.0f
-};
-
 PostEffectRenderer::PostEffectRenderer(int width, int height)
 	:Renderer(width, height)
 {
@@ -48,22 +37,14 @@ PostEffectRenderer::PostEffectRenderer(int width, int height)
 
 PostEffectRenderer::~PostEffectRenderer()
 {
+	glDeleteFramebuffers(1, &m_MSFBO);
+	glDeleteFramebuffers(1, &m_FBO);
+	glDeleteRenderbuffers(1, &m_RBO);
 }
 
 void PostEffectRenderer::Initialize()
 {
 	m_PostShader = ResourceManager::getInstance()->LoadShader("post", "asset/shaders/jcore/post.vs", "asset/shaders/jcore/post.fs");
-	//初始化渲染数据和uniform数据
-	glGenVertexArrays(1, &m_VAO);
-	glGenBuffers(1, &m_VBO);
-
-	glBindVertexArray(m_VAO);
-	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(postVertices), postVertices, GL_STATIC_DRAW);
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindVertexArray(0);
 
 	m_PostShader.use();
 	m_PostShader.setInt("scene", 0);
@@ -77,9 +58,7 @@ void PostEffectRenderer::Render(Scene* scene)
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, m_Texture.GetID());
-	glBindVertexArray(m_VAO);
-	glDrawArrays(GL_TRIANGLES, 0, 6);
-	glBindVertexArray(0);
+	m_Quad.Render(m_PostShader);
 }
 
 void PostEffectRenderer::Resize(int width, int height)

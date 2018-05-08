@@ -8,7 +8,6 @@ World::World(int windowWidth, int windowHeight)
 	, m_FreeCamera(0)
 	, m_FollowCamera(0)
 	, m_TextRender(0)
-	, m_TestQuad(0)
 	, m_PickingNode(0)
 	, m_Scene(0)
 	, m_Renderer(0)
@@ -50,11 +49,6 @@ World::~World()
 		m_TextRender = 0;
 	}
 
-	if (m_TestQuad != 0) {
-		delete m_TestQuad;
-		m_TestQuad = 0;
-	}
-
 	if (m_Scene != 0) {
 		delete m_Scene;
 		m_Scene = 0;
@@ -83,10 +77,13 @@ void World::Initialize()
 {
 	//shader
 	ResourceManager::getInstance()->LoadShader("cube", "asset/shaders/jcore/cube.vs", "asset/shaders/jcore/cube.fs");
+	ResourceManager::getInstance()->GetShader("cube").use().setInt("cubeTexture", 0);
 	ResourceManager::getInstance()->LoadShader("model", "asset/shaders/jcore/model.vs", "asset/shaders/jcore/model.fs");
 	ResourceManager::getInstance()->LoadShader("text", "asset/shaders/jcore/text.vs", "asset/shaders/jcore/text.fs");
 	ResourceManager::getInstance()->LoadShader("quad", "asset/shaders/jcore/quad.vs", "asset/shaders/jcore/quad.fs");
+	ResourceManager::getInstance()->GetShader("quad").use().setInt("texture1", 0);
 	ResourceManager::getInstance()->LoadShader("outline", "asset/shaders/jcore/outline.vs", "asset/shaders/jcore/outline.fs");
+	ResourceManager::getInstance()->GetShader("outline").use().setVec3("outlineColor", glm::vec3(1.0f));
 
 	m_RootNode = new Node(_T("Scene_Root"));
 
@@ -97,11 +94,6 @@ void World::Initialize()
 
 	m_TextRender = new Text(m_WindowWidth, m_WindowHeight);
 	m_TextRender->Load("asset/fonts/msyh.ttf", 36);
-
-	m_TestQuad = new Quad();
-	ResourceManager::getInstance()->GetShader("quad").use().setInt("texture1", 0);
-	ResourceManager::getInstance()->GetShader("cube").use().setInt("cubeTexture", 0);
-	ResourceManager::getInstance()->GetShader("outline").use().setVec3("outlineColor", glm::vec3(1.0f));
 
 	m_Scene = new Scene();
 

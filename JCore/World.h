@@ -5,7 +5,6 @@
 #include "Text.h"
 #include "FreeCameraComponent.h"
 #include "FollowCameraComponent.h"
-#include "Quad.h"
 #include "Scene.h"
 #include "Renderer.h"
 #include "PickRenderer.h"
@@ -77,8 +76,6 @@ private:
 	Text* m_TextRender;
 
 	Node* m_PickingNode;
-
-	Quad* m_TestQuad;
 
 	Scene* m_Scene;
 	Renderer* m_Renderer;

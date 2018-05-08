@@ -13,18 +13,21 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="RenderObject">
+      <UniqueIdentifier>{17522fab-bc4b-43b3-b11a-bd4e91c2a4e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component">
+      <UniqueIdentifier>{574e6751-408f-4fbb-bf1f-b566e978d906}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core">
+      <UniqueIdentifier>{389c63d2-ad1b-4a1f-9520-b50e314c42f7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="glad.c">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Mesh.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Model.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="PostProcessor.cpp">
@@ -36,9 +39,6 @@
     <ClCompile Include="Shader.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Sphere.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="stb_image.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -48,53 +48,65 @@
     <ClCompile Include="Texture.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Scene.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Node.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="SRTTransform.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="SRTTransformComponent.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="BaseComponent.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="CubeComponent.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="ModelComponent.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="CameraComponent.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="FreeCameraComponent.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="FollowCameraComponent.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="PickingSystem.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="BaseComponent.cpp">
+      <Filter>Component</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraComponent.cpp">
+      <Filter>Component</Filter>
+    </ClCompile>
+    <ClCompile Include="CubeComponent.cpp">
+      <Filter>Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Cube.cpp">
+      <Filter>RenderObject</Filter>
+    </ClCompile>
+    <ClCompile Include="FollowCameraComponent.cpp">
+      <Filter>Component</Filter>
+    </ClCompile>
+    <ClCompile Include="FreeCameraComponent.cpp">
+      <Filter>Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>RenderObject</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelComponent.cpp">
+      <Filter>Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Model.cpp">
+      <Filter>RenderObject</Filter>
+    </ClCompile>
     <ClCompile Include="Quad.cpp">
-      <Filter>源文件</Filter>
+      <Filter>RenderObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Sphere.cpp">
+      <Filter>RenderObject</Filter>
+    </ClCompile>
+    <ClCompile Include="SRTTransformComponent.cpp">
+      <Filter>Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Node.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="World.cpp">
+      <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Mesh.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Model.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="PostProcessor.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -102,9 +114,6 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Shader.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Sphere.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="stb_image.h">
@@ -119,37 +128,10 @@
     <ClInclude Include="Vertex.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Scene.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Node.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="stdafx.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="SRTTransform.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="SRTTransformComponent.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="BaseComponent.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="CubeComponent.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="ModelComponent.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="CameraComponent.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="FreeCameraComponent.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="FollowCameraComponent.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="typedefs.h">
@@ -158,8 +140,53 @@
     <ClInclude Include="PickingSystem.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Cube.h">
+      <Filter>RenderObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>RenderObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Model.h">
+      <Filter>RenderObject</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseComponent.h">
+      <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraComponent.h">
+      <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="CubeComponent.h">
+      <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="FollowCameraComponent.h">
+      <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="FreeCameraComponent.h">
+      <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelComponent.h">
+      <Filter>Component</Filter>
+    </ClInclude>
     <ClInclude Include="Quad.h">
-      <Filter>头文件</Filter>
+      <Filter>RenderObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Sphere.h">
+      <Filter>RenderObject</Filter>
+    </ClInclude>
+    <ClInclude Include="SRTTransformComponent.h">
+      <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Node.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="World.h">
+      <Filter>Core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -18,9 +18,9 @@ public:
 	
 	std::vector<Sphere*>& GetSpheres();
 
-	std::vector<Camera*> GetCameras();
+	std::vector<Camera*>& GetCameras();
 
-	std::vector<BaseLight*> GetLights();
+	std::vector<BaseLight*>& GetLights();
 
 private:
 	std::vector<Model*> m_Models;

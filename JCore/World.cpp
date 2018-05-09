@@ -14,9 +14,11 @@ World::World(int windowWidth, int windowHeight)
 	, m_Renderer(0)
 	, m_PickRenderer(0)
 	, m_PostRenderer(0)
+	, m_LightRenderer(0)
 	, m_WindowWidth(windowWidth)
 	, m_WindowHeight(windowHeight)
 	, m_EnablePostEffect(false)
+	, m_EnableLight(false)
 {
 
 }
@@ -60,6 +62,11 @@ World::~World()
 		m_PostRenderer = 0;
 	}
 
+	if (m_LightRenderer != 0) {
+		delete m_LightRenderer;
+		m_LightRenderer = 0;
+	}
+
 	m_Nodes.clear();
 	m_NodesToDestroy.clear();
 }
@@ -76,7 +83,10 @@ void World::Initialize()
 	ResourceManager::getInstance()->GetShader("quad").use().setInt("texture1", 0);
 	ResourceManager::getInstance()->LoadShader("outline", "asset/shaders/jcore/outline.vs", "asset/shaders/jcore/outline.fs");
 	ResourceManager::getInstance()->GetShader("outline").use().setVec3("outlineColor", glm::vec3(1.0f));
-	ResourceManager::getInstance()->LoadShader("phong", "asset/shaders/jcore/phong.vs", "asset/shaders/jcore/phong.fs");
+	Shader shaderPhong = ResourceManager::getInstance()->LoadShader("phong", "asset/shaders/jcore/phong.vs", "asset/shaders/jcore/phong.fs");
+	shaderPhong.setInt("material.texture_diffuse1", 0);
+	shaderPhong.setInt("material.texture_normal1", 1);
+	shaderPhong.setInt("material.texture_specular1", 2);
 
 	//³¡¾°¹ÜÀíÆ÷
 	m_Scene = new Scene();
@@ -103,6 +113,8 @@ void World::Initialize()
 	m_PickRenderer->Initialize();
 	m_PostRenderer = new PostEffectRenderer(m_WindowWidth, m_WindowHeight);
 	m_PostRenderer->Initialize();
+	m_LightRenderer = new LightingRenderer(m_WindowWidth, m_WindowHeight);
+	m_LightRenderer->Initialize();
 }
 
 void World::Update(double curFrame, double deltaFrame)
@@ -135,7 +147,12 @@ void World::Render()
 		m_PostRenderer->BeginRender();
 	}
 
-	m_Renderer->Render(m_Scene, &context);
+	if (m_EnableLight) {
+		m_LightRenderer->Render(m_Scene, &context);
+	}
+	else {
+		m_Renderer->Render(m_Scene, &context);
+	}
 
 	if (GetEnablePostEffect()) {
 		m_PostRenderer->EndRender();
@@ -274,6 +291,7 @@ void World::OnResize(int width, int height)
 	m_Renderer->Resize(width, height);
 	m_PickRenderer->Resize(width, height);
 	m_PostRenderer->Resize(width, height);
+	m_LightRenderer->Resize(width, height);
 }
 
 void World::ToFree(const glm::vec3& position)
@@ -315,4 +333,14 @@ bool World::GetEnablePostEffect()
 void World::SetEnablePostEffect(bool value)
 {
 	m_EnablePostEffect = value;
+}
+
+bool World::GetEnableLight()
+{
+	return m_EnableLight;
+}
+
+void World::SetEnableLight(bool value)
+{
+	m_EnableLight = value;
 }

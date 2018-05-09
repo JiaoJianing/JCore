@@ -24,12 +24,12 @@ std::vector<Sphere*>& Scene::GetSpheres()
 	return m_Spheres;
 }
 
-std::vector<Camera*> Scene::GetCameras()
+std::vector<Camera*>& Scene::GetCameras()
 {
 	return m_Cameras;
 }
 
-std::vector<BaseLight*> Scene::GetLights()
+std::vector<BaseLight*>& Scene::GetLights()
 {
 	return m_Lights;
 }

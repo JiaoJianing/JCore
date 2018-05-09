@@ -5,6 +5,7 @@
 #include "SRTTransformComponent.h"
 #include "ModelComponent.h"
 #include "SphereComponent.h"
+#include "DirLightComponent.h"
 
 float screenWidth = 800, screenHeight = 600;
 float deltaFrame = 0.0f, lastFrame = 0.0f;
@@ -145,7 +146,9 @@ int main(int argc, char** argv) {
 
 	world.Initialize();
 	world.SetEnablePostEffect(false);
+	world.SetEnableLight(true);
 
+	//地板
 	Node* floor = world.AddNode(_T("floor"));
 	floor->SetColor(glm::vec3(1.0f));
 	floor->SetPickable(false);
@@ -156,42 +159,54 @@ int main(int argc, char** argv) {
 	CubeComponent* floorCube = new CubeComponent();
 	floor->AddComponent(floorCube);
 
+	//光源
+	Node* dirLight = world.AddNode(_T("dirLight"));
+	SRTTransformComponent* srtDirLight = new SRTTransformComponent();
+	srtDirLight->SetTranslation(glm::vec3(1.0f, 5.0f, 0.0f));
+	dirLight->AddComponent(srtDirLight);
+	DirLightComponent* dirLightCmp = new DirLightComponent();
+	dirLightCmp->SetAmbientIntensity(0.01f);
+	dirLightCmp->SetDiffuseIntensity(1.0f);
+	dirLight->AddComponent(dirLightCmp);
+
+	//模型1
 	Node* parent1 = world.AddNode(_T("parent1"));
 	parent1->SetHighLightColor(glm::vec3(1.0f, 0.0f, 1.0f));
 	SRTTransformComponent* srt1 = new SRTTransformComponent();
+	srt1->SetTranslation(glm::vec3(2.0f, -1.0f, 0.0f));
+	srt1->SetScale(glm::vec3(0.2f));
 	parent1->AddComponent(srt1);
 	ModelComponent* model1 = new ModelComponent("asset/models/nanosuit/nanosuit.obj");
 	parent1->AddComponent(model1);
 
+	//球
 	Node* parent2 = world.AddNode(_T("parent2"));
 	parent2->SetColor(glm::vec3(0.0f, 0.5f, 0.5f));
 	SRTTransformComponent* srt2 = new SRTTransformComponent();
+	srt2->SetTranslation(glm::vec3(-2.0f, 0.0f, 0.0f));
 	parent2->AddComponent(srt2);
-	SphereComponent* sphereCmp = new SphereComponent();
+	SphereComponent* sphereCmp = new SphereComponent("asset/resources/bricks2.jpg", "asset/resources/bricks2_normal.jpg", "asset/resources/bricks2_specular.jpg");
 	parent2->AddComponent(sphereCmp);
 
+	//模型2
 	Node* child1 = world.AddNode(_T("child1"));
 	child1->SetHighLightColor(glm::vec3(1.0f, 0.0f, 1.0f));
 	SRTTransformComponent* srt3 = new SRTTransformComponent();
+	srt3->SetTranslation(glm::vec3(1.0f, 0.0f, 2.0f));
 	child1->AddComponent(srt3);
 	ModelComponent* model2 = new ModelComponent("asset/models/cyborg/cyborg.obj");
 	child1->AddComponent(model2);
 	//child1->SetParent(parent1);
 
+	//立方体
 	Node* child2 = world.AddNode(_T("child2"));
 	SRTTransformComponent* srt4 = new SRTTransformComponent();
-	child2->AddComponent(srt4);
-	CubeComponent* cubeCmp4 = new CubeComponent();
-	child2->AddComponent(cubeCmp4);
-	child2->SetParent(parent2);
-
-	srt1->SetTranslation(glm::vec3(2.0f, -1.0f, 0.0f));
-	srt1->SetScale(glm::vec3(0.2f));
-	srt2->SetTranslation(glm::vec3(-2.0f, 0.0f, 0.0f));
-
-	srt3->SetTranslation(glm::vec3(1.0f, 0.0f, 2.0f));
 	srt4->SetTranslation(glm::vec3(-2.0f, 0.0f, 0.0f));
 	//srt4->SetScale(glm::vec3(0.5f, 1.0f, 0.5f));
+	child2->AddComponent(srt4);
+	CubeComponent* cubeCmp4 = new CubeComponent("asset/resources/bricks2.jpg", "asset/resources/bricks2_normal.jpg", "asset/resources/bricks2_specular.jpg");
+	child2->AddComponent(cubeCmp4);
+	child2->SetParent(parent2);
 
 	nodes.push_back(parent1);
 	nodes.push_back(parent2);

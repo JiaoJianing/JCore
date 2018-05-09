@@ -203,22 +203,11 @@ std::vector<Texture> Model::loadMaterialTextures(aiMaterial* mat, aiTextureType 
 	for (unsigned int i = 0; i < mat->GetTextureCount(type); i++) {
 		aiString str;
 		mat->GetTexture(type, i, &str);
-		bool skip = false;
-		for (unsigned int j = 0; j < textures_loaded.size(); j++) {
-			if (std::strcmp(textures_loaded[j].getPath().c_str(), str.C_Str()) == 0) {
-				textures.push_back(textures_loaded[j]);
-				skip = true;
-				break;
-			}
-		}
-		if (!skip) {
-			//如果纹理没有加载过，就加载
-			std::string fullPath = directory + "/" + str.C_Str();
-			Texture texture(fullPath);
-			texture.setType(typeName);
-			textures.push_back(texture);
-			textures_loaded.push_back(texture);
-		}
+
+		std::string fullPath = directory + "/" + str.C_Str();
+		Texture texture = ResourceManager::getInstance()->LoadTexture(fullPath, fullPath);
+		texture.setType(typeName);
+		textures.push_back(texture);
 	}
 
 	return textures;

@@ -140,11 +140,11 @@ void Cube::Render(Shader shader)
 	shader.use();
 
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, m_DiffuseTexture);
+	glBindTexture(GL_TEXTURE_2D, m_DiffuseTexture.GetID());
 	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, m_NormalTexture);
+	glBindTexture(GL_TEXTURE_2D, m_NormalTexture.GetID());
 	glActiveTexture(GL_TEXTURE2);
-	glBindTexture(GL_TEXTURE_2D, m_SpecularTexture);
+	glBindTexture(GL_TEXTURE_2D, m_SpecularTexture.GetID());
 	shader.setInt("material.texture_diffuse1", 0);
 	shader.setInt("material.texture_normal1", 1);
 	shader.setInt("material.texture_specular1", 2);
@@ -161,17 +161,17 @@ void Cube::Render(Shader shader)
 
 void Cube::SetDiffuseTexture(const std::string& path)
 {
-	m_DiffuseTexture = Texture::loadTexture(path);
+	m_DiffuseTexture = ResourceManager::getInstance()->LoadTexture(path, path);
 }
 
 void Cube::SetNormalTexture(const std::string& path)
 {
-	m_NormalTexture = Texture::loadTexture(path);
+	m_NormalTexture = ResourceManager::getInstance()->LoadTexture(path, path);
 }
 
 void Cube::SetSpecularTexture(const std::string& path)
 {
-	m_SpecularTexture = Texture::loadTexture(path);
+	m_SpecularTexture = ResourceManager::getInstance()->LoadTexture(path, path);
 }
 
 void Cube::SetColor(const glm::vec3& color)

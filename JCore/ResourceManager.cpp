@@ -48,6 +48,10 @@ Shader ResourceManager::LoadShader(std::string name, std::string vsPath, std::st
 
 Shader ResourceManager::LoadShader(std::string name, std::string vsPath, std::string fsPath)
 {
+	if (Shaders.find(name) != Shaders.end()) {
+		return Shaders[name];
+	}
+
 	Shader shader(vsPath.c_str(), fsPath.c_str());
 	Shaders[name] = shader;
 
@@ -61,6 +65,10 @@ Shader ResourceManager::GetShader(std::string name)
 
 Texture ResourceManager::LoadTexture(std::string name, std::string path)
 {
+	if (Textures.find(name) != Textures.end()) {
+		return Textures[name];
+	}
+
 	Texture texture(path);
 	Textures[name] = texture;
 

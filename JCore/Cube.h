@@ -36,9 +36,9 @@ private:
 	std::vector<Vertex> m_Vertices;
 	std::vector<unsigned int> m_Indices;
 
-	unsigned int m_DiffuseTexture;
-	unsigned int m_NormalTexture;
-	unsigned int m_SpecularTexture;
+	Texture m_DiffuseTexture;
+	Texture m_NormalTexture;
+	Texture m_SpecularTexture;
 
 	glm::mat4 m_WorldTransform;
 	bool m_HighLight;

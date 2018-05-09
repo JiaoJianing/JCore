@@ -48,7 +48,6 @@ private:
 	std::vector<Texture> loadMaterialTextures(aiMaterial* mat, aiTextureType type, std::string typeName);
 
 private:
-	std::vector<Texture> textures_loaded;
 
 	glm::vec3 m_Color;
 	glm::mat4 m_WorldTransform;

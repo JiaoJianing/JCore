@@ -4,7 +4,6 @@
 #include "CubeComponent.h"
 #include "SRTTransformComponent.h"
 #include "ModelComponent.h"
-#include "SphereComponent.h"
 #include "DirLightComponent.h"
 
 float screenWidth = 800, screenHeight = 600;
@@ -178,15 +177,6 @@ int main(int argc, char** argv) {
 	parent1->AddComponent(srt1);
 	ModelComponent* model1 = new ModelComponent("asset/models/nanosuit/nanosuit.obj");
 	parent1->AddComponent(model1);
-
-	//Çò
-	//Node* parent2 = world.AddNode(_T("parent2"));
-	//parent2->SetColor(glm::vec3(0.0f, 0.5f, 0.5f));
-	//SRTTransformComponent* srt2 = new SRTTransformComponent();
-	//srt2->SetTranslation(glm::vec3(-2.0f, 0.0f, 0.0f));
-	//parent2->AddComponent(srt2);
-	//SphereComponent* sphereCmp = new SphereComponent("asset/resources/bricks2.jpg", "asset/resources/bricks2_normal.jpg", "asset/resources/bricks2_specular.jpg");
-	//parent2->AddComponent(sphereCmp);
 
 	//Ä£ÐÍ2
 	Node* child1 = world.AddNode(_T("child1"));

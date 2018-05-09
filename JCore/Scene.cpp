@@ -19,11 +19,6 @@ std::vector<Cube*>& Scene::GetCubes()
 	return m_Cubes;
 }
 
-std::vector<Sphere*>& Scene::GetSpheres()
-{
-	return m_Spheres;
-}
-
 std::vector<Camera*>& Scene::GetCameras()
 {
 	return m_Cameras;

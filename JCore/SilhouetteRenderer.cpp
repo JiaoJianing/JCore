@@ -36,15 +36,6 @@ void SilhouetteRenderer::Render(Scene* scene, RenderContext* context)
 			EndRender();
 		}
 	}
-
-	//äÖÈ¾Sphere
-	for (std::vector<Sphere*>::iterator it = scene->GetSpheres().begin(); it != scene->GetSpheres().end(); it++) {
-		if ((*it)->GetHighLight()) {
-			BeginRender();
-			(*it)->Render(shaderOutline);
-			EndRender();
-		}
-	}
 }
 
 void SilhouetteRenderer::BeginRender()

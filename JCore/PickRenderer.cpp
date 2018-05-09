@@ -66,11 +66,6 @@ void PickRenderer::Render(Scene* scene, RenderContext* context)
 		(*it)->Render(m_PickShader);
 	}
 
-	//‰÷»æSphere
-	for (std::vector<Sphere*>::iterator it = scene->GetSpheres().begin(); it != scene->GetSpheres().end(); it++) {
-		(*it)->Render(m_PickShader);
-	}
-
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 

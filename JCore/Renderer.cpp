@@ -2,7 +2,6 @@
 #include "Renderer.h"
 #include "Model.h"
 #include "Cube.h"
-#include "Sphere.h"
 #include "ResourceManager.h"
 
 Renderer::Renderer(int width, int height)
@@ -42,11 +41,6 @@ void Renderer::Render(Scene* scene, RenderContext* context)
 
 	//äÖÈ¾Cube
 	for (std::vector<Cube*>::iterator it = scene->GetCubes().begin(); it != scene->GetCubes().end(); it++) {
-		(*it)->Render(shaderModel);
-	}
-
-	//äÖÈ¾Sphere
-	for (std::vector<Sphere*>::iterator it = scene->GetSpheres().begin(); it != scene->GetSpheres().end(); it++) {
 		(*it)->Render(shaderModel);
 	}
 }

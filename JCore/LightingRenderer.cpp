@@ -52,11 +52,6 @@ void LightingRenderer::Render(Scene* scene, RenderContext* context)
 	for (std::vector<Cube*>::iterator it = scene->GetCubes().begin(); it != scene->GetCubes().end(); it++) {
 		(*it)->Render(shaderPhong);
 	}
-
-	//‰÷»æSphere
-	for (std::vector<Sphere*>::iterator it = scene->GetSpheres().begin(); it != scene->GetSpheres().end(); it++) {
-		(*it)->Render(shaderPhong);
-	}
 }
 
 void LightingRenderer::Resize(int width, int height)

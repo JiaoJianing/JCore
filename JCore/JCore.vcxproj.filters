@@ -78,9 +78,6 @@
     <ClCompile Include="Quad.cpp">
       <Filter>RenderObject</Filter>
     </ClCompile>
-    <ClCompile Include="Sphere.cpp">
-      <Filter>RenderObject</Filter>
-    </ClCompile>
     <ClCompile Include="SRTTransformComponent.cpp">
       <Filter>Component</Filter>
     </ClCompile>
@@ -92,9 +89,6 @@
     </ClCompile>
     <ClCompile Include="World.cpp">
       <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="SphereComponent.cpp">
-      <Filter>Component</Filter>
     </ClCompile>
     <ClCompile Include="Shader.cpp">
       <Filter>Graphics</Filter>
@@ -191,9 +185,6 @@
     <ClInclude Include="Quad.h">
       <Filter>RenderObject</Filter>
     </ClInclude>
-    <ClInclude Include="Sphere.h">
-      <Filter>RenderObject</Filter>
-    </ClInclude>
     <ClInclude Include="SRTTransformComponent.h">
       <Filter>Component</Filter>
     </ClInclude>
@@ -205,9 +196,6 @@
     </ClInclude>
     <ClInclude Include="World.h">
       <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="SphereComponent.h">
-      <Filter>Component</Filter>
     </ClInclude>
     <ClInclude Include="Shader.h">
       <Filter>Graphics</Filter>

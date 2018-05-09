@@ -75,18 +75,12 @@ void World::Initialize()
 {
 	//shader
 	Shader shaderModel = ResourceManager::getInstance()->LoadShader("model", "asset/shaders/jcore/model.vs", "asset/shaders/jcore/model.fs");
-	shaderModel.setInt("material.texture_diffuse1", 0);
-	shaderModel.setInt("material.texture_normal1", 1);
-	shaderModel.setInt("material.texture_specular1", 2);
 	ResourceManager::getInstance()->LoadShader("text", "asset/shaders/jcore/text.vs", "asset/shaders/jcore/text.fs");
 	ResourceManager::getInstance()->LoadShader("quad", "asset/shaders/jcore/quad.vs", "asset/shaders/jcore/quad.fs");
 	ResourceManager::getInstance()->GetShader("quad").use().setInt("texture1", 0);
 	ResourceManager::getInstance()->LoadShader("outline", "asset/shaders/jcore/outline.vs", "asset/shaders/jcore/outline.fs");
 	ResourceManager::getInstance()->GetShader("outline").use().setVec3("outlineColor", glm::vec3(1.0f));
 	Shader shaderPhong = ResourceManager::getInstance()->LoadShader("phong", "asset/shaders/jcore/phong.vs", "asset/shaders/jcore/phong.fs");
-	shaderPhong.setInt("material.texture_diffuse1", 0);
-	shaderPhong.setInt("material.texture_normal1", 1);
-	shaderPhong.setInt("material.texture_specular1", 2);
 
 	//≥°æ∞π‹¿Ì∆˜
 	m_Scene = new Scene();

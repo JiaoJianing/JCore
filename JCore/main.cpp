@@ -148,15 +148,15 @@ int main(int argc, char** argv) {
 	world.SetEnableLight(true);
 
 	//地板
-	//Node* floor = world.AddNode(_T("floor"));
-	//floor->SetColor(glm::vec3(1.0f));
-	//floor->SetPickable(false);
-	//SRTTransformComponent* floorSRT = new SRTTransformComponent();
-	//floorSRT->SetScale(glm::vec3(20.0f, 0.1f, 20.0f));
-	//floorSRT->SetTranslation(glm::vec3(0.0f, -1.0f, 0.0f));
-	//floor->AddComponent(floorSRT);
-	//CubeComponent* floorCube = new CubeComponent();
-	//floor->AddComponent(floorCube);
+	Node* floor = world.AddNode(_T("floor"));
+	floor->SetColor(glm::vec3(1.0f));
+	floor->SetPickable(false);
+	SRTTransformComponent* floorSRT = new SRTTransformComponent();
+	floorSRT->SetScale(glm::vec3(20.0f, 0.1f, 20.0f));
+	floorSRT->SetTranslation(glm::vec3(0.0f, -1.0f, 0.0f));
+	floor->AddComponent(floorSRT);
+	CubeComponent* floorCube = new CubeComponent();
+	floor->AddComponent(floorCube);
 
 	//光源
 	Node* dirLight = world.AddNode(_T("dirLight"));
@@ -189,19 +189,17 @@ int main(int argc, char** argv) {
 	//child1->SetParent(parent1);
 
 	//立方体
-	//Node* child2 = world.AddNode(_T("child2"));
-	//SRTTransformComponent* srt4 = new SRTTransformComponent();
-	//srt4->SetTranslation(glm::vec3(-2.0f, 0.0f, 0.0f));
-	////srt4->SetScale(glm::vec3(0.5f, 1.0f, 0.5f));
-	//child2->AddComponent(srt4);
-	//CubeComponent* cubeCmp4 = new CubeComponent("asset/resources/bricks2.jpg", "asset/resources/bricks2_normal.jpg", "asset/resources/bricks2_specular.jpg");
-	//child2->AddComponent(cubeCmp4);
-	//child2->SetParent(parent2);
+	Node* child2 = world.AddNode(_T("child2"));
+	SRTTransformComponent* srt4 = new SRTTransformComponent();
+	srt4->SetTranslation(glm::vec3(-2.0f, 0.0f, 0.0f));
+	//srt4->SetScale(glm::vec3(0.5f, 1.0f, 0.5f));
+	child2->AddComponent(srt4);
+	CubeComponent* cubeCmp4 = new CubeComponent("asset/resources/bricks2.jpg", "asset/resources/bricks2_normal.jpg", "asset/resources/bricks2_specular.jpg");
+	child2->AddComponent(cubeCmp4);
 
 	nodes.push_back(parent1);
-	//nodes.push_back(parent2);
 	nodes.push_back(child1);
-	//nodes.push_back(child2);
+	nodes.push_back(child2);
 
 	while (!glfwWindowShouldClose(window))
 	{

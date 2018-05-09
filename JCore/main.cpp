@@ -162,11 +162,11 @@ int main(int argc, char** argv) {
 	//光源
 	Node* dirLight = world.AddNode(_T("dirLight"));
 	SRTTransformComponent* srtDirLight = new SRTTransformComponent();
-	srtDirLight->SetTranslation(glm::vec3(1.0f, 5.0f, 0.0f));
+	srtDirLight->SetTranslation(glm::vec3(1.0f, 1.0f, 1.0f));
 	dirLight->AddComponent(srtDirLight);
 	DirLightComponent* dirLightCmp = new DirLightComponent();
-	dirLightCmp->SetAmbientIntensity(0.01f);
-	dirLightCmp->SetDiffuseIntensity(1.0f);
+	dirLightCmp->SetAmbientIntensity(0.05f);
+	dirLightCmp->SetDiffuseIntensity(0.8f);
 	dirLight->AddComponent(dirLightCmp);
 
 	//模型1

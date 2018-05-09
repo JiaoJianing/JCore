@@ -2,7 +2,7 @@
 #include "DirLight.h"
 
 DirLight::DirLight()
-	: m_AmbientIntensity(1.0f)
+	: m_AmbientIntensity(0.01f)
 	, m_DiffuseIntensity(1.0f)
 {
 }

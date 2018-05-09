@@ -2,6 +2,7 @@
 #include <glm.hpp>
 #include "Shader.h"
 #include <vector>
+#include "Mesh.h"
 
 class Cube {
 public:
@@ -32,11 +33,7 @@ public:
 private:
 	glm::vec3 m_Color;
 	unsigned int m_VBO, m_VAO, m_EBO;
-	std::vector<glm::vec3> m_Positions;
-	std::vector<glm::vec2> m_Uvs;
-	std::vector<glm::vec3> m_Normals;
-	std::vector<glm::vec3> m_Tangents;
-	std::vector<glm::vec3> m_BiTangents;
+	std::vector<Vertex> m_Vertices;
 	std::vector<unsigned int> m_Indices;
 
 	unsigned int m_DiffuseTexture;

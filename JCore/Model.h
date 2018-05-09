@@ -32,6 +32,9 @@ public:
 	void SetID(unsigned long id);
 	unsigned long GetID();
 
+	glm::vec3& GetColor();
+	void SetColor(const glm::vec3& value);
+
 private:
 	std::vector<Mesh> meshes;
 	std::string directory;
@@ -47,6 +50,7 @@ private:
 private:
 	std::vector<Texture> textures_loaded;
 
+	glm::vec3 m_Color;
 	glm::mat4 m_WorldTransform;
 	bool m_HighLight;
 	glm::vec3 m_HighLightColor;

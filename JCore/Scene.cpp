@@ -28,3 +28,8 @@ std::vector<Camera*> Scene::GetCameras()
 {
 	return m_Cameras;
 }
+
+std::vector<BaseLight*> Scene::GetLights()
+{
+	return m_Lights;
+}

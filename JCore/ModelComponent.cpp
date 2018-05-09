@@ -24,6 +24,7 @@ void ModelComponent::Update(double curFrame, double deltaFrame)
 	m_Model.SetHighLight(GetOwner()->GetHighLight());
 	m_Model.SetHighLightColor(GetOwner()->GetHighLightColor());
 	m_Model.SetID(GetOwner()->GetID());
+	m_Model.SetColor(GetOwner()->GetColor());
 }
 
 void ModelComponent::OnAddToWorld(World* world)

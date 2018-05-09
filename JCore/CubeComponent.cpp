@@ -7,13 +7,18 @@
 
 CubeComponent::CubeComponent()
 {
+	m_Cube.SetDiffuseTexture("asset/resources/default_diffuse.jpg");
+	m_Cube.SetNormalTexture("asset/resources/default_normal.jpg");
+	m_Cube.SetSpecularTexture("asset/resources/default_specular.jpg");
 }
 
 
-CubeComponent::CubeComponent(const std::string& texturePath)
+CubeComponent::CubeComponent(const std::string& diffuse, const std::string& normal, const std::string& specular)
 	: CubeComponent()
 {
-	m_Cube.SetTexture(texturePath);
+	m_Cube.SetDiffuseTexture(diffuse);
+	m_Cube.SetNormalTexture(normal);
+	m_Cube.SetSpecularTexture(specular);
 }
 
 CubeComponent::~CubeComponent()

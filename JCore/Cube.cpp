@@ -51,7 +51,6 @@ float cubeVertices[] = {
 
 Cube::Cube()
 	: m_Color(1.0f)
-	, m_UseTexture(false)
 {
 	glGenVertexArrays(1, &m_VAO);
 	glGenBuffers(1, &m_VBO);
@@ -78,15 +77,16 @@ void Cube::Render(Shader shader)
 {
 	shader.use();
 
-	if (GetUseTexture()) {
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, m_TextureID);
-	}
-	shader.setInt("useTexture", m_UseTexture);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, m_DiffuseTexture);
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, m_NormalTexture);
+	glActiveTexture(GL_TEXTURE2);
+	glBindTexture(GL_TEXTURE_2D, m_SpecularTexture);
 	shader.setMatrix4("model", GetWorldTransform());
-	shader.setVec3("cubeColor", m_Color);
-	shader.setInt("highLight", GetHighLight());
-	shader.setVec3("highLightColor", GetHighLightColor());
+	shader.setVec3("g_Color", GetColor());
+	shader.setInt("g_highLight", GetHighLight());
+	shader.setVec3("g_highLightColor", GetHighLightColor());
 	shader.setInt("nodeID", GetID());
 
 	glBindVertexArray(m_VAO);
@@ -94,10 +94,19 @@ void Cube::Render(Shader shader)
 	glBindVertexArray(0);
 }
 
-void Cube::SetTexture(const std::string& path)
+void Cube::SetDiffuseTexture(const std::string& path)
 {
-	SetUseTexture(true);
-	m_TextureID = Texture::loadTexture(path);
+	m_DiffuseTexture = Texture::loadTexture(path);
+}
+
+void Cube::SetNormalTexture(const std::string& path)
+{
+	m_NormalTexture = Texture::loadTexture(path);
+}
+
+void Cube::SetSpecularTexture(const std::string& path)
+{
+	m_SpecularTexture = Texture::loadTexture(path);
 }
 
 void Cube::SetColor(const glm::vec3& color)
@@ -122,16 +131,6 @@ void Cube::SetWorldTransform(const glm::mat4& mat)
 glm::mat4& Cube::GetWorldTransform()
 {
 	return m_WorldTransform;
-}
-
-void Cube::SetUseTexture(bool value)
-{
-	m_UseTexture = value;
-}
-
-bool Cube::GetUseTexture()
-{
-	return m_UseTexture;
 }
 
 void Cube::SetHighLight(bool value)

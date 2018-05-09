@@ -6,7 +6,7 @@ class CubeComponent : public BaseComponent
 {
 public:
 	CubeComponent();
-	CubeComponent(const std::string& texturePath);
+	CubeComponent(const std::string& diffuse, const std::string& normal, const std::string& specular);
 	~CubeComponent();
 
 	virtual void Update(double curFrame, double deltaFrame);

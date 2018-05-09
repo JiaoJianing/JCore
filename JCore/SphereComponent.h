@@ -6,7 +6,7 @@ class SphereComponent : public BaseComponent
 {
 public:
 	SphereComponent();
-	SphereComponent(const std::string& texturePath);
+	SphereComponent(const std::string& diffuse, const std::string& normal, const std::string& specular);
 	~SphereComponent();
 
 	virtual void Update(double curFrame, double deltaFrame);

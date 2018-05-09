@@ -4,6 +4,7 @@
 #include "ResourceManager.h"
 
 Sphere::Sphere()
+	: m_Color(1.0f)
 {
 	glGenVertexArrays(1, &m_VAO);
 	glGenBuffers(1, &m_VBO);
@@ -84,15 +85,16 @@ Sphere::~Sphere()
 void Sphere::Render(Shader shader)
 {
 	shader.use();
-	if (GetUseTexture()) {
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, m_TextureID);
-	}
-	shader.setInt("useTexture", m_UseTexture);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, m_DiffuseTexture);
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, m_NormalTexture);
+	glActiveTexture(GL_TEXTURE2);
+	glBindTexture(GL_TEXTURE_2D, m_SpecularTexture);
 	shader.setMatrix4("model", GetWorldTransform());
-	shader.setVec3("cubeColor", m_Color);
-	shader.setInt("highLight", GetHighLight());
-	shader.setVec3("highLightColor", GetHighLightColor());
+	shader.setVec3("g_Color", GetColor());
+	shader.setInt("g_highLight", GetHighLight());
+	shader.setVec3("g_highLightColor", GetHighLightColor());
 	shader.setInt("nodeID", GetID());
 
 	glBindVertexArray(m_VAO);
@@ -100,10 +102,19 @@ void Sphere::Render(Shader shader)
 	glBindVertexArray(0);
 }
 
-void Sphere::SetTexture(const std::string& path)
+void Sphere::SetDiffuseTexture(const std::string& path)
 {
-	SetUseTexture(true);
-	m_TextureID = Texture::loadTexture(path);
+	m_DiffuseTexture = Texture::loadTexture(path);
+}
+
+void Sphere::SetNormalTexture(const std::string& path)
+{
+	m_NormalTexture = Texture::loadTexture(path);
+}
+
+void Sphere::SetSpecularTexture(const std::string& path)
+{
+	m_SpecularTexture = Texture::loadTexture(path);
 }
 
 void Sphere::SetColor(const glm::vec3& color)
@@ -128,16 +139,6 @@ void Sphere::SetWorldTransform(const glm::mat4& mat)
 glm::mat4& Sphere::GetWorldTransform()
 {
 	return m_WorldTransform;
-}
-
-void Sphere::SetUseTexture(bool value)
-{
-	m_UseTexture = value;
-}
-
-bool Sphere::GetUseTexture()
-{
-	return m_UseTexture;
 }
 
 void Sphere::SetHighLight(bool value)

@@ -5,11 +5,13 @@
 #include "ResourceManager.h"
 
 Model::Model(const char* path)
+	: m_Color(1.0f)
 {
 	loadModel(path);
 }
 
 Model::Model()
+	: m_Color(1.0f)
 {
 
 }
@@ -27,8 +29,9 @@ void Model::Render(Shader shader)
 {
 	shader.use();
 	shader.setMatrix4("model", GetWorldTransform());
-	shader.setInt("highLight", GetHighLight());
-	shader.setVec3("highLightColor", GetHighLightColor());
+	shader.setInt("g_highLight", GetHighLight());
+	shader.setVec3("g_highLightColor", GetHighLightColor());
+	shader.setVec3("g_Color", GetColor());
 	shader.setInt("nodeID", GetID());
 
 	for (unsigned int i = 0; i < meshes.size(); i++) {
@@ -83,6 +86,18 @@ void Model::SetID(unsigned long id)
 unsigned long Model::GetID()
 {
 	return m_ID;
+}
+
+glm::vec3& Model::GetColor()
+{
+	return m_Color;
+}
+
+void Model::SetColor(const glm::vec3& value)
+{
+	if (m_Color != value) {
+		m_Color = value;
+	}
 }
 
 void Model::loadModel(std::string path)

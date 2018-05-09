@@ -153,7 +153,7 @@ int main(int argc, char** argv) {
 	floorSRT->SetScale(glm::vec3(20.0f, 0.1f, 20.0f));
 	floorSRT->SetTranslation(glm::vec3(0.0f, -1.0f, 0.0f));
 	floor->AddComponent(floorSRT);
-	CubeComponent* floorCube = new CubeComponent("asset/resources/wood.png");
+	CubeComponent* floorCube = new CubeComponent();
 	floor->AddComponent(floorCube);
 
 	Node* parent1 = world.AddNode(_T("parent1"));
@@ -167,7 +167,7 @@ int main(int argc, char** argv) {
 	parent2->SetColor(glm::vec3(0.0f, 0.5f, 0.5f));
 	SRTTransformComponent* srt2 = new SRTTransformComponent();
 	parent2->AddComponent(srt2);
-	SphereComponent* sphereCmp = new SphereComponent("asset/resources/container.jpg");
+	SphereComponent* sphereCmp = new SphereComponent();
 	parent2->AddComponent(sphereCmp);
 
 	Node* child1 = world.AddNode(_T("child1"));
@@ -179,10 +179,9 @@ int main(int argc, char** argv) {
 	//child1->SetParent(parent1);
 
 	Node* child2 = world.AddNode(_T("child2"));
-	child2->SetColor(glm::vec3(0.5f, 0.0f, 1.0f));
 	SRTTransformComponent* srt4 = new SRTTransformComponent();
 	child2->AddComponent(srt4);
-	CubeComponent* cubeCmp4 = new CubeComponent("asset/resources/container2.png");
+	CubeComponent* cubeCmp4 = new CubeComponent();
 	child2->AddComponent(cubeCmp4);
 	child2->SetParent(parent2);
 
@@ -192,7 +191,7 @@ int main(int argc, char** argv) {
 
 	srt3->SetTranslation(glm::vec3(1.0f, 0.0f, 2.0f));
 	srt4->SetTranslation(glm::vec3(-2.0f, 0.0f, 0.0f));
-	srt4->SetScale(glm::vec3(0.5f, 1.0f, 0.5f));
+	//srt4->SetScale(glm::vec3(0.5f, 1.0f, 0.5f));
 
 	nodes.push_back(parent1);
 	nodes.push_back(parent2);

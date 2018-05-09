@@ -19,9 +19,6 @@
     <Filter Include="Component">
       <UniqueIdentifier>{574e6751-408f-4fbb-bf1f-b566e978d906}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Core">
-      <UniqueIdentifier>{389c63d2-ad1b-4a1f-9520-b50e314c42f7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Graphics">
       <UniqueIdentifier>{34abb233-a329-4271-85ec-f552b6d342d5}</UniqueIdentifier>
     </Filter>
@@ -30,6 +27,12 @@
     </Filter>
     <Filter Include="Renderer">
       <UniqueIdentifier>{29c3ce69-70a1-435c-83b7-791cce0375de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core">
+      <UniqueIdentifier>{389c63d2-ad1b-4a1f-9520-b50e314c42f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RenderObject\Light">
+      <UniqueIdentifier>{a312bf90-3349-4e9d-a753-83eb65b54a3f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -123,6 +126,21 @@
     <ClCompile Include="SilhouetteRenderer.cpp">
       <Filter>Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="DirLight.cpp">
+      <Filter>RenderObject\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="PointLight.cpp">
+      <Filter>RenderObject\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="SpotLight.cpp">
+      <Filter>RenderObject\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseLight.cpp">
+      <Filter>RenderObject\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="LightingRenderer.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ResourceManager.h">
@@ -210,6 +228,21 @@
       <Filter>Renderer</Filter>
     </ClInclude>
     <ClInclude Include="SilhouetteRenderer.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="DirLight.h">
+      <Filter>RenderObject\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="PointLight.h">
+      <Filter>RenderObject\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="SpotLight.h">
+      <Filter>RenderObject\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseLight.h">
+      <Filter>RenderObject\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="LightingRenderer.h">
       <Filter>Renderer</Filter>
     </ClInclude>
   </ItemGroup>

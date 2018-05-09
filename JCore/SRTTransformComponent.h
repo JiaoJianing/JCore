@@ -11,6 +11,7 @@ public:
 	glm::vec3 GetScale();
 	void SetScale(const glm::vec3& scale);
 
+	//µ¥Î»£º½Ç¶È
 	glm::vec3 GetRotate();
 	void SetRotate(const glm::vec3& rotate);
 

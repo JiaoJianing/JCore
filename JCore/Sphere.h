@@ -10,16 +10,15 @@ public:
 
 	void Render(Shader shader);
 
-	void SetTexture(const std::string& path);
+	void SetDiffuseTexture(const std::string& path);
+	void SetNormalTexture(const std::string& path);
+	void SetSpecularTexture(const std::string& path);
 
 	void SetColor(const glm::vec3& color);
 	glm::vec3& GetColor();
 
 	void SetWorldTransform(const glm::mat4& mat);
 	glm::mat4& GetWorldTransform();
-
-	void SetUseTexture(bool value);
-	bool GetUseTexture();
 
 	void SetHighLight(bool value);
 	bool GetHighLight();
@@ -37,8 +36,9 @@ private:
 	std::vector<glm::vec3> m_Normals;
 	std::vector<unsigned int> m_Indices;
 
-	unsigned int m_TextureID;
-	bool m_UseTexture;
+	unsigned int m_DiffuseTexture;
+	unsigned int m_NormalTexture;
+	unsigned int m_SpecularTexture;
 
 	glm::mat4 m_WorldTransform;
 	bool m_HighLight;

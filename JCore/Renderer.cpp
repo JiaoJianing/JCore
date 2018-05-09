@@ -41,18 +41,13 @@ void Renderer::Render(Scene* scene, RenderContext* context)
 	}
 
 	//‰÷»æCube
-	Shader shaderCustom = ResourceManager::getInstance()->GetShader("custom");
-	shaderCustom.use();
-	shaderCustom.setMatrix4("view", context->MatView);
-	shaderCustom.setMatrix4("projection", context->MatProj);
-	shaderCustom.setVec3("viewPos", context->ViewPos);
 	for (std::vector<Cube*>::iterator it = scene->GetCubes().begin(); it != scene->GetCubes().end(); it++) {
-		(*it)->Render(shaderCustom);
+		(*it)->Render(shaderModel);
 	}
 
 	//‰÷»æSphere
 	for (std::vector<Sphere*>::iterator it = scene->GetSpheres().begin(); it != scene->GetSpheres().end(); it++) {
-		(*it)->Render(shaderCustom);
+		(*it)->Render(shaderModel);
 	}
 }
 

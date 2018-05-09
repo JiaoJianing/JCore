@@ -4,12 +4,17 @@
 
 SphereComponent::SphereComponent()
 {
+	m_Sphere.SetDiffuseTexture("asset/resources/default_diffuse.jpg");
+	m_Sphere.SetNormalTexture("asset/resources/default_normal.jpg");
+	m_Sphere.SetSpecularTexture("asset/resources/default_specular.jpg");
 }
 
 
-SphereComponent::SphereComponent(const std::string& texturePath)
+SphereComponent::SphereComponent(const std::string& diffuse, const std::string& normal, const std::string& specular)
 {
-	m_Sphere.SetTexture(texturePath);
+	m_Sphere.SetDiffuseTexture(diffuse);
+	m_Sphere.SetNormalTexture(normal);
+	m_Sphere.SetSpecularTexture(specular);
 }
 
 SphereComponent::~SphereComponent()

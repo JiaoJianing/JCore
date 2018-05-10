@@ -41,23 +41,3 @@ BaseLight* DirLightComponent::GetLight()
 {
 	return &m_DirLight;
 }
-
-float DirLightComponent::GetAmbientIntensity()
-{
-	return m_DirLight.GetAmbientIntensity();
-}
-
-void DirLightComponent::SetAmbientIntensity(float value)
-{
-	m_DirLight.SetAmbientIntensity(value);
-}
-
-float DirLightComponent::GetDiffuseIntensity()
-{
-	return m_DirLight.GetDiffuseIntensity();
-}
-
-void DirLightComponent::SetDiffuseIntensity(float value)
-{
-	m_DirLight.SetDiffuseIntensity(value);
-}

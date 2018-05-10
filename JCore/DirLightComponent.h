@@ -18,13 +18,6 @@ public:
 
 	virtual BaseLight* GetLight();
 
-public:
-	float GetAmbientIntensity();
-	void SetAmbientIntensity(float value);
-
-	float GetDiffuseIntensity();
-	void SetDiffuseIntensity(float value);
-
 private:
 	DirLight m_DirLight;
 };

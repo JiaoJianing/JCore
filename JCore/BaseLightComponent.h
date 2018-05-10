@@ -21,5 +21,11 @@ public:
 public:
 	glm::vec3& GetLightColor();
 	void SetLightColor(const glm::vec3& value);
+
+	float GetAmbientIntensity();
+	void SetAmbientIntensity(float value);
+
+	float GetDiffuseIntensity();
+	void SetDiffuseIntensity(float value);
 };
 

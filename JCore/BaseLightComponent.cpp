@@ -36,3 +36,23 @@ void BaseLightComponent::SetLightColor(const glm::vec3& value)
 {
 	GetLight()->SetLightColor(value);
 }
+
+float BaseLightComponent::GetAmbientIntensity()
+{
+	return GetLight()->GetAmbientIntensity();
+}
+
+void BaseLightComponent::SetAmbientIntensity(float value)
+{
+	GetLight()->SetAmbientIntensity(value);
+}
+
+float BaseLightComponent::GetDiffuseIntensity()
+{
+	return GetLight()->GetDiffuseIntensity();
+}
+
+void BaseLightComponent::SetDiffuseIntensity(float value)
+{
+	GetLight()->SetDiffuseIntensity(value);
+}

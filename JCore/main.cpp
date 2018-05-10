@@ -5,6 +5,7 @@
 #include "SRTTransformComponent.h"
 #include "ModelComponent.h"
 #include "DirLightComponent.h"
+#include "PointLightComponent.h"
 
 float screenWidth = 800, screenHeight = 600;
 float deltaFrame = 0.0f, lastFrame = 0.0f;
@@ -155,18 +156,38 @@ int main(int argc, char** argv) {
 	floorSRT->SetScale(glm::vec3(20.0f, 0.1f, 20.0f));
 	floorSRT->SetTranslation(glm::vec3(0.0f, -1.0f, 0.0f));
 	floor->AddComponent(floorSRT);
-	CubeComponent* floorCube = new CubeComponent();
+	CubeComponent* floorCube = new CubeComponent("asset/resources/bricks2.jpg", "asset/resources/bricks2_normal.jpg", "asset/resources/bricks2_specular.jpg");
 	floor->AddComponent(floorCube);
 
-	//光源
+	//方向光
 	Node* dirLight = world.AddNode(_T("dirLight"));
 	SRTTransformComponent* srtDirLight = new SRTTransformComponent();
 	srtDirLight->SetTranslation(glm::vec3(1.0f, 1.0f, 1.0f));
 	dirLight->AddComponent(srtDirLight);
 	DirLightComponent* dirLightCmp = new DirLightComponent();
 	dirLightCmp->SetAmbientIntensity(0.05f);
-	dirLightCmp->SetDiffuseIntensity(0.8f);
+	dirLightCmp->SetDiffuseIntensity(0.2f);
 	dirLight->AddComponent(dirLightCmp);
+	//点光源1
+	Node* pointLight1 = world.AddNode(_T("pointLight1"));
+	SRTTransformComponent* srtPointLight1 = new SRTTransformComponent();
+	srtPointLight1->SetTranslation(glm::vec3(-5.0f, 5.0f, -5.0f));
+	pointLight1->AddComponent(srtPointLight1);
+	PointLightComponent* pointLightCmp1 = new PointLightComponent();
+	//pointLightCmp1->SetLightColor(glm::vec3(0.0f, 1.0f, 0.0f));
+	pointLightCmp1->SetAmbientIntensity(0.05f);
+	pointLightCmp1->SetDiffuseIntensity(0.5f);
+	pointLight1->AddComponent(pointLightCmp1);
+	//点光源2
+	Node* pointLight2 = world.AddNode(_T("pointLight2"));
+	SRTTransformComponent* srtPointLight2 = new SRTTransformComponent();
+	srtPointLight2->SetTranslation(glm::vec3(-2.0f, 5.0f, 3.0f));
+	pointLight2->AddComponent(srtPointLight2);
+	PointLightComponent* pointLightCmp2 = new PointLightComponent();
+	//pointLightCmp2->SetLightColor(glm::vec3(1.0f, 0.0f, 0.0f));
+	pointLightCmp2->SetAmbientIntensity(0.05f);
+	pointLightCmp2->SetDiffuseIntensity(0.6f);
+	pointLight2->AddComponent(pointLightCmp2);
 
 	//模型1
 	Node* parent1 = world.AddNode(_T("parent1"));
@@ -194,7 +215,7 @@ int main(int argc, char** argv) {
 	srt4->SetTranslation(glm::vec3(-2.0f, 0.0f, 0.0f));
 	//srt4->SetScale(glm::vec3(0.5f, 1.0f, 0.5f));
 	child2->AddComponent(srt4);
-	CubeComponent* cubeCmp4 = new CubeComponent("asset/resources/bricks2.jpg", "asset/resources/bricks2_normal.jpg", "asset/resources/bricks2_specular.jpg");
+	CubeComponent* cubeCmp4 = new CubeComponent("asset/resources/toy_box_diffuse.png", "asset/resources/toy_box_normal.png", "asset/resources/toy_box_specular.png");
 	child2->AddComponent(cubeCmp4);
 
 	nodes.push_back(parent1);

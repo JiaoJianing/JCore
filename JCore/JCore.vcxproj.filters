@@ -39,9 +39,6 @@
     <ClCompile Include="main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="ResourceManager.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="Text.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -141,11 +138,14 @@
     <ClCompile Include="BaseLightComponent.cpp">
       <Filter>Component</Filter>
     </ClCompile>
+    <ClCompile Include="PointLightComponent.cpp">
+      <Filter>Component</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ResourceManager.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="Text.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -244,6 +244,12 @@
     </ClInclude>
     <ClInclude Include="BaseLightComponent.h">
       <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="PointLightComponent.h">
+      <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager.h">
+      <Filter>Graphics</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

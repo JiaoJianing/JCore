@@ -69,7 +69,6 @@ void PostEffectRenderer::BeginRender()
 {
 	//渲染到多重采样帧缓冲
 	glBindFramebuffer(GL_FRAMEBUFFER, m_MSFBO);
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glEnable(GL_DEPTH_TEST);
 }

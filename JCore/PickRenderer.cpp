@@ -48,7 +48,6 @@ void PickRenderer::Initialize()
 void PickRenderer::Render(Scene* scene, RenderContext* context)
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, m_FBO);
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glEnable(GL_DEPTH_TEST);
 

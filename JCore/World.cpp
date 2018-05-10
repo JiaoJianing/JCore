@@ -134,6 +134,7 @@ void World::Update(double curFrame, double deltaFrame)
 
 void World::Render()
 {
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	RenderContext context;
 	context.GetParamsFromCamera(GetActiveCamera());
 

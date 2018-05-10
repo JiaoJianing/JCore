@@ -195,6 +195,10 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="SpotLightComponent.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="SRTTransform.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
@@ -252,6 +256,7 @@
     <ClInclude Include="Shader.h" />
     <ClInclude Include="SilhouetteRenderer.h" />
     <ClInclude Include="SpotLight.h" />
+    <ClInclude Include="SpotLightComponent.h" />
     <ClInclude Include="SRTTransform.h" />
     <ClInclude Include="SRTTransformComponent.h" />
     <ClInclude Include="stb_image.h" />

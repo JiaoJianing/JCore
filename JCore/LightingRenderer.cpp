@@ -3,6 +3,7 @@
 #include "ResourceManager.h"
 #include "DirLight.h"
 #include "PointLight.h"
+#include "SpotLight.h"
 
 LightingRenderer::LightingRenderer(int width, int height)
 	:Renderer(width, height)
@@ -37,6 +38,7 @@ void LightingRenderer::Render(Scene* scene, RenderContext* context)
 
 	//设置光照参数
 	int pointlightNum = 0;
+	int spotlightNum = 0;
 	for (std::vector<BaseLight*>::iterator it = scene->GetLights().begin(); it != scene->GetLights().end(); it++) {
 		//方向光
 		if (dynamic_cast<DirLight*>(*it) != 0) {
@@ -45,6 +47,20 @@ void LightingRenderer::Render(Scene* scene, RenderContext* context)
 			shaderPhong.setFloat("dirLight.base.ambientIntensity", light->GetAmbientIntensity());
 			shaderPhong.setFloat("dirLight.base.diffuseIntensity", light->GetDiffuseIntensity());
 			shaderPhong.setVec3("dirLight.direction", light->GetLightPos());
+		}
+		//聚光灯
+		else if (dynamic_cast<SpotLight*>(*it) != 0) {
+			SpotLight* light = dynamic_cast<SpotLight*>(*it);
+			shaderPhong.setVec3("spotLights[" + std::to_string(spotlightNum) + "].base.base.color", light->GetLightColor());
+			shaderPhong.setFloat("spotLights[" + std::to_string(spotlightNum) + "].base.base.ambientIntensity", light->GetAmbientIntensity());
+			shaderPhong.setFloat("spotLights[" + std::to_string(spotlightNum) + "].base.base.diffuseIntensity", light->GetDiffuseIntensity());
+			shaderPhong.setFloat("spotLights[" + std::to_string(spotlightNum) + "].base.attenuation.constant", light->GetConstant());
+			shaderPhong.setFloat("spotLights[" + std::to_string(spotlightNum) + "].base.attenuation.linear", light->GetLinear());
+			shaderPhong.setFloat("spotLights[" + std::to_string(spotlightNum) + "].base.attenuation.exp", light->GetExp());
+			shaderPhong.setVec3("spotLights[" + std::to_string(spotlightNum) + "].base.position", light->GetLightPos());
+			shaderPhong.setVec3("spotLights[" + std::to_string(spotlightNum) + "].direction", light->GetDirection());
+			shaderPhong.setFloat("spotLights[" + std::to_string(spotlightNum) + "].cutoff", cos(light->GetCutOff()));
+			spotlightNum++;
 		}
 		//点光源
 		else if (dynamic_cast<PointLight*>(*it) != 0) {
@@ -60,6 +76,7 @@ void LightingRenderer::Render(Scene* scene, RenderContext* context)
 		}
 	}
 	shaderPhong.setInt("pointLightNum", pointlightNum);
+	shaderPhong.setInt("spotLightNum", spotlightNum);
 
 	for (std::vector<Model*>::iterator it = scene->GetModels().begin(); it != scene->GetModels().end(); it++) {
 		(*it)->Render(shaderPhong);
@@ -70,7 +87,8 @@ void LightingRenderer::Render(Scene* scene, RenderContext* context)
 		(*it)->Render(shaderPhong);
 	}
 
-	if (true) {
+	//调试输出光源位置
+	if (false) {
 		RenderLightDebug(scene, context);
 	}
 }

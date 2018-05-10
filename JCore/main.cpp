@@ -6,6 +6,7 @@
 #include "ModelComponent.h"
 #include "DirLightComponent.h"
 #include "PointLightComponent.h"
+#include "SpotLightComponent.h"
 
 float screenWidth = 800, screenHeight = 600;
 float deltaFrame = 0.0f, lastFrame = 0.0f;
@@ -174,7 +175,7 @@ int main(int argc, char** argv) {
 	srtPointLight1->SetTranslation(glm::vec3(-5.0f, 5.0f, -5.0f));
 	pointLight1->AddComponent(srtPointLight1);
 	PointLightComponent* pointLightCmp1 = new PointLightComponent();
-	//pointLightCmp1->SetLightColor(glm::vec3(0.0f, 1.0f, 0.0f));
+	pointLightCmp1->SetLightColor(glm::vec3(1.0f, 1.0f, 0.0f));
 	pointLightCmp1->SetAmbientIntensity(0.05f);
 	pointLightCmp1->SetDiffuseIntensity(0.5f);
 	pointLight1->AddComponent(pointLightCmp1);
@@ -184,10 +185,34 @@ int main(int argc, char** argv) {
 	srtPointLight2->SetTranslation(glm::vec3(-2.0f, 5.0f, 3.0f));
 	pointLight2->AddComponent(srtPointLight2);
 	PointLightComponent* pointLightCmp2 = new PointLightComponent();
-	//pointLightCmp2->SetLightColor(glm::vec3(1.0f, 0.0f, 0.0f));
+	pointLightCmp2->SetLightColor(glm::vec3(1.0f, 0.0f, 1.0f));
 	pointLightCmp2->SetAmbientIntensity(0.05f);
 	pointLightCmp2->SetDiffuseIntensity(0.6f);
 	pointLight2->AddComponent(pointLightCmp2);
+	//聚光灯1
+	Node* spotLight1 = world.AddNode(_T("pointLight1"));
+	SRTTransformComponent* srtSpotLight1 = new SRTTransformComponent();
+	srtSpotLight1->SetTranslation(glm::vec3(-2.0f, 5.0f, 3.0f));
+	spotLight1->AddComponent(srtSpotLight1);
+	SpotLightComponent* spotLightCmp1 = new SpotLightComponent();
+	//spotLightCmp1->SetLightColor(glm::vec3(1.0f, 0.0f, 1.0f));
+	spotLightCmp1->SetAmbientIntensity(0.05f);
+	spotLightCmp1->SetDiffuseIntensity(0.6f);
+	spotLightCmp1->SetCutOff(45.0f);
+	spotLightCmp1->SetDirection(glm::vec3(2.0, -5.0, -3.0));
+	spotLight1->AddComponent(spotLightCmp1);
+	//聚光灯2
+	Node* spotLight2 = world.AddNode(_T("pointLight2"));
+	SRTTransformComponent* srtSpotLight2 = new SRTTransformComponent();
+	srtSpotLight2->SetTranslation(glm::vec3(0.0f, 5.0f, 0.0f));
+	spotLight2->AddComponent(srtSpotLight2);
+	SpotLightComponent* spotLightCmp2 = new SpotLightComponent();
+	//spotLightCmp2->SetLightColor(glm::vec3(1.0f, 0.0f, 1.0f));
+	spotLightCmp2->SetAmbientIntensity(0.05f);
+	spotLightCmp2->SetDiffuseIntensity(0.6f);
+	spotLightCmp2->SetCutOff(2.0f);
+	spotLightCmp2->SetDirection(glm::vec3(0.0f, -1.0f, 0.0));
+	spotLight2->AddComponent(spotLightCmp2);
 
 	//模型1
 	Node* parent1 = world.AddNode(_T("parent1"));

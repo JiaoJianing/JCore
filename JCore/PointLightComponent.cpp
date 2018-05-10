@@ -18,13 +18,7 @@ stringT PointLightComponent::GetTypeName()
 
 void PointLightComponent::Update(double curFrame, double deltaFrame)
 {
-	m_PointLight.SetLightColor(GetLightColor());
 	m_PointLight.SetLightPos(GetOwner()->GetWorldTransform()[3]);
-	m_PointLight.SetAmbientIntensity(GetAmbientIntensity());
-	m_PointLight.SetDiffuseIntensity(GetDiffuseIntensity());
-	m_PointLight.SetConstant(GetConstant());
-	m_PointLight.SetLinear(GetLinear());
-	m_PointLight.SetExp(GetExp());
 }
 
 void PointLightComponent::OnAddToWorld(World* world)

@@ -18,10 +18,7 @@ stringT DirLightComponent::GetTypeName()
 
 void DirLightComponent::Update(double curFrame, double deltaFrame)
 {
-	m_DirLight.SetLightColor(GetLightColor());
 	m_DirLight.SetLightPos(GetOwner()->GetWorldTransform()[3]);
-	m_DirLight.SetAmbientIntensity(GetAmbientIntensity());
-	m_DirLight.SetDiffuseIntensity(GetDiffuseIntensity());
 }
 
 void DirLightComponent::OnAddToWorld(World* world)

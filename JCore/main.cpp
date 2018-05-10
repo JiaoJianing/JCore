@@ -71,11 +71,15 @@ void key_click_callback(GLFWwindow* window, int key, int scancode, int action, i
 		break;
 	case GLFW_KEY_D:
 	{
-		//Node * node = scene.FindNode("parent1");
-		//if (node) {
-		//	scene.RemoveNode(node);
-		//	std::cout << "删除 parent1 及其子节点" << std::endl;
-		//}
+		if (nodes.size() > 0) {
+			Node * node = nodes[0];
+			if (node) {
+				std::cout << "删除节点: ";
+				std::wcout << node->GetName() << std::endl;
+				world.RemoveNode(node);
+			}
+			nodes.erase(nodes.begin());
+		}
 	}
 		break;
 	case GLFW_KEY_1://切换free相机模式
@@ -190,7 +194,7 @@ int main(int argc, char** argv) {
 	pointLightCmp2->SetDiffuseIntensity(0.6f);
 	pointLight2->AddComponent(pointLightCmp2);
 	//聚光灯1
-	Node* spotLight1 = world.AddNode(_T("pointLight1"));
+	Node* spotLight1 = world.AddNode(_T("spotLight1"));
 	SRTTransformComponent* srtSpotLight1 = new SRTTransformComponent();
 	srtSpotLight1->SetTranslation(glm::vec3(-2.0f, 5.0f, 3.0f));
 	spotLight1->AddComponent(srtSpotLight1);
@@ -198,19 +202,19 @@ int main(int argc, char** argv) {
 	//spotLightCmp1->SetLightColor(glm::vec3(1.0f, 0.0f, 1.0f));
 	spotLightCmp1->SetAmbientIntensity(0.05f);
 	spotLightCmp1->SetDiffuseIntensity(0.6f);
-	spotLightCmp1->SetCutOff(45.0f);
+	spotLightCmp1->SetCutOff(20.0f);
 	spotLightCmp1->SetDirection(glm::vec3(2.0, -5.0, -3.0));
 	spotLight1->AddComponent(spotLightCmp1);
 	//聚光灯2
-	Node* spotLight2 = world.AddNode(_T("pointLight2"));
+	Node* spotLight2 = world.AddNode(_T("spotLight2"));
 	SRTTransformComponent* srtSpotLight2 = new SRTTransformComponent();
-	srtSpotLight2->SetTranslation(glm::vec3(0.0f, 5.0f, 0.0f));
+	srtSpotLight2->SetTranslation(glm::vec3(0.0f, 10.0f, 0.0f));
 	spotLight2->AddComponent(srtSpotLight2);
 	SpotLightComponent* spotLightCmp2 = new SpotLightComponent();
 	//spotLightCmp2->SetLightColor(glm::vec3(1.0f, 0.0f, 1.0f));
 	spotLightCmp2->SetAmbientIntensity(0.05f);
 	spotLightCmp2->SetDiffuseIntensity(0.6f);
-	spotLightCmp2->SetCutOff(2.0f);
+	spotLightCmp2->SetCutOff(40.0f);
 	spotLightCmp2->SetDirection(glm::vec3(0.0f, -1.0f, 0.0));
 	spotLight2->AddComponent(spotLightCmp2);
 
@@ -243,6 +247,11 @@ int main(int argc, char** argv) {
 	CubeComponent* cubeCmp4 = new CubeComponent("asset/resources/toy_box_diffuse.png", "asset/resources/toy_box_normal.png", "asset/resources/toy_box_specular.png");
 	child2->AddComponent(cubeCmp4);
 
+	nodes.push_back(dirLight);
+	nodes.push_back(pointLight1);
+	nodes.push_back(pointLight2);
+	nodes.push_back(spotLight1);
+	nodes.push_back(spotLight2);
 	nodes.push_back(parent1);
 	nodes.push_back(child1);
 	nodes.push_back(child2);

@@ -103,7 +103,8 @@ void Model::SetColor(const glm::vec3& value)
 void Model::loadModel(std::string path)
 {
 	Assimp::Importer import;
-	const aiScene* scene = import.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
+	const aiScene* scene = import.ReadFile(path, aiProcess_Triangulate | aiProcess_GenSmoothNormals | 
+		aiProcess_FlipUVs | aiProcess_CalcTangentSpace | aiProcess_JoinIdenticalVertices);
 
 	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) {
 		std::cout << "Assimp load failed: " << import.GetErrorString() << std::endl;
@@ -159,15 +160,19 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
 		vertex.texCoord = texCoord;
 		//ÇÐÏß
 		glm::vec3 tangent;
-		tangent.x = mesh->mTangents[i].x;
-		tangent.y = mesh->mTangents[i].y;
-		tangent.z = mesh->mTangents[i].z;
+		if (mesh->mTangents) {
+			tangent.x = mesh->mTangents[i].x;
+			tangent.y = mesh->mTangents[i].y;
+			tangent.z = mesh->mTangents[i].z;
+		}
 		vertex.tangent = tangent;
 		//¸±ÇÐÏß
 		glm::vec3 bitangent;
-		bitangent.x = mesh->mBitangents[i].x;
-		bitangent.y = mesh->mBitangents[i].y;
-		bitangent.z = mesh->mBitangents[i].z;
+		if (mesh->mBitangents) {
+			bitangent.x = mesh->mBitangents[i].x;
+			bitangent.y = mesh->mBitangents[i].y;
+			bitangent.z = mesh->mBitangents[i].z;
+		}
 		vertex.bitangent = bitangent;
 
 		vertices.push_back(vertex);

@@ -159,6 +159,15 @@ void Cube::Render(Shader shader)
 	glBindVertexArray(0);
 }
 
+void Cube::RenderDebug(Shader shader) {
+	shader.use();
+	shader.setVec3("g_Color", GetColor());
+
+	glBindVertexArray(m_VAO);
+	glDrawElements(GL_TRIANGLES, m_Indices.size(), GL_UNSIGNED_INT, 0);
+	glBindVertexArray(0);
+}
+
 void Cube::SetDiffuseTexture(const std::string& path)
 {
 	m_DiffuseTexture = ResourceManager::getInstance()->LoadTexture(path, path);

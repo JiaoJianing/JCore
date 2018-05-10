@@ -7,6 +7,7 @@
 LightingRenderer::LightingRenderer(int width, int height)
 	:Renderer(width, height)
 {
+	m_CubeDebug.SetColor(glm::vec3(1.0f));
 }
 
 
@@ -68,9 +69,28 @@ void LightingRenderer::Render(Scene* scene, RenderContext* context)
 	for (std::vector<Cube*>::iterator it = scene->GetCubes().begin(); it != scene->GetCubes().end(); it++) {
 		(*it)->Render(shaderPhong);
 	}
+
+	if (true) {
+		RenderLightDebug(scene, context);
+	}
 }
 
 void LightingRenderer::Resize(int width, int height)
 {
 
+}
+
+void LightingRenderer::RenderLightDebug(Scene* scene, RenderContext* context)
+{
+	Shader shaderLightDbg = ResourceManager::getInstance()->GetShader("light_debug");
+	shaderLightDbg.use();
+	shaderLightDbg.setMatrix4("view", context->MatView);
+	shaderLightDbg.setMatrix4("projection", context->MatProj);
+	for (std::vector<BaseLight*>::iterator it = scene->GetLights().begin(); it != scene->GetLights().end(); it++) {
+		glm::mat4 model;
+		model = glm::translate(model, (*it)->GetLightPos());
+		model = glm::scale(model, glm::vec3(0.2f));
+		shaderLightDbg.setMatrix4("model", model);
+		m_CubeDebug.RenderDebug(shaderLightDbg);
+	}
 }

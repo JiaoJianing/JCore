@@ -11,6 +11,8 @@ public:
 
 	void Render(Shader shader);
 
+	void RenderDebug(Shader shader);
+
 	void SetDiffuseTexture(const std::string& path);
 	void SetNormalTexture(const std::string& path);
 	void SetSpecularTexture(const std::string& path);

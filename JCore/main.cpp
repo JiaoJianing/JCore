@@ -73,14 +73,14 @@ void OnWorldInit(World* world) {
 	//¾Û¹âµÆ2
 	Node* spotLight2 = world->AddNode(_T("spotLight2"));
 	SRTTransformComponent* srtSpotLight2 = new SRTTransformComponent();
-	srtSpotLight2->SetTranslation(glm::vec3(0.0f, 10.0f, 0.0f));
+	srtSpotLight2->SetTranslation(glm::vec3(5.0f, 5.0f, 0.0f));
 	spotLight2->AddComponent(srtSpotLight2);
 	SpotLightComponent* spotLightCmp2 = new SpotLightComponent();
 	//spotLightCmp2->SetLightColor(glm::vec3(1.0f, 0.0f, 1.0f));
 	spotLightCmp2->SetAmbientIntensity(0.05f);
-	spotLightCmp2->SetDiffuseIntensity(0.6f);
-	spotLightCmp2->SetCutOff(40.0f);
-	spotLightCmp2->SetDirection(glm::vec3(0.0f, -1.0f, 0.0));
+	spotLightCmp2->SetDiffuseIntensity(1.0f);
+	spotLightCmp2->SetCutOff(60.0f);
+	spotLightCmp2->SetDirection(glm::vec3(-5.0f, -5.0f, 0.0));
 	spotLight2->AddComponent(spotLightCmp2);
 
 	//Ä£ÐÍ1
@@ -202,6 +202,8 @@ int main(int argc, char** argv) {
 	}
 
 	g_App->Run();
+
+	delete g_App;
 
 	return 0;
 }

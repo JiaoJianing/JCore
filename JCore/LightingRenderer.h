@@ -1,6 +1,6 @@
 #pragma once
 #include "Renderer.h"
-#include "Cube.h"
+#include "CubePrimitive.h"
 
 class LightingRenderer : public Renderer
 {
@@ -17,6 +17,6 @@ public:
 private:
 	//画出光源位置。用来调试
 	void RenderLightDebug(Scene* scene, RenderContext* context);
-	Cube m_CubeDebug;
+	CubePrimitive m_CubeDebug;
 };
 

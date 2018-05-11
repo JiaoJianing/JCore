@@ -1,17 +1,17 @@
 #pragma once
-#include <glm.hpp>
 #include "Shader.h"
 #include <vector>
 #include "Mesh.h"
 
-class Cube {
+class CustomPrimitive
+{
 public:
-	Cube();
-	~Cube();
+	CustomPrimitive();
+	virtual ~CustomPrimitive();
 
-	void Render(Shader shader);
+	virtual void Render(Shader shader);
 
-	void RenderDebug(Shader shader);
+	virtual void RenderDebug(Shader shader);
 
 	void SetDiffuseTexture(const std::string& path);
 	void SetNormalTexture(const std::string& path);
@@ -32,7 +32,7 @@ public:
 	void SetID(unsigned long id);
 	unsigned long GetID();
 
-private:
+protected:
 	glm::vec3 m_Color;
 	unsigned int m_VBO, m_VAO, m_EBO;
 	std::vector<Vertex> m_Vertices;
@@ -47,3 +47,4 @@ private:
 	glm::vec3 m_HighLightColor;
 	unsigned long m_ID;
 };
+

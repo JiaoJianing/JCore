@@ -1,13 +1,13 @@
 #pragma once
 #include "BaseComponent.h"
-#include "CubePrimitive.h"
+#include "SpherePrimitive.h"
 
-class CubeComponent : public BaseComponent
+class SphereComponent : public BaseComponent
 {
 public:
-	CubeComponent();
-	CubeComponent(const std::string& diffuse, const std::string& normal, const std::string& specular);
-	~CubeComponent();
+	SphereComponent();
+	SphereComponent(const std::string& diffuse, const std::string& normal, const std::string& specular);
+	~SphereComponent();
 
 	virtual void Update(double curFrame, double deltaFrame);
 
@@ -18,6 +18,6 @@ public:
 	virtual void OnRemoveFromWorld(World* world);
 
 private:
-	CubePrimitive m_Cube;
+	SpherePrimitive m_Sphere;
 };
 

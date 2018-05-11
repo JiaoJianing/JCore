@@ -8,6 +8,7 @@
 #include "PointLightComponent.h"
 #include "SpotLightComponent.h"
 #include "GlfwApplication.h"
+#include "SphereComponent.h"
 
 int nodeID = 0;
 
@@ -106,11 +107,20 @@ void OnWorldInit(World* world) {
 	//立方体
 	Node* child2 = world->AddNode(_T("child2"));
 	SRTTransformComponent* srt4 = new SRTTransformComponent();
-	srt4->SetTranslation(glm::vec3(-2.0f, 0.0f, 0.0f));
+	srt4->SetTranslation(glm::vec3(-5.0f, 0.0f, 0.0f));
 	//srt4->SetScale(glm::vec3(0.5f, 1.0f, 0.5f));
 	child2->AddComponent(srt4);
 	CubeComponent* cubeCmp4 = new CubeComponent("asset/resources/toy_box_diffuse.png", "asset/resources/toy_box_normal.png", "asset/resources/toy_box_specular.png");
 	child2->AddComponent(cubeCmp4);
+
+	//球体
+	Node* sphere = world->AddNode(_T("sphere"));
+	SRTTransformComponent* sphereSrt = new SRTTransformComponent();
+	sphereSrt->SetTranslation(glm::vec3(-2.0f, 0.0f, 0.0f));
+	//srt4->SetScale(glm::vec3(0.5f, 1.0f, 0.5f));
+	sphere->AddComponent(sphereSrt);
+	SphereComponent* sphereCmp = new SphereComponent("asset/resources/toy_box_diffuse.png", "asset/resources/toy_box_normal.png", "asset/resources/toy_box_specular.png");
+	sphere->AddComponent(sphereCmp);
 
 	nodes.push_back(dirLight);
 	nodes.push_back(pointLight1);

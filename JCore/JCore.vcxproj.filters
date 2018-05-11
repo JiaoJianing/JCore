@@ -51,12 +51,6 @@
     <ClCompile Include="CameraComponent.cpp">
       <Filter>Component</Filter>
     </ClCompile>
-    <ClCompile Include="CubeComponent.cpp">
-      <Filter>Component</Filter>
-    </ClCompile>
-    <ClCompile Include="Cube.cpp">
-      <Filter>RenderObject</Filter>
-    </ClCompile>
     <ClCompile Include="FollowCameraComponent.cpp">
       <Filter>Component</Filter>
     </ClCompile>
@@ -153,6 +147,21 @@
     <ClCompile Include="GlfwApplication.cpp">
       <Filter>Core</Filter>
     </ClCompile>
+    <ClCompile Include="SphereComponent.cpp">
+      <Filter>Component</Filter>
+    </ClCompile>
+    <ClCompile Include="CustomPrimitive.cpp">
+      <Filter>RenderObject</Filter>
+    </ClCompile>
+    <ClCompile Include="CubePrimitive.cpp">
+      <Filter>RenderObject</Filter>
+    </ClCompile>
+    <ClCompile Include="CubeComponent.cpp">
+      <Filter>Component</Filter>
+    </ClCompile>
+    <ClCompile Include="SpherePrimitive.cpp">
+      <Filter>RenderObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Text.h">
@@ -164,9 +173,6 @@
     <ClInclude Include="typedefs.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Cube.h">
-      <Filter>RenderObject</Filter>
-    </ClInclude>
     <ClInclude Include="Mesh.h">
       <Filter>RenderObject</Filter>
     </ClInclude>
@@ -177,9 +183,6 @@
       <Filter>Component</Filter>
     </ClInclude>
     <ClInclude Include="CameraComponent.h">
-      <Filter>Component</Filter>
-    </ClInclude>
-    <ClInclude Include="CubeComponent.h">
       <Filter>Component</Filter>
     </ClInclude>
     <ClInclude Include="FollowCameraComponent.h">
@@ -268,6 +271,21 @@
     </ClInclude>
     <ClInclude Include="GlfwApplication.h">
       <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="SphereComponent.h">
+      <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="CustomPrimitive.h">
+      <Filter>RenderObject</Filter>
+    </ClInclude>
+    <ClInclude Include="CubePrimitive.h">
+      <Filter>RenderObject</Filter>
+    </ClInclude>
+    <ClInclude Include="CubeComponent.h">
+      <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="SpherePrimitive.h">
+      <Filter>RenderObject</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

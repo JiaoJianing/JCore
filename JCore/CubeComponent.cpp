@@ -41,13 +41,13 @@ stringT CubeComponent::GetTypeName()
 
 void CubeComponent::OnAddToWorld(World* world)
 {
-	world->GetScene()->GetCubes().push_back(&m_Cube);
+	world->GetScene()->GetCustomPrimitives().push_back(&m_Cube);
 }
 
 void CubeComponent::OnRemoveFromWorld(World* world)
 {
-	auto it = std::find(world->GetScene()->GetCubes().begin(), world->GetScene()->GetCubes().end(), &m_Cube);
-	if (it != world->GetScene()->GetCubes().end()) {
-		world->GetScene()->GetCubes().erase(it);
+	auto it = std::find(world->GetScene()->GetCustomPrimitives().begin(), world->GetScene()->GetCustomPrimitives().end(), &m_Cube);
+	if (it != world->GetScene()->GetCustomPrimitives().end()) {
+		world->GetScene()->GetCustomPrimitives().erase(it);
 	}
 }

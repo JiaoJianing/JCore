@@ -14,9 +14,9 @@ std::vector<Model*>& Scene::GetModels()
 	return m_Models;
 }
 
-std::vector<Cube*>& Scene::GetCubes()
+std::vector<CustomPrimitive*>& Scene::GetCustomPrimitives()
 {
-	return m_Cubes;
+	return m_CustomPrimitives;
 }
 
 std::vector<Camera*>& Scene::GetCameras()

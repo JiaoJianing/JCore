@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "Cube.h"
+#include "CubePrimitive.h"
 #include "Texture.h"
 #include "ResourceManager.h"
 
@@ -50,15 +50,57 @@ float cubeVertices[] = {
 	-0.5f, 0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f // bottom-left   
 };
 
-Cube::Cube()
-	: m_Color(1.0f)
+CubePrimitive::CubePrimitive()
+{
+	initRenderData();
+}
+
+CubePrimitive::~CubePrimitive()
+{
+	glDeleteVertexArrays(1, &m_VAO);
+}
+
+void CubePrimitive::Render(Shader shader)
+{
+	shader.use();
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, m_DiffuseTexture.GetID());
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, m_NormalTexture.GetID());
+	glActiveTexture(GL_TEXTURE2);
+	glBindTexture(GL_TEXTURE_2D, m_SpecularTexture.GetID());
+	shader.setInt("material.texture_diffuse1", 0);
+	shader.setInt("material.texture_normal1", 1);
+	shader.setInt("material.texture_specular1", 2);
+	shader.setMatrix4("model", GetWorldTransform());
+	shader.setVec3("g_Color", GetColor());
+	shader.setInt("g_highLight", GetHighLight());
+	shader.setVec3("g_highLightColor", GetHighLightColor());
+	shader.setInt("nodeID", GetID());
+
+	glBindVertexArray(m_VAO);
+	glDrawElements(GL_TRIANGLES, m_Indices.size(), GL_UNSIGNED_INT, 0);
+	glBindVertexArray(0);
+}
+
+void CubePrimitive::RenderDebug(Shader shader) {
+	shader.use();
+	shader.setVec3("g_Color", GetColor());
+
+	glBindVertexArray(m_VAO);
+	glDrawElements(GL_TRIANGLES, m_Indices.size(), GL_UNSIGNED_INT, 0);
+	glBindVertexArray(0);
+}
+
+void CubePrimitive::initRenderData()
 {
 	glGenVertexArrays(1, &m_VAO);
 	glGenBuffers(1, &m_VBO);
 	glGenBuffers(1, &m_EBO);
 
 	Vertex v;
-	//准备顶点和纹理
+	//准备顶点、纹理、法线
 	for (int i = 0; i < sizeof(cubeVertices) / sizeof(float); i += 8) {
 		v.position = glm::vec3(cubeVertices[i], cubeVertices[i + 1], cubeVertices[i + 2]);
 		v.normal = glm::vec3(cubeVertices[i + 3], cubeVertices[i + 4], cubeVertices[i + 5]);
@@ -130,111 +172,3 @@ Cube::Cube()
 	glBindVertexArray(0);
 }
 
-Cube::~Cube()
-{
-	glDeleteVertexArrays(1, &m_VAO);
-}
-
-void Cube::Render(Shader shader)
-{
-	shader.use();
-
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, m_DiffuseTexture.GetID());
-	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, m_NormalTexture.GetID());
-	glActiveTexture(GL_TEXTURE2);
-	glBindTexture(GL_TEXTURE_2D, m_SpecularTexture.GetID());
-	shader.setInt("material.texture_diffuse1", 0);
-	shader.setInt("material.texture_normal1", 1);
-	shader.setInt("material.texture_specular1", 2);
-	shader.setMatrix4("model", GetWorldTransform());
-	shader.setVec3("g_Color", GetColor());
-	shader.setInt("g_highLight", GetHighLight());
-	shader.setVec3("g_highLightColor", GetHighLightColor());
-	shader.setInt("nodeID", GetID());
-
-	glBindVertexArray(m_VAO);
-	glDrawElements(GL_TRIANGLES, m_Indices.size(), GL_UNSIGNED_INT, 0);
-	glBindVertexArray(0);
-}
-
-void Cube::RenderDebug(Shader shader) {
-	shader.use();
-	shader.setVec3("g_Color", GetColor());
-
-	glBindVertexArray(m_VAO);
-	glDrawElements(GL_TRIANGLES, m_Indices.size(), GL_UNSIGNED_INT, 0);
-	glBindVertexArray(0);
-}
-
-void Cube::SetDiffuseTexture(const std::string& path)
-{
-	m_DiffuseTexture = ResourceManager::getInstance()->LoadTexture(path, path);
-}
-
-void Cube::SetNormalTexture(const std::string& path)
-{
-	m_NormalTexture = ResourceManager::getInstance()->LoadTexture(path, path);
-}
-
-void Cube::SetSpecularTexture(const std::string& path)
-{
-	m_SpecularTexture = ResourceManager::getInstance()->LoadTexture(path, path);
-}
-
-void Cube::SetColor(const glm::vec3& color)
-{
-	if (m_Color != color) {
-		m_Color = color;
-	}
-}
-
-glm::vec3& Cube::GetColor()
-{
-	return m_Color;
-}
-
-void Cube::SetWorldTransform(const glm::mat4& mat)
-{
-	if (m_WorldTransform != mat) {
-		m_WorldTransform = mat;
-	}
-}
-
-glm::mat4& Cube::GetWorldTransform()
-{
-	return m_WorldTransform;
-}
-
-void Cube::SetHighLight(bool value)
-{
-	m_HighLight = value;
-}
-
-bool Cube::GetHighLight()
-{
-	return m_HighLight;
-}
-
-void Cube::SetHighLightColor(const glm::vec3& color)
-{
-	if (m_HighLightColor != color) {
-		m_HighLightColor = color;
-	}
-}
-
-glm::vec3& Cube::GetHighLightColor()
-{
-	return m_HighLightColor;
-}
-
-void Cube::SetID(unsigned long id)
-{
-	m_ID = id;
-}
-
-unsigned long Cube::GetID()
-{
-	return m_ID;
-}

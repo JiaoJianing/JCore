@@ -1,9 +1,9 @@
 #pragma once
 #include <vector>
 #include "Model.h"
-#include "Cube.h"
 #include "Camera.h"
 #include "BaseLight.h"
+#include "CustomPrimitive.h"
 
 class Scene
 {
@@ -13,7 +13,7 @@ public:
 
 	std::vector<Model*>& GetModels();
 
-	std::vector<Cube*>& GetCubes();
+	std::vector<CustomPrimitive*>& GetCustomPrimitives();
 
 	std::vector<Camera*>& GetCameras();
 
@@ -21,7 +21,7 @@ public:
 
 private:
 	std::vector<Model*> m_Models;
-	std::vector<Cube*> m_Cubes;
+	std::vector<CustomPrimitive*> m_CustomPrimitives;
 	std::vector<Camera*> m_Cameras;
 	std::vector<BaseLight*> m_Lights;
 };

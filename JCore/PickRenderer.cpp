@@ -60,8 +60,8 @@ void PickRenderer::Render(Scene* scene, RenderContext* context)
 		(*it)->Render(m_PickShader);
 	}
 
-	//渲染Cube
-	for (std::vector<Cube*>::iterator it = scene->GetCubes().begin(); it != scene->GetCubes().end(); it++) {
+	//渲染自定义图元
+	for (std::vector<CustomPrimitive*>::iterator it = scene->GetCustomPrimitives().begin(); it != scene->GetCustomPrimitives().end(); it++) {
 		(*it)->Render(m_PickShader);
 	}
 

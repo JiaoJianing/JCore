@@ -17,7 +17,7 @@ public:
 	World(int windowWidth, int windowHeight);
 	~World();
 
-	void Initialize();
+	bool Initialize();
 
 	void Update(double curFrame, double deltaFrame);
 

@@ -147,6 +147,12 @@
     <ClCompile Include="SpotLightComponent.cpp">
       <Filter>Component</Filter>
     </ClCompile>
+    <ClCompile Include="Application.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="GlfwApplication.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Text.h">
@@ -256,6 +262,12 @@
     </ClInclude>
     <ClInclude Include="SpotLightComponent.h">
       <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Application.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="GlfwApplication.h">
+      <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

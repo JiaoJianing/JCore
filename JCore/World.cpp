@@ -71,7 +71,7 @@ World::~World()
 	m_NodesToDestroy.clear();
 }
 
-void World::Initialize()
+bool World::Initialize()
 {
 	//shader
 	ResourceManager::getInstance()->LoadShader("model", "asset/shaders/jcore/model.vs", "asset/shaders/jcore/model.fs");
@@ -110,6 +110,8 @@ void World::Initialize()
 	m_PostRenderer->Initialize();
 	m_LightRenderer = new LightingRenderer(m_WindowWidth, m_WindowHeight);
 	m_LightRenderer->Initialize();
+
+	return true;
 }
 
 void World::Update(double curFrame, double deltaFrame)

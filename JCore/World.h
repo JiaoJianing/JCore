@@ -11,6 +11,7 @@
 #include "PostEffectRenderer.h"
 #include "LightingRenderer.h"
 #include "SkyBoxRenderer.h"
+#include "NormalRenderer.h"
 
 class World
 {
@@ -72,6 +73,9 @@ public:
 	bool GetEnableSkybox();
 	void SetEnableSkybox(bool value);
 
+	bool GetEnableRenderNormal();
+	void SetEnableRenderNormal(bool value);
+
 private:
 	std::map<unsigned long, Node*> m_Nodes;//场景中所有的节点，使用map便于查询
 	std::vector<Node*> m_NodesToDestroy;//将要删除的节点，一般在下一帧删除
@@ -85,6 +89,7 @@ private:
 	bool m_EnablePostEffect;
 	bool m_EnableLight;
 	bool m_EnableSkybox;
+	bool m_EnableRenderNormal;
 	float m_FPS;
 
 	Text* m_TextRender;
@@ -97,5 +102,6 @@ private:
 	PostEffectRenderer* m_PostRenderer;
 	LightingRenderer* m_LightRenderer;
 	SkyBoxRenderer* m_SkyboxRenderer;
+	NormalRenderer m_NormalRenderer;
 };
 

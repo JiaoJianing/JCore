@@ -90,7 +90,7 @@ void LightingRenderer::Render(Scene* scene, RenderContext* context)
 	}
 
 	//调试输出光源位置
-	if (true) {
+	if (false) {
 		RenderLightDebug(scene, context);
 	}
 }

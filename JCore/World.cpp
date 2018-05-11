@@ -21,6 +21,7 @@ World::World(int windowWidth, int windowHeight)
 	, m_EnablePostEffect(false)
 	, m_EnableLight(false)
 	, m_EnableSkybox(false)
+	, m_EnableRenderNormal(false)
 	, m_FPS(0.0f)
 {
 
@@ -92,6 +93,7 @@ bool World::Initialize()
 	ResourceManager::getInstance()->LoadShader("light_debug", "asset/shaders/jcore/light_debug.vs", "asset/shaders/jcore/light_debug.fs");
 	ResourceManager::getInstance()->LoadShader("skybox", "asset/shaders/jcore/skybox.vs", "asset/shaders/jcore/skybox.fs");
 	ResourceManager::getInstance()->GetShader("skybox").use().setInt("texture_skybox", 0);
+	ResourceManager::getInstance()->LoadShader("show_normal", "asset/shaders/jcore/show_normal.vs", "asset/shaders/jcore/show_normal.fs", "asset/shaders/jcore/show_normal.gs");
 
 	ResourceManager::getInstance()->LoadTexture("skybox", "asset/resources/skybox", "right.jpg", "left.jpg",
 		"top.jpg", "bottom.jpg", "front.jpg","back.jpg");
@@ -163,12 +165,19 @@ void World::Render()
 		m_PostRenderer->BeginRender();
 	}
 
+	//是否调试输出法线
+
 	//是否使用光照
 	if (m_EnableLight) {
 		m_LightRenderer->Render(m_Scene, &context);
 	}
 	else {
 		m_Renderer->Render(m_Scene, &context);
+	}
+
+	//是否输出法线
+	if (m_EnableRenderNormal) {
+		m_NormalRenderer.Render(m_Scene, &context);
 	}
 
 	//渲染天空盒
@@ -383,4 +392,14 @@ bool World::GetEnableSkybox()
 void World::SetEnableSkybox(bool value)
 {
 	m_EnableSkybox = value;
+}
+
+bool World::GetEnableRenderNormal()
+{
+	return m_EnableRenderNormal;
+}
+
+void World::SetEnableRenderNormal(bool value)
+{
+	m_EnableRenderNormal = value;
 }

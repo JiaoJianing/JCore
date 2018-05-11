@@ -168,6 +168,9 @@
     <ClCompile Include="CubeMapTexture.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="NormalRenderer.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Text.h">
@@ -298,6 +301,9 @@
     </ClInclude>
     <ClInclude Include="CubeMapTexture.h">
       <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="NormalRenderer.h">
+      <Filter>Renderer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

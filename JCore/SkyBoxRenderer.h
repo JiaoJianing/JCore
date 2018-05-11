@@ -1,6 +1,7 @@
 #pragma once
 #include "Renderer.h"
 #include "SpherePrimitive.h"
+#include "CubePrimitive.h"
 
 class SkyBoxRenderer : public Renderer
 {
@@ -15,6 +16,7 @@ public:
 	virtual void Resize(int width, int height);
 
 private:
-	SpherePrimitive m_Sphere;
+	SpherePrimitive m_Sphere; //skydom
+	//CubePrimitive m_Sphere; //skybox
 };
 

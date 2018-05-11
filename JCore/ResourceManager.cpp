@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "ResourceManager.h"
+#include "CubeMapTexture.h"
 
 ResourceManager::ResourceManager()
 {
@@ -63,21 +64,40 @@ Shader ResourceManager::GetShader(std::string name)
 	return Shaders[name];
 }
 
-Texture ResourceManager::LoadTexture(std::string name, std::string path)
+Texture* ResourceManager::LoadTexture(std::string name, std::string path)
 {
 	if (Textures.find(name) != Textures.end()) {
-		return Textures[name];
+		return &Textures[name];
 	}
 
 	Texture texture(path);
 	Textures[name] = texture;
 
-	return texture;
+	return &Textures[name];
 }
 
-Texture ResourceManager::GetTexture(std::string name)
+Texture* ResourceManager::LoadTexture(const std::string& name,
+	const std::string& dir, 
+	const std::string& posXFile, 
+	const std::string& negXFile, 
+	const std::string& posYFile, 
+	const std::string& negYFile, 
+	const std::string& posZFile, 
+	const std::string& negZFile)
 {
-	return Textures[name];
+	if (Textures.find(name) != Textures.end()) {
+		return &Textures[name];
+	}
+
+	CubeMapTexture texture(dir, posXFile, negXFile, posYFile, negYFile, posZFile, negZFile);
+	Textures[name] = texture;
+
+	return &Textures[name];
+}
+
+Texture* ResourceManager::GetTexture(std::string name)
+{
+	return &Textures[name];
 }
 
 void ResourceManager::Clear()

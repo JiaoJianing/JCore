@@ -21,24 +21,24 @@ void CustomPrimitive::Render(Shader shader)
 
 }
 
-void CustomPrimitive::RenderDebug(Shader shader)
+void CustomPrimitive::RenderSimple(Shader shader)
 {
 
 }
 
 void CustomPrimitive::SetDiffuseTexture(const std::string& path)
 {
-	m_DiffuseTexture = ResourceManager::getInstance()->LoadTexture(path, path);
+	m_DiffuseTexture = *ResourceManager::getInstance()->LoadTexture(path, path);
 }
 
 void CustomPrimitive::SetNormalTexture(const std::string& path)
 {
-	m_NormalTexture = ResourceManager::getInstance()->LoadTexture(path, path);
+	m_NormalTexture = *ResourceManager::getInstance()->LoadTexture(path, path);
 }
 
 void CustomPrimitive::SetSpecularTexture(const std::string& path)
 {
-	m_SpecularTexture = ResourceManager::getInstance()->LoadTexture(path, path);
+	m_SpecularTexture = *ResourceManager::getInstance()->LoadTexture(path, path);
 }
 
 void CustomPrimitive::SetColor(const glm::vec3& color)

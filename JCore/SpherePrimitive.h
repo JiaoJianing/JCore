@@ -12,7 +12,7 @@ public:
 
 	virtual void Render(Shader shader);
 
-	virtual void RenderDebug(Shader shader);
+	virtual void RenderSimple(Shader shader);
 
 private:
 	void initRenderData();

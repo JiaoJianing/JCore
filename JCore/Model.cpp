@@ -210,9 +210,9 @@ std::vector<Texture> Model::loadMaterialTextures(aiMaterial* mat, aiTextureType 
 		mat->GetTexture(type, i, &str);
 
 		std::string fullPath = directory + "/" + str.C_Str();
-		Texture texture = ResourceManager::getInstance()->LoadTexture(fullPath, fullPath);
-		texture.setType(typeName);
-		textures.push_back(texture);
+		Texture* texture = ResourceManager::getInstance()->LoadTexture(fullPath, fullPath);
+		texture->setType(typeName);
+		textures.push_back(*texture);
 	}
 
 	return textures;

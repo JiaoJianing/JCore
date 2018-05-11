@@ -13,6 +13,11 @@ Texture::Texture(const std::string& path)
 	m_path = path;
 }
 
+Texture::~Texture()
+{
+
+}
+
 unsigned int Texture::GetID()
 {
 	return m_ID;

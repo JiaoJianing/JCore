@@ -84,7 +84,7 @@ void CubePrimitive::Render(Shader shader)
 	glBindVertexArray(0);
 }
 
-void CubePrimitive::RenderDebug(Shader shader) {
+void CubePrimitive::RenderSimple(Shader shader) {
 	shader.use();
 	shader.setVec3("g_Color", GetColor());
 

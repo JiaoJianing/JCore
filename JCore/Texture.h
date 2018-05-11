@@ -6,6 +6,7 @@ class Texture {
 public:
 	Texture();
 	Texture(const std::string& path);
+	virtual ~Texture();
 
 	unsigned int GetID();
 	void setID(unsigned int id);
@@ -20,7 +21,7 @@ public:
 
 	void Generate(unsigned int width, unsigned int height, unsigned char* data);
 
-private:
+protected:
 	unsigned int m_ID;
 	std::string m_type;
 	std::string m_path;//记录已加载的纹理路径 防止重复加载

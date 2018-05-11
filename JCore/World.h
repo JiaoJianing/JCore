@@ -10,6 +10,7 @@
 #include "PickRenderer.h"
 #include "PostEffectRenderer.h"
 #include "LightingRenderer.h"
+#include "SkyBoxRenderer.h"
 
 class World
 {
@@ -68,6 +69,9 @@ public:
 	bool GetEnableLight();
 	void SetEnableLight(bool value);
 
+	bool GetEnableSkybox();
+	void SetEnableSkybox(bool value);
+
 private:
 	std::map<unsigned long, Node*> m_Nodes;//场景中所有的节点，使用map便于查询
 	std::vector<Node*> m_NodesToDestroy;//将要删除的节点，一般在下一帧删除
@@ -80,6 +84,7 @@ private:
 	int m_WindowHeight;
 	bool m_EnablePostEffect;
 	bool m_EnableLight;
+	bool m_EnableSkybox;
 	float m_FPS;
 
 	Text* m_TextRender;
@@ -91,5 +96,6 @@ private:
 	PickRenderer* m_PickRenderer;
 	PostEffectRenderer* m_PostRenderer;
 	LightingRenderer* m_LightRenderer;
+	SkyBoxRenderer* m_SkyboxRenderer;
 };
 

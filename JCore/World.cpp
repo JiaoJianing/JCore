@@ -15,10 +15,12 @@ World::World(int windowWidth, int windowHeight)
 	, m_PickRenderer(0)
 	, m_PostRenderer(0)
 	, m_LightRenderer(0)
+	, m_SkyboxRenderer(0)
 	, m_WindowWidth(windowWidth)
 	, m_WindowHeight(windowHeight)
 	, m_EnablePostEffect(false)
 	, m_EnableLight(false)
+	, m_EnableSkybox(false)
 	, m_FPS(0.0f)
 {
 
@@ -68,6 +70,11 @@ World::~World()
 		m_LightRenderer = 0;
 	}
 
+	if (m_SkyboxRenderer != 0) {
+		delete m_SkyboxRenderer;
+		m_SkyboxRenderer = 0;
+	}
+
 	m_Nodes.clear();
 	m_NodesToDestroy.clear();
 }
@@ -83,6 +90,13 @@ bool World::Initialize()
 	ResourceManager::getInstance()->GetShader("outline").use().setVec3("outlineColor", glm::vec3(1.0f));
 	ResourceManager::getInstance()->LoadShader("phong", "asset/shaders/jcore/phong.vs", "asset/shaders/jcore/phong.fs");
 	ResourceManager::getInstance()->LoadShader("light_debug", "asset/shaders/jcore/light_debug.vs", "asset/shaders/jcore/light_debug.fs");
+	ResourceManager::getInstance()->LoadShader("skybox", "asset/shaders/jcore/skybox.vs", "asset/shaders/jcore/skybox.fs");
+	ResourceManager::getInstance()->GetShader("skybox").use().setInt("texture_skybox", 0);
+
+	ResourceManager::getInstance()->LoadTexture("skybox", "asset/resources/skybox", "right.jpg", "left.jpg",
+		"top.jpg", "bottom.jpg", "front.jpg","back.jpg");
+	ResourceManager::getInstance()->LoadTexture("skybox2", "asset/resources/skybox2", "sp3right.jpg", "sp3left.jpg",
+		"sp3top.jpg", "sp3bot.jpg", "sp3front.jpg", "sp3back.jpg");
 
 	//场景管理器
 	m_Scene = new Scene();
@@ -111,6 +125,8 @@ bool World::Initialize()
 	m_PostRenderer->Initialize();
 	m_LightRenderer = new LightingRenderer(m_WindowWidth, m_WindowHeight);
 	m_LightRenderer->Initialize();
+	m_SkyboxRenderer = new SkyBoxRenderer(m_WindowWidth, m_WindowHeight);
+	m_SkyboxRenderer->Initialize();
 
 	return true;
 }
@@ -142,11 +158,12 @@ void World::Render()
 	RenderContext context;
 	context.GetParamsFromCamera(GetActiveCamera());
 
-	//后期
+	//后期开始
 	if (GetEnablePostEffect()) {
 		m_PostRenderer->BeginRender();
 	}
 
+	//是否使用光照
 	if (m_EnableLight) {
 		m_LightRenderer->Render(m_Scene, &context);
 	}
@@ -154,6 +171,14 @@ void World::Render()
 		m_Renderer->Render(m_Scene, &context);
 	}
 
+	//渲染天空盒
+	if (m_EnableSkybox) {
+		if (m_SkyboxRenderer != 0) {
+			m_SkyboxRenderer->Render(m_Scene, &context);
+		}
+	}
+
+	//后期结束
 	if (GetEnablePostEffect()) {
 		m_PostRenderer->EndRender();
 		m_PostRenderer->Render(m_Scene, &context);
@@ -296,6 +321,7 @@ void World::OnResize(int width, int height)
 	m_PickRenderer->Resize(width, height);
 	m_PostRenderer->Resize(width, height);
 	m_LightRenderer->Resize(width, height);
+	m_SkyboxRenderer->Resize(width, height);
 }
 
 void World::ToFree(const glm::vec3& position)
@@ -347,4 +373,14 @@ bool World::GetEnableLight()
 void World::SetEnableLight(bool value)
 {
 	m_EnableLight = value;
+}
+
+bool World::GetEnableSkybox()
+{
+	return m_EnableSkybox;
+}
+
+void World::SetEnableSkybox(bool value)
+{
+	m_EnableSkybox = value;
 }

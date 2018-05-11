@@ -38,7 +38,7 @@ void SpherePrimitive::Render(Shader shader)
 	glBindVertexArray(0);
 }
 
-void SpherePrimitive::RenderDebug(Shader shader)
+void SpherePrimitive::RenderSimple(Shader shader)
 {
 	shader.use();
 	shader.setVec3("g_Color", GetColor());

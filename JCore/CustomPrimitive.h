@@ -11,7 +11,7 @@ public:
 
 	virtual void Render(Shader shader);
 
-	virtual void RenderDebug(Shader shader);
+	virtual void RenderSimple(Shader shader);
 
 	void SetDiffuseTexture(const std::string& path);
 	void SetNormalTexture(const std::string& path);

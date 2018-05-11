@@ -111,6 +111,6 @@ void LightingRenderer::RenderLightDebug(Scene* scene, RenderContext* context)
 		model = glm::translate(model, (*it)->GetLightPos());
 		model = glm::scale(model, glm::vec3(0.2f));
 		shaderLightDbg.setMatrix4("model", model);
-		m_CubeDebug.RenderDebug(shaderLightDbg);
+		m_CubeDebug.RenderSimple(shaderLightDbg);
 	}
 }

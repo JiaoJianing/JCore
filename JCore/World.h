@@ -80,6 +80,7 @@ private:
 	int m_WindowHeight;
 	bool m_EnablePostEffect;
 	bool m_EnableLight;
+	float m_FPS;
 
 	Text* m_TextRender;
 

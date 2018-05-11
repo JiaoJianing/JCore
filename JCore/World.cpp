@@ -19,6 +19,7 @@ World::World(int windowWidth, int windowHeight)
 	, m_WindowHeight(windowHeight)
 	, m_EnablePostEffect(false)
 	, m_EnableLight(false)
+	, m_FPS(0.0f)
 {
 
 }
@@ -116,6 +117,7 @@ bool World::Initialize()
 
 void World::Update(double curFrame, double deltaFrame)
 {
+	m_FPS = round(1 / deltaFrame);
 	glm::mat4 worldTransform;
 	if (m_RootNode != 0) {
 		m_RootNode->SetWorldTransform(worldTransform);
@@ -168,6 +170,10 @@ void World::Render()
 	if (m_PickingNode != 0) {
 		m_TextRender->Draw(std::wstring(L"当前拾取: ") + m_PickingNode->GetName(), 15.0f, 35.0f, 0.5f, glm::vec3(1.0f, 0.5f, 0.5f));
 	}
+
+	//绘制FPS
+	std::wstring fps = std::to_wstring(m_FPS);
+	m_TextRender->Draw(std::wstring(L"FPS: ") + fps.substr(0, fps.size() - 5), m_WindowWidth - 90.0f, 15.0f, 0.5f, glm::vec3(1.0f));
 }
 
 Node* World::AddNode(const stringT& name)

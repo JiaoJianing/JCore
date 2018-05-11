@@ -62,9 +62,13 @@ void SpherePrimitive::initRenderData()
 		for (unsigned int x = 0; x <= X_SEGMENTS; x++) {
 			float xSegment = (float)x / (float)X_SEGMENTS;
 			float ySegment = (float)y / (float)Y_SEGMENTS;
-			float xPos = std::cos(xSegment * 2.0f * PI) * std::cos(ySegment * PI);
-			float yPos = std::sin(xSegment * 2.0f * PI);
-			float zPos = std::cos(xSegment * 2.0f * PI) * std::sin(ySegment * PI);
+			//float xPos = std::cos(xSegment * 2.0f * PI) * std::cos(ySegment * PI);
+			//float yPos = std::sin(xSegment * 2.0f * PI);
+			//float zPos = std::cos(xSegment * 2.0f * PI) * std::sin(ySegment * PI);
+
+			float xPos = std::sin(ySegment * PI) * std::cos(xSegment * 2.0f * PI);
+			float yPos = std::cos(ySegment * PI);
+			float zPos = std::sin(ySegment * PI) * std::sin(xSegment * 2.0f * PI);
 
 			Vertex v;
 			v.position = glm::vec3(xPos, yPos, zPos);

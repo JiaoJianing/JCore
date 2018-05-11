@@ -184,7 +184,6 @@ void OnWorldKeyboard(World* world, int key, bool pressed) {
 	}
 	break;
 	default:
-		world->OnKeyboard(key);
 		break;
 	}
 }

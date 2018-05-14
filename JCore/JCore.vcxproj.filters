@@ -171,6 +171,12 @@
     <ClCompile Include="NormalRenderer.cpp">
       <Filter>Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="Billboard.cpp">
+      <Filter>RenderObject</Filter>
+    </ClCompile>
+    <ClCompile Include="BillboardComponent.cpp">
+      <Filter>Component</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Text.h">
@@ -304,6 +310,12 @@
     </ClInclude>
     <ClInclude Include="NormalRenderer.h">
       <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Billboard.h">
+      <Filter>RenderObject</Filter>
+    </ClInclude>
+    <ClInclude Include="BillboardComponent.h">
+      <Filter>Component</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

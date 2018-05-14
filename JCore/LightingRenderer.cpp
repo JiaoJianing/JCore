@@ -89,6 +89,16 @@ void LightingRenderer::Render(Scene* scene, RenderContext* context)
 		(*it)->Render(shaderPhong);
 	}
 
+	//渲染Billboard
+	Shader shaderBillboard = ResourceManager::getInstance()->GetShader("billboard");
+	shaderBillboard.use();
+	shaderBillboard.setMatrix4("view", context->MatView);
+	shaderBillboard.setMatrix4("projection", context->MatProj);
+	shaderBillboard.setVec3("viewPos", context->ViewPos);
+	for (std::vector<Billboard*>::iterator it = scene->GetBillboards().begin(); it != scene->GetBillboards().end(); it++) {
+		(*it)->Render(shaderBillboard);
+	}
+
 	//调试输出光源位置
 	if (false) {
 		RenderLightDebug(scene, context);

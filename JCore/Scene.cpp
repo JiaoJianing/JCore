@@ -28,3 +28,8 @@ std::vector<BaseLight*>& Scene::GetLights()
 {
 	return m_Lights;
 }
+
+std::vector<Billboard*>& Scene::GetBillboards()
+{
+	return m_Billboards;
+}

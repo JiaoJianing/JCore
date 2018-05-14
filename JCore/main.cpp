@@ -9,6 +9,7 @@
 #include "SpotLightComponent.h"
 #include "GlfwApplication.h"
 #include "SphereComponent.h"
+#include "BillboardComponent.h"
 
 int nodeID = 0;
 
@@ -19,7 +20,7 @@ void OnWorldInit(World* world) {
 	world->SetEnablePostEffect(true);
 	world->SetEnableLight(true);
 	world->SetEnableSkybox(true);
-	world->SetEnableRenderNormal(true);
+	world->SetEnableRenderNormal(false);
 
 	//µØ°å
 	Node* floor = world->AddNode(_T("floor"));
@@ -124,6 +125,13 @@ void OnWorldInit(World* world) {
 	SphereComponent* sphereCmp = new SphereComponent("asset/resources/toy_box_diffuse.png", "asset/resources/toy_box_normal.png", "asset/resources/toy_box_specular.png");
 	sphere->AddComponent(sphereCmp);
 
+	//Ì«Ñô
+	Node* sun = world->AddNode(_T("sun"));
+	SRTTransformComponent* sunSrt = new SRTTransformComponent();
+	sun->AddComponent(sunSrt);
+	BillboardComponent* sunBillboard = new BillboardComponent("asset/resources/sunny.png");
+	sun->AddComponent(sunBillboard);
+
 	nodes.push_back(dirLight);
 	nodes.push_back(pointLight1);
 	nodes.push_back(pointLight2);
@@ -142,6 +150,15 @@ void OnWorldUpdate(World* world, float currentFrame, float deltaFrame) {
 		if (srt) {
 			//srt->SetTranslation(glm::vec3(2.0f*sin(currentFrame), 0.0f, 2.0f*cos(currentFrame)));
 			srt->SetRotate(glm::vec3(0, currentFrame * 50, 0));
+		}
+	}
+
+	Node* sun = world->FindNode(_T("sun"));
+	if (sun) {
+		SRTTransformComponent* srt = 0;
+		srt = sun->FindComponent<SRTTransformComponent>();
+		if (srt) {
+			srt->SetTranslation(glm::vec3(20.0f*sin(currentFrame*0.05), 10.0f, 20.0f*cos(currentFrame*0.05)));
 		}
 	}
 }

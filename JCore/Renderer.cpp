@@ -42,6 +42,16 @@ void Renderer::Render(Scene* scene, RenderContext* context)
 	for (std::vector<CustomPrimitive*>::iterator it = scene->GetCustomPrimitives().begin(); it != scene->GetCustomPrimitives().end(); it++) {
 		(*it)->Render(shaderModel);
 	}
+
+	//äÖÈ¾Billboard
+	Shader shaderBillboard = ResourceManager::getInstance()->GetShader("billboard");
+	shaderBillboard.use();
+	shaderBillboard.setMatrix4("view", context->MatView);
+	shaderBillboard.setMatrix4("projection", context->MatProj);
+	shaderBillboard.setVec3("viewPos", context->ViewPos);
+	for (std::vector<Billboard*>::iterator it = scene->GetBillboards().begin(); it != scene->GetBillboards().end(); it++) {
+		(*it)->Render(shaderBillboard);
+	}
 }
 
 void Renderer::Resize(int width, int height)

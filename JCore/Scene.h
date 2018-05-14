@@ -4,6 +4,7 @@
 #include "Camera.h"
 #include "BaseLight.h"
 #include "CustomPrimitive.h"
+#include "Billboard.h"
 
 class Scene
 {
@@ -19,10 +20,13 @@ public:
 
 	std::vector<BaseLight*>& GetLights();
 
+	std::vector<Billboard*>& GetBillboards();
+
 private:
 	std::vector<Model*> m_Models;
 	std::vector<CustomPrimitive*> m_CustomPrimitives;
 	std::vector<Camera*> m_Cameras;
 	std::vector<BaseLight*> m_Lights;
+	std::vector<Billboard*> m_Billboards;
 };
 

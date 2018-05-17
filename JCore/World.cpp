@@ -96,6 +96,8 @@ bool World::Initialize()
 	ResourceManager::getInstance()->LoadShader("show_normal", "asset/shaders/jcore/show_normal.vs", "asset/shaders/jcore/show_normal.fs", "asset/shaders/jcore/show_normal.gs");
 	ResourceManager::getInstance()->LoadShader("billboard", "asset/shaders/jcore/billboard.vs", "asset/shaders/jcore/billboard.fs", "asset/shaders/jcore/billboard.gs");
 	ResourceManager::getInstance()->GetShader("billboard").use().setInt("texture_billboard", 0);
+	ResourceManager::getInstance()->LoadShader("particle_system", "asset/shaders/jcore/particle_system.vs", "asset/shaders/jcore/particle_system.fs", "asset/shaders/jcore/particle_system.gs");
+	ResourceManager::getInstance()->GetShader("particle_system").use().setInt("texture_particle", 0);
 
 	ResourceManager::getInstance()->LoadTexture("skybox", "asset/resources/skybox", "right.jpg", "left.jpg",
 		"top.jpg", "bottom.jpg", "front.jpg","back.jpg");

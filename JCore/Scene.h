@@ -5,6 +5,7 @@
 #include "BaseLight.h"
 #include "CustomPrimitive.h"
 #include "Billboard.h"
+#include "ParticleSystem.h"
 
 class Scene
 {
@@ -22,11 +23,14 @@ public:
 
 	std::vector<Billboard*>& GetBillboards();
 
+	std::vector<ParticleSystem*>& GetParticleSystems();
+
 private:
 	std::vector<Model*> m_Models;
 	std::vector<CustomPrimitive*> m_CustomPrimitives;
 	std::vector<Camera*> m_Cameras;
 	std::vector<BaseLight*> m_Lights;
 	std::vector<Billboard*> m_Billboards;
+	std::vector<ParticleSystem*> m_ParticleSystems;
 };
 

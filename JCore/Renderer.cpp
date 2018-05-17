@@ -52,6 +52,16 @@ void Renderer::Render(Scene* scene, RenderContext* context)
 	for (std::vector<Billboard*>::iterator it = scene->GetBillboards().begin(); it != scene->GetBillboards().end(); it++) {
 		(*it)->Render(shaderBillboard);
 	}
+
+	//äÖÈ¾Á£×ÓÏµÍ³
+	Shader shaderParticleSys = ResourceManager::getInstance()->GetShader("particle_system");
+	shaderParticleSys.use();
+	shaderParticleSys.setMatrix4("view", context->MatView);
+	shaderParticleSys.setMatrix4("projection", context->MatProj);
+	shaderParticleSys.setVec3("viewPos", context->ViewPos);
+	for (std::vector<ParticleSystem*>::iterator it = scene->GetParticleSystems().begin(); it != scene->GetParticleSystems().end(); it++) {
+		(*it)->Render(shaderParticleSys);
+	}
 }
 
 void Renderer::Resize(int width, int height)

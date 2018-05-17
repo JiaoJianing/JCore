@@ -99,6 +99,16 @@ void LightingRenderer::Render(Scene* scene, RenderContext* context)
 		(*it)->Render(shaderBillboard);
 	}
 
+	//渲染粒子系统
+	Shader shaderParticleSys = ResourceManager::getInstance()->GetShader("particle_system");
+	shaderParticleSys.use();
+	shaderParticleSys.setMatrix4("view", context->MatView);
+	shaderParticleSys.setMatrix4("projection", context->MatProj);
+	shaderParticleSys.setVec3("viewPos", context->ViewPos);
+	for (std::vector<ParticleSystem*>::iterator it = scene->GetParticleSystems().begin(); it != scene->GetParticleSystems().end(); it++) {
+		(*it)->Render(shaderParticleSys);
+	}
+
 	//调试输出光源位置
 	if (false) {
 		RenderLightDebug(scene, context);

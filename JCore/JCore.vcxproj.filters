@@ -34,6 +34,15 @@
     <Filter Include="Component">
       <UniqueIdentifier>{574e6751-408f-4fbb-bf1f-b566e978d906}</UniqueIdentifier>
     </Filter>
+    <Filter Include="RenderObject\ParticleSystem">
+      <UniqueIdentifier>{b31dda63-573b-4652-b9eb-230d6b333f8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Light">
+      <UniqueIdentifier>{3bfe6d93-33da-4f6d-9883-03eceffcd9da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\ParticleSystem">
+      <UniqueIdentifier>{f1857283-1a7c-437e-9a5f-70574118b549}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -126,20 +135,8 @@
     <ClCompile Include="LightingRenderer.cpp">
       <Filter>Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="DirLightComponent.cpp">
-      <Filter>Component</Filter>
-    </ClCompile>
-    <ClCompile Include="BaseLightComponent.cpp">
-      <Filter>Component</Filter>
-    </ClCompile>
-    <ClCompile Include="PointLightComponent.cpp">
-      <Filter>Component</Filter>
-    </ClCompile>
     <ClCompile Include="ResourceManager.cpp">
       <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="SpotLightComponent.cpp">
-      <Filter>Component</Filter>
     </ClCompile>
     <ClCompile Include="Application.cpp">
       <Filter>Core</Filter>
@@ -176,6 +173,30 @@
     </ClCompile>
     <ClCompile Include="BillboardComponent.cpp">
       <Filter>Component</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleSystem.cpp">
+      <Filter>RenderObject\ParticleSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="SnowParticleSystem.cpp">
+      <Filter>RenderObject\ParticleSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="DirLightComponent.cpp">
+      <Filter>Component\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="PointLightComponent.cpp">
+      <Filter>Component\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="SpotLightComponent.cpp">
+      <Filter>Component\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseLightComponent.cpp">
+      <Filter>Component\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleSystemComponent.cpp">
+      <Filter>Component\ParticleSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="SnowParticleSystemComponent.cpp">
+      <Filter>Component\ParticleSystem</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -266,20 +287,8 @@
     <ClInclude Include="LightingRenderer.h">
       <Filter>Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="DirLightComponent.h">
-      <Filter>Component</Filter>
-    </ClInclude>
-    <ClInclude Include="BaseLightComponent.h">
-      <Filter>Component</Filter>
-    </ClInclude>
-    <ClInclude Include="PointLightComponent.h">
-      <Filter>Component</Filter>
-    </ClInclude>
     <ClInclude Include="ResourceManager.h">
       <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="SpotLightComponent.h">
-      <Filter>Component</Filter>
     </ClInclude>
     <ClInclude Include="Application.h">
       <Filter>Core</Filter>
@@ -316,6 +325,30 @@
     </ClInclude>
     <ClInclude Include="BillboardComponent.h">
       <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleSystem.h">
+      <Filter>RenderObject\ParticleSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="SnowParticleSystem.h">
+      <Filter>RenderObject\ParticleSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="DirLightComponent.h">
+      <Filter>Component\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="PointLightComponent.h">
+      <Filter>Component\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="SpotLightComponent.h">
+      <Filter>Component\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseLightComponent.h">
+      <Filter>Component\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleSystemComponent.h">
+      <Filter>Component\ParticleSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="SnowParticleSystemComponent.h">
+      <Filter>Component\ParticleSystem</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

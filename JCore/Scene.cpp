@@ -33,3 +33,8 @@ std::vector<Billboard*>& Scene::GetBillboards()
 {
 	return m_Billboards;
 }
+
+std::vector<ParticleSystem*>& Scene::GetParticleSystems()
+{
+	return m_ParticleSystems;
+}

@@ -10,6 +10,7 @@
 #include "GlfwApplication.h"
 #include "SphereComponent.h"
 #include "BillboardComponent.h"
+#include "SnowParticleSystemComponent.h"
 
 int nodeID = 0;
 
@@ -132,17 +133,11 @@ void OnWorldInit(World* world) {
 	BillboardComponent* sunBillboard = new BillboardComponent("asset/resources/sunny.png");
 	sun->AddComponent(sunBillboard);
 
-	//²Ý´Ô
-	for (int i = 0; i < 10; i++) {
-		for (int j = 0; j < 10; j++) {
-			Node* grass = world->AddNode(_T("grass") + std::to_wstring(i) + std::to_wstring(j));
-			SRTTransformComponent* grassSrt = new SRTTransformComponent();
-			grassSrt->SetTranslation(glm::vec3(i, -1, j));
-			grass->AddComponent(grassSrt);
-			BillboardComponent* grassBillboard = new BillboardComponent("asset/resources/grass.png");
-			grass->AddComponent(grassBillboard);
-		}
-	}
+	//Á£×ÓÏµÍ³ Ñ©
+	Node* snow = world->AddNode(_T("snow"));
+	SnowParticleSystemComponent* snowCmp = new SnowParticleSystemComponent();
+	snowCmp->Initialize(10000);
+	snow->AddComponent(snowCmp);
 
 	nodes.push_back(dirLight);
 	nodes.push_back(pointLight1);

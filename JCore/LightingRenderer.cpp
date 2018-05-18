@@ -22,9 +22,6 @@ void LightingRenderer::Initialize()
 
 void LightingRenderer::Render(Scene* scene, RenderContext* context)
 {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glEnable(GL_DEPTH_TEST);
-
 	//äÖÈ¾ÂÖÀª
 	m_SilhouetteRenderer.Render(scene, context);
 

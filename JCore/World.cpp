@@ -161,6 +161,9 @@ void World::Update(double curFrame, double deltaFrame)
 void World::Render()
 {
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glEnable(GL_DEPTH_TEST);
+
 	RenderContext context;
 	context.GetParamsFromCamera(GetActiveCamera());
 
@@ -169,7 +172,12 @@ void World::Render()
 		m_PostRenderer->BeginRender();
 	}
 
-	//是否调试输出法线
+	//渲染天空盒
+	if (m_EnableSkybox) {
+		if (m_SkyboxRenderer != 0) {
+			m_SkyboxRenderer->Render(m_Scene, &context);
+		}
+	}
 
 	//是否使用光照
 	if (m_EnableLight) {
@@ -182,13 +190,6 @@ void World::Render()
 	//是否输出法线
 	if (m_EnableRenderNormal) {
 		m_NormalRenderer.Render(m_Scene, &context);
-	}
-
-	//渲染天空盒
-	if (m_EnableSkybox) {
-		if (m_SkyboxRenderer != 0) {
-			m_SkyboxRenderer->Render(m_Scene, &context);
-		}
 	}
 
 	//后期结束

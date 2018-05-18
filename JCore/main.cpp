@@ -18,8 +18,8 @@ std::vector<Node*> nodes;
 int nodeIndex = 0;
 
 void OnWorldInit(World* world) {
-	world->SetEnablePostEffect(true);
-	world->SetEnableLight(true);
+	world->SetEnablePostEffect(false);
+	world->SetEnableLight(false);
 	world->SetEnableSkybox(true);
 	world->SetEnableRenderNormal(false);
 

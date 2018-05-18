@@ -4,7 +4,7 @@
 
 SnowParticleSystem::SnowParticleSystem()
 {
-	m_ParticleTexture = *ResourceManager::getInstance()->LoadTexture("snow", "asset/resources/snow.png");
+	m_ParticleTexture = *ResourceManager::getInstance()->LoadTexture("snow", "asset/resources/White snow.png");
 }
 
 
@@ -49,8 +49,8 @@ void SnowParticleSystem::Update()
 		/** 更新生存时间 */
 		m_Particles[i].Life -= m_Particles[i].Decrease;
 
-		if (x > 3)
-			x = -2;
+		//if (x > 3)
+			//x = -2;
 
 		/** 如果粒子消失或生命结束 */
 		if (y <= -1 || m_Particles[i].Life <= 0)
@@ -80,9 +80,9 @@ void SnowParticleSystem::initParticle(Particle& particle)
 	float y = 3 + 0.0001f *(m_Random() % 200000);
 	float z = 0.0f;
 	if ((int)x % 2 == 0)
-		z = 0.0001f * (m_Random() % 200000);
+		z = 0.0001f * (m_Random() % 100000);
 	else
-		z = -(0.0001f * (m_Random() % 200000));
+		z = -(0.0001f * (m_Random() % 100000));
 
 	particle.Position = glm::vec3(x, y, z);
 
@@ -94,5 +94,5 @@ void SnowParticleSystem::initParticle(Particle& particle)
 
 	particle.Decrease = 0.005 * (m_Random() % 50);
 
-	particle.Size = 0.01f * (m_Random() % 10);
+	particle.Size = 0.01f * (m_Random() % 15);
 }

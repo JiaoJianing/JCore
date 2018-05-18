@@ -22,9 +22,6 @@ void Renderer::Initialize()
 
 void Renderer::Render(Scene* scene, RenderContext* context)
 {
-	//äÖÈ¾ÂÖÀª
-	m_SilhouetteRenderer.Render(scene, context);
-
 	//äÖÈ¾Model
 	Shader shaderModel = ResourceManager::getInstance()->GetShader("model");
 	shaderModel.use();

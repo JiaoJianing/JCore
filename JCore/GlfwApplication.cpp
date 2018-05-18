@@ -92,10 +92,6 @@ bool GlfwApplication::Initialize(int windowWidth, int windowHeight, const std::s
 	glfwSetScrollCallback(m_GlfwWindow, glfw_OnMouseScroll);//鼠标滚轮
 
 	glViewport(0, 0, 800, 600);
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	//glEnable(GL_CULL_FACE);
 
 	//初始化World并执行回调
 	if (!GetWorld()->Initialize()) {

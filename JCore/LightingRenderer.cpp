@@ -22,9 +22,6 @@ void LightingRenderer::Initialize()
 
 void LightingRenderer::Render(Scene* scene, RenderContext* context)
 {
-	//äÖÈ¾ÂÖÀª
-	m_SilhouetteRenderer.Render(scene, context);
-
 	//äÖÈ¾Model
 	Shader shaderPhong = ResourceManager::getInstance()->GetShader("phong");
 	shaderPhong.use();

@@ -30,6 +30,5 @@ public:
 protected:
 	int m_Width;
 	int m_Height;
-	SilhouetteRenderer m_SilhouetteRenderer;
 };
 

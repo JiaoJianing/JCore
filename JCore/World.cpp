@@ -163,6 +163,9 @@ void World::Render()
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	//glEnable(GL_CULL_FACE);
 
 	RenderContext context;
 	context.GetParamsFromCamera(GetActiveCamera());
@@ -191,6 +194,9 @@ void World::Render()
 	if (m_EnableRenderNormal) {
 		m_NormalRenderer.Render(m_Scene, &context);
 	}
+
+	//ÂÖÀªäÖÈ¾
+	m_SilhouetteRenderer.Render(m_Scene, &context);
 
 	//ºóÆÚ½áÊø
 	if (GetEnablePostEffect()) {

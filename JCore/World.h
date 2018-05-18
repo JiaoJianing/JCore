@@ -103,5 +103,6 @@ private:
 	LightingRenderer* m_LightRenderer;
 	SkyBoxRenderer* m_SkyboxRenderer;
 	NormalRenderer m_NormalRenderer;
+	SilhouetteRenderer m_SilhouetteRenderer;
 };
 

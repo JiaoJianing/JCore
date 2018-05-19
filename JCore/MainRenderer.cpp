@@ -3,12 +3,14 @@
 #include "Model.h"
 #include "ResourceManager.h"
 #include "CustomPrimitive.h"
+#include "DirLight.h"
+#include "PointLight.h"
+#include "SpotLight.h"
 
 MainRenderer::MainRenderer(int width, int height)
 	: m_Width(width)
 	, m_Height(height)
 	, m_PostRenderer(0)
-	, m_LightRenderer(0)
 	, m_SkyboxRenderer(0)
 	, m_PickRenderer(0)
 	, m_EnableLighting(false)
@@ -18,12 +20,12 @@ MainRenderer::MainRenderer(int width, int height)
 {
 	m_PostRenderer = new PostEffectRenderer(width, height);
 	m_PostRenderer->Initialize();
-	m_LightRenderer = new LightingRenderer(width, height);
-	m_LightRenderer->Initialize();
 	m_SkyboxRenderer = new SkyBoxRenderer(width, height);
 	m_SkyboxRenderer->Initialize();
 	m_PickRenderer = new PickRenderer(width, height);
 	m_PickRenderer->Initialize();
+
+	m_CubeDebug.SetColor(glm::vec3(1.0f));
 }
 
 
@@ -32,11 +34,6 @@ MainRenderer::~MainRenderer()
 	if (m_PostRenderer != 0) {
 		delete m_PostRenderer;
 		m_PostRenderer = 0;
-	}
-
-	if (m_LightRenderer != 0) {
-		delete m_LightRenderer;
-		m_LightRenderer = 0;
 	}
 
 	if (m_SkyboxRenderer != 0) {
@@ -66,59 +63,40 @@ void MainRenderer::Render(Scene* scene, RenderContext* context)
 
 	//渲染天空盒
 	if (m_EnableSkybox) {
-		if (m_SkyboxRenderer != 0) {
-			m_SkyboxRenderer->Render(scene, context);
-		}
+		renderSkybox(scene, context);
 	}
 
 	//是否使用光照
 	if (m_EnableLighting) {
-		m_LightRenderer->Render(scene, context);
+		renderLighting(scene, context);
 	}
 	else {
-		//渲染Model
 		Shader shaderModel = ResourceManager::getInstance()->GetShader("model");
 		shaderModel.use();
 		shaderModel.setMatrix4("view", context->MatView);
 		shaderModel.setMatrix4("projection", context->MatProj);
 		shaderModel.setVec3("viewPos", context->ViewPos);
-		for (std::vector<Model*>::iterator it = scene->GetModels().begin(); it != scene->GetModels().end(); it++) {
-			(*it)->Render(shaderModel);
-		}
+
+		//渲染模型
+		renderModel(scene, context, shaderModel);
 
 		//渲染自定义图元
-		for (std::vector<CustomPrimitive*>::iterator it = scene->GetCustomPrimitives().begin(); it != scene->GetCustomPrimitives().end(); it++) {
-			(*it)->Render(shaderModel);
-		}
-
-		//渲染Billboard
-		Shader shaderBillboard = ResourceManager::getInstance()->GetShader("billboard");
-		shaderBillboard.use();
-		shaderBillboard.setMatrix4("view", context->MatView);
-		shaderBillboard.setMatrix4("projection", context->MatProj);
-		shaderBillboard.setVec3("viewPos", context->ViewPos);
-		for (std::vector<Billboard*>::iterator it = scene->GetBillboards().begin(); it != scene->GetBillboards().end(); it++) {
-			(*it)->Render(shaderBillboard);
-		}
-
-		//渲染粒子系统
-		Shader shaderParticleSys = ResourceManager::getInstance()->GetShader("particle_system");
-		shaderParticleSys.use();
-		shaderParticleSys.setMatrix4("view", context->MatView);
-		shaderParticleSys.setMatrix4("projection", context->MatProj);
-		shaderParticleSys.setVec3("viewPos", context->ViewPos);
-		for (std::vector<ParticleSystem*>::iterator it = scene->GetParticleSystems().begin(); it != scene->GetParticleSystems().end(); it++) {
-			(*it)->Render(shaderParticleSys);
-		}
+		renderCustomPrimitive(scene, context, shaderModel);
 	}
 
-	//是否输出法线
+	//渲染标牌
+	renderBillboard(scene, context);
+
+	//渲染粒子系统
+	renderParticleSys(scene, context);
+
+	//输出法线
 	if (m_EnableNormal) {
 		renderNormal(scene, context);
 	}
 
-	//轮廓渲染
-	m_SilhouetteRenderer.Render(scene, context);
+	//描边
+	renderSihouette(scene, context);
 
 	//后期结束
 	if (GetEnablePostEffect()) {
@@ -130,7 +108,6 @@ void MainRenderer::Render(Scene* scene, RenderContext* context)
 void MainRenderer::Resize(int width, int height)
 {
 	m_PostRenderer->Resize(width, height);
-	m_LightRenderer->Resize(width, height);
 	m_SkyboxRenderer->Resize(width, height);
 	m_PickRenderer->Resize(width, height);
 }
@@ -182,9 +159,9 @@ void MainRenderer::SetEnablePostEffect(bool value)
 	m_EnablePostEffect = value;
 }
 
-void MainRenderer::renderSkybox()
+void MainRenderer::renderSkybox(Scene* scene, RenderContext* context)
 {
-
+	m_SkyboxRenderer->Render(scene, context);
 }
 
 void MainRenderer::renderNormal(Scene* scene, RenderContext* context)
@@ -194,25 +171,134 @@ void MainRenderer::renderNormal(Scene* scene, RenderContext* context)
 	shaderShowNormal.setMatrix4("view", context->MatView);
 	shaderShowNormal.setMatrix4("projection", context->MatProj);
 
-	//渲染Model
-	for (std::vector<Model*>::iterator it = scene->GetModels().begin(); it != scene->GetModels().end(); it++) {
-		(*it)->Render(shaderShowNormal);
-	}
+	//渲染模型
+	renderModel(scene, context, shaderShowNormal);
 
 	//渲染自定义图元
-	for (std::vector<CustomPrimitive*>::iterator it = scene->GetCustomPrimitives().begin(); it != scene->GetCustomPrimitives().end(); it++) {
-		(*it)->Render(shaderShowNormal);
+	renderCustomPrimitive(scene, context, shaderShowNormal);
+}
+
+void MainRenderer::renderSihouette(Scene* scene, RenderContext* context)
+{
+	m_SilhouetteRenderer.Render(scene, context);
+}
+
+void MainRenderer::renderLighting(Scene* scene, RenderContext* context)
+{
+	Shader shaderPhong = ResourceManager::getInstance()->GetShader("phong");
+	shaderPhong.use();
+	shaderPhong.setMatrix4("view", context->MatView);
+	shaderPhong.setMatrix4("projection", context->MatProj);
+	shaderPhong.setVec3("viewPos", context->ViewPos);
+
+	//设置光照参数
+	int pointlightNum = 0;
+	int spotlightNum = 0;
+	int dirlightNum = 0;
+	for (std::vector<BaseLight*>::iterator it = scene->GetLights().begin(); it != scene->GetLights().end(); it++) {
+		//方向光
+		if (dynamic_cast<DirLight*>(*it) != 0) {
+			DirLight* light = dynamic_cast<DirLight*>(*it);
+			shaderPhong.setVec3("dirLights[" + std::to_string(dirlightNum) + "].base.color", light->GetLightColor());
+			shaderPhong.setFloat("dirLights[" + std::to_string(dirlightNum) + "].base.ambientIntensity", light->GetAmbientIntensity());
+			shaderPhong.setFloat("dirLights[" + std::to_string(dirlightNum) + "].base.diffuseIntensity", light->GetDiffuseIntensity());
+			shaderPhong.setVec3("dirLights[" + std::to_string(dirlightNum) + "].direction", light->GetLightPos());
+			dirlightNum++;
+		}
+		//聚光灯
+		else if (dynamic_cast<SpotLight*>(*it) != 0) {
+			SpotLight* light = dynamic_cast<SpotLight*>(*it);
+			shaderPhong.setVec3("spotLights[" + std::to_string(spotlightNum) + "].base.base.color", light->GetLightColor());
+			shaderPhong.setFloat("spotLights[" + std::to_string(spotlightNum) + "].base.base.ambientIntensity", light->GetAmbientIntensity());
+			shaderPhong.setFloat("spotLights[" + std::to_string(spotlightNum) + "].base.base.diffuseIntensity", light->GetDiffuseIntensity());
+			shaderPhong.setFloat("spotLights[" + std::to_string(spotlightNum) + "].base.attenuation.constant", light->GetConstant());
+			shaderPhong.setFloat("spotLights[" + std::to_string(spotlightNum) + "].base.attenuation.linear", light->GetLinear());
+			shaderPhong.setFloat("spotLights[" + std::to_string(spotlightNum) + "].base.attenuation.exp", light->GetExp());
+			shaderPhong.setVec3("spotLights[" + std::to_string(spotlightNum) + "].base.position", light->GetLightPos());
+			shaderPhong.setVec3("spotLights[" + std::to_string(spotlightNum) + "].direction", light->GetDirection());
+			shaderPhong.setFloat("spotLights[" + std::to_string(spotlightNum) + "].cutoff", glm::cos(glm::radians(light->GetCutOff())));
+			spotlightNum++;
+		}
+		//点光源
+		else if (dynamic_cast<PointLight*>(*it) != 0) {
+			PointLight* light = dynamic_cast<PointLight*>(*it);
+			shaderPhong.setVec3("pointLights[" + std::to_string(pointlightNum) + "].base.color", light->GetLightColor());
+			shaderPhong.setFloat("pointLights[" + std::to_string(pointlightNum) + "].base.ambientIntensity", light->GetAmbientIntensity());
+			shaderPhong.setFloat("pointLights[" + std::to_string(pointlightNum) + "].base.diffuseIntensity", light->GetDiffuseIntensity());
+			shaderPhong.setFloat("pointLights[" + std::to_string(pointlightNum) + "].attenuation.constant", light->GetConstant());
+			shaderPhong.setFloat("pointLights[" + std::to_string(pointlightNum) + "].attenuation.linear", light->GetLinear());
+			shaderPhong.setFloat("pointLights[" + std::to_string(pointlightNum) + "].attenuation.exp", light->GetExp());
+			shaderPhong.setVec3("pointLights[" + std::to_string(pointlightNum) + "].position", light->GetLightPos());
+			pointlightNum++;
+		}
+	}
+	shaderPhong.setInt("pointLightNum", pointlightNum);
+	shaderPhong.setInt("spotLightNum", spotlightNum);
+	shaderPhong.setInt("dirLightNum", dirlightNum);
+	
+	//渲染模型
+	renderModel(scene, context, shaderPhong);
+
+	//渲染自定义图元
+	renderCustomPrimitive(scene, context, shaderPhong);
+
+	//调试输出光源位置
+	if (false) {
+		renderLightDebug(scene, context);
 	}
 }
 
-void MainRenderer::renderSihouette()
+void MainRenderer::renderBillboard(Scene* scene, RenderContext* context)
 {
-
+	Shader shaderBillboard = ResourceManager::getInstance()->GetShader("billboard");
+	shaderBillboard.use();
+	shaderBillboard.setMatrix4("view", context->MatView);
+	shaderBillboard.setMatrix4("projection", context->MatProj);
+	shaderBillboard.setVec3("viewPos", context->ViewPos);
+	for (std::vector<Billboard*>::iterator it = scene->GetBillboards().begin(); it != scene->GetBillboards().end(); it++) {
+		(*it)->Render(shaderBillboard);
+	}
 }
 
-void MainRenderer::renderLighting()
+void MainRenderer::renderParticleSys(Scene* scene, RenderContext* context)
 {
+	Shader shaderParticleSys = ResourceManager::getInstance()->GetShader("particle_system");
+	shaderParticleSys.use();
+	shaderParticleSys.setMatrix4("view", context->MatView);
+	shaderParticleSys.setMatrix4("projection", context->MatProj);
+	shaderParticleSys.setVec3("viewPos", context->ViewPos);
+	for (std::vector<ParticleSystem*>::iterator it = scene->GetParticleSystems().begin(); it != scene->GetParticleSystems().end(); it++) {
+		(*it)->Render(shaderParticleSys);
+	}
+}
 
+void MainRenderer::renderModel(Scene* scene, RenderContext* context, Shader shader)
+{
+	for (std::vector<Model*>::iterator it = scene->GetModels().begin(); it != scene->GetModels().end(); it++) {
+		(*it)->Render(shader);
+	}
+}
+
+void MainRenderer::renderCustomPrimitive(Scene* scene, RenderContext* context, Shader shader)
+{
+	for (std::vector<CustomPrimitive*>::iterator it = scene->GetCustomPrimitives().begin(); it != scene->GetCustomPrimitives().end(); it++) {
+		(*it)->Render(shader);
+	}
+}
+
+void MainRenderer::renderLightDebug(Scene* scene, RenderContext* context)
+{
+	Shader shaderLightDbg = ResourceManager::getInstance()->GetShader("light_debug");
+	shaderLightDbg.use();
+	shaderLightDbg.setMatrix4("view", context->MatView);
+	shaderLightDbg.setMatrix4("projection", context->MatProj);
+	for (std::vector<BaseLight*>::iterator it = scene->GetLights().begin(); it != scene->GetLights().end(); it++) {
+		glm::mat4 model;
+		model = glm::translate(model, (*it)->GetLightPos());
+		model = glm::scale(model, glm::vec3(0.2f));
+		shaderLightDbg.setMatrix4("model", model);
+		m_CubeDebug.RenderSimple(shaderLightDbg);
+	}
 }
 
 void RenderContext::GetParamsFromCamera(CameraComponent* camera)

@@ -2,7 +2,6 @@
 #include "BaseRenderer.h"
 #include "SkyBoxRenderer.h"
 #include "SilhouetteRenderer.h"
-#include "LightingRenderer.h"
 #include "PostEffectRenderer.h"
 #include "PickRenderer.h"
 
@@ -32,13 +31,24 @@ public:
 	void SetEnablePostEffect(bool value);
 
 private:
-	void renderSkybox();
+	void renderSkybox(Scene* scene, RenderContext* context);
 
 	void renderNormal(Scene* scene, RenderContext* context);
 
-	void renderSihouette();
+	void renderSihouette(Scene* scene, RenderContext* context);
 
-	void renderLighting();
+	void renderLighting(Scene* scene, RenderContext* context);
+
+	void renderBillboard(Scene* scene, RenderContext* context);
+
+	void renderParticleSys(Scene* scene, RenderContext* context);
+
+	void renderModel(Scene* scene, RenderContext* context, Shader shader);
+
+	void renderCustomPrimitive(Scene* scene, RenderContext* context, Shader shader);
+
+	//画出光源位置。用来调试
+	void renderLightDebug(Scene* scene, RenderContext* context);
 
 protected:
 	int m_Width;
@@ -50,9 +60,10 @@ protected:
 	bool m_EnablePostEffect;
 
 	PostEffectRenderer* m_PostRenderer;
-	LightingRenderer* m_LightRenderer;
 	SkyBoxRenderer* m_SkyboxRenderer;
 	SilhouetteRenderer m_SilhouetteRenderer;
 	PickRenderer* m_PickRenderer;
+
+	CubePrimitive m_CubeDebug;
 };
 

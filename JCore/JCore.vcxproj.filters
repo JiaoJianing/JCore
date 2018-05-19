@@ -129,9 +129,6 @@
     <ClCompile Include="BaseLight.cpp">
       <Filter>RenderObject\Light</Filter>
     </ClCompile>
-    <ClCompile Include="LightingRenderer.cpp">
-      <Filter>Renderer</Filter>
-    </ClCompile>
     <ClCompile Include="ResourceManager.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
@@ -280,9 +277,6 @@
     </ClInclude>
     <ClInclude Include="BaseLight.h">
       <Filter>RenderObject\Light</Filter>
-    </ClInclude>
-    <ClInclude Include="LightingRenderer.h">
-      <Filter>Renderer</Filter>
     </ClInclude>
     <ClInclude Include="ResourceManager.h">
       <Filter>Graphics</Filter>

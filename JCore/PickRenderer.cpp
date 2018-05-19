@@ -3,7 +3,7 @@
 #include "ResourceManager.h"
 
 PickRenderer::PickRenderer(int width, int height)
-	:Renderer(width, height)
+	:BaseRenderer(width, height)
 {
 	glGenFramebuffers(1, &m_FBO);
 	glBindFramebuffer(GL_FRAMEBUFFER, m_FBO);

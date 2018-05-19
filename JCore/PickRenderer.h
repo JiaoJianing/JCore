@@ -1,5 +1,5 @@
 #pragma once
-#include "Renderer.h"
+#include "BaseRenderer.h"
 #include "Shader.h"
 
 struct PickInfo {
@@ -8,7 +8,7 @@ struct PickInfo {
 	float reserved2;
 };
 
-class PickRenderer : public Renderer
+class PickRenderer : public BaseRenderer
 {
 public:
 	PickRenderer(int width, int height);

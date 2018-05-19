@@ -6,12 +6,11 @@
 #include "FreeCameraComponent.h"
 #include "FollowCameraComponent.h"
 #include "Scene.h"
-#include "Renderer.h"
+#include "MainRenderer.h"
 #include "PickRenderer.h"
 #include "PostEffectRenderer.h"
 #include "LightingRenderer.h"
 #include "SkyBoxRenderer.h"
-#include "NormalRenderer.h"
 
 class World
 {
@@ -86,10 +85,6 @@ private:
 	FollowCameraComponent* m_FollowCamera;
 	int m_WindowWidth;
 	int m_WindowHeight;
-	bool m_EnablePostEffect;
-	bool m_EnableLight;
-	bool m_EnableSkybox;
-	bool m_EnableRenderNormal;
 	float m_FPS;
 
 	Text* m_TextRender;
@@ -97,12 +92,6 @@ private:
 	Node* m_PickingNode;
 
 	Scene* m_Scene;
-	Renderer* m_Renderer;
-	PickRenderer* m_PickRenderer;
-	PostEffectRenderer* m_PostRenderer;
-	LightingRenderer* m_LightRenderer;
-	SkyBoxRenderer* m_SkyboxRenderer;
-	NormalRenderer m_NormalRenderer;
-	SilhouetteRenderer m_SilhouetteRenderer;
+	MainRenderer* m_Renderer;
 };
 

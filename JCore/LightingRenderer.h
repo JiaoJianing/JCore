@@ -1,18 +1,18 @@
 #pragma once
-#include "Renderer.h"
+#include "BaseRenderer.h"
 #include "CubePrimitive.h"
 
-class LightingRenderer : public Renderer
+class LightingRenderer : public BaseRenderer
 {
 public:
 	LightingRenderer(int width, int height);
 	~LightingRenderer();
 
-	virtual void Initialize() override;
+	virtual void Initialize();
 
-	virtual void Render(Scene* scene, RenderContext* context) override;
+	virtual void Render(Scene* scene, RenderContext* context);
 
-	virtual void Resize(int width, int height) override;
+	virtual void Resize(int width, int height);
 
 private:
 	//画出光源位置。用来调试

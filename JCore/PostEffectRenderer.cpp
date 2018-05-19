@@ -3,7 +3,7 @@
 #include "ResourceManager.h"
 
 PostEffectRenderer::PostEffectRenderer(int width, int height)
-	:Renderer(width, height)
+	:BaseRenderer(width, height)
 {
 	glGenFramebuffers(1, &m_MSFBO);
 	glGenFramebuffers(1, &m_FBO);

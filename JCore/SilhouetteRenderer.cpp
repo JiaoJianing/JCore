@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "SilhouetteRenderer.h"
 #include "ResourceManager.h"
-#include "Renderer.h"
+#include "BaseRenderer.h"
 
 SilhouetteRenderer::SilhouetteRenderer()
 {

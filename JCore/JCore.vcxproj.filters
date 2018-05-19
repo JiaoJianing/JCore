@@ -114,9 +114,6 @@
     <ClCompile Include="PostEffectRenderer.cpp">
       <Filter>Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="Renderer.cpp">
-      <Filter>Renderer</Filter>
-    </ClCompile>
     <ClCompile Include="SilhouetteRenderer.cpp">
       <Filter>Renderer</Filter>
     </ClCompile>
@@ -165,9 +162,6 @@
     <ClCompile Include="CubeMapTexture.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="NormalRenderer.cpp">
-      <Filter>Renderer</Filter>
-    </ClCompile>
     <ClCompile Include="Billboard.cpp">
       <Filter>RenderObject</Filter>
     </ClCompile>
@@ -197,6 +191,12 @@
     </ClCompile>
     <ClCompile Include="SnowParticleSystemComponent.cpp">
       <Filter>Component\ParticleSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseRenderer.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="MainRenderer.cpp">
+      <Filter>Renderer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -266,9 +266,6 @@
     <ClInclude Include="PostEffectRenderer.h">
       <Filter>Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="Renderer.h">
-      <Filter>Renderer</Filter>
-    </ClInclude>
     <ClInclude Include="SilhouetteRenderer.h">
       <Filter>Renderer</Filter>
     </ClInclude>
@@ -317,9 +314,6 @@
     <ClInclude Include="CubeMapTexture.h">
       <Filter>Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="NormalRenderer.h">
-      <Filter>Renderer</Filter>
-    </ClInclude>
     <ClInclude Include="Billboard.h">
       <Filter>RenderObject</Filter>
     </ClInclude>
@@ -349,6 +343,12 @@
     </ClInclude>
     <ClInclude Include="SnowParticleSystemComponent.h">
       <Filter>Component\ParticleSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseRenderer.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="MainRenderer.h">
+      <Filter>Renderer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

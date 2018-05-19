@@ -1,9 +1,9 @@
 #pragma once
-#include "Renderer.h"
+#include "BaseRenderer.h"
 #include "SpherePrimitive.h"
 #include "CubePrimitive.h"
 
-class SkyBoxRenderer : public Renderer
+class SkyBoxRenderer : public BaseRenderer
 {
 public:
 	SkyBoxRenderer(int width, int height);

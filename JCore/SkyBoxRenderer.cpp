@@ -3,7 +3,7 @@
 #include "ResourceManager.h"
 
 SkyBoxRenderer::SkyBoxRenderer(int width, int height)
-	: Renderer(width, height)
+	: BaseRenderer(width, height)
 {
 }
 

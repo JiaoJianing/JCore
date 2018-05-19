@@ -6,7 +6,7 @@
 #include "SpotLight.h"
 
 LightingRenderer::LightingRenderer(int width, int height)
-	:Renderer(width, height)
+	:BaseRenderer(width, height)
 {
 	m_CubeDebug.SetColor(glm::vec3(1.0f));
 }

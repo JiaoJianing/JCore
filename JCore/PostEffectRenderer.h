@@ -1,10 +1,10 @@
 #pragma once
-#include "Renderer.h"
+#include "BaseRenderer.h"
 #include "Shader.h"
 #include "Texture.h"
 #include "Quad.h"
 
-class PostEffectRenderer : public Renderer
+class PostEffectRenderer : public BaseRenderer
 {
 public:
 	PostEffectRenderer(int width, int height);

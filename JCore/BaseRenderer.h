@@ -1,8 +1,6 @@
 #pragma once
 #include "Scene.h"
 #include "CameraComponent.h"
-#include "SilhouetteRenderer.h"
-#include <glm.hpp>
 
 class RenderContext {
 public:
@@ -15,17 +13,17 @@ public:
 	void UpdateTransform();
 };
 
-class Renderer
+class BaseRenderer
 {
 public:
-	Renderer(int width, int height);
-	~Renderer();
+	BaseRenderer(int width, int height);
+	~BaseRenderer();
 
-	virtual void Initialize();
+	virtual void Initialize() = 0;
 
-	virtual void Render(Scene* scene, RenderContext* context);
+	virtual void Render(Scene* scene, RenderContext* context) = 0;
 
-	virtual void Resize(int width, int height);
+	virtual void Resize(int width, int height) = 0;
 
 protected:
 	int m_Width;

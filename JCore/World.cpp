@@ -12,16 +12,8 @@ World::World(int windowWidth, int windowHeight)
 	, m_PickingNode(0)
 	, m_Scene(0)
 	, m_Renderer(0)
-	, m_PickRenderer(0)
-	, m_PostRenderer(0)
-	, m_LightRenderer(0)
-	, m_SkyboxRenderer(0)
 	, m_WindowWidth(windowWidth)
 	, m_WindowHeight(windowHeight)
-	, m_EnablePostEffect(false)
-	, m_EnableLight(false)
-	, m_EnableSkybox(false)
-	, m_EnableRenderNormal(false)
 	, m_FPS(0.0f)
 {
 
@@ -54,26 +46,6 @@ World::~World()
 	if (m_Renderer != 0) {
 		delete m_Renderer;
 		m_Renderer = 0;
-	}
-
-	if (m_PickRenderer != 0) {
-		delete m_PickRenderer;
-		m_PickRenderer = 0;
-	}
-
-	if (m_PostRenderer != 0) {
-		delete m_PostRenderer;
-		m_PostRenderer = 0;
-	}
-
-	if (m_LightRenderer != 0) {
-		delete m_LightRenderer;
-		m_LightRenderer = 0;
-	}
-
-	if (m_SkyboxRenderer != 0) {
-		delete m_SkyboxRenderer;
-		m_SkyboxRenderer = 0;
 	}
 
 	m_Nodes.clear();
@@ -123,17 +95,7 @@ bool World::Initialize()
 	m_TextRender->Load("asset/fonts/msyh.ttf", 36);
 
 	//渲染器
-	m_Renderer = new Renderer(m_WindowWidth, m_WindowHeight);
-	m_Renderer->Initialize();
-	m_PickRenderer = new PickRenderer(m_WindowWidth, m_WindowHeight);
-	m_PickRenderer->Initialize();
-	m_PostRenderer = new PostEffectRenderer(m_WindowWidth, m_WindowHeight);
-	m_PostRenderer->Initialize();
-	m_LightRenderer = new LightingRenderer(m_WindowWidth, m_WindowHeight);
-	m_LightRenderer->Initialize();
-	m_SkyboxRenderer = new SkyBoxRenderer(m_WindowWidth, m_WindowHeight);
-	m_SkyboxRenderer->Initialize();
-
+	m_Renderer = new MainRenderer(m_WindowWidth, m_WindowHeight);
 	return true;
 }
 
@@ -160,49 +122,10 @@ void World::Update(double curFrame, double deltaFrame)
 
 void World::Render()
 {
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	//glEnable(GL_CULL_FACE);
-
 	RenderContext context;
 	context.GetParamsFromCamera(GetActiveCamera());
 
-	//后期开始
-	if (GetEnablePostEffect()) {
-		m_PostRenderer->BeginRender();
-	}
-
-	//渲染天空盒
-	if (m_EnableSkybox) {
-		if (m_SkyboxRenderer != 0) {
-			m_SkyboxRenderer->Render(m_Scene, &context);
-		}
-	}
-
-	//是否使用光照
-	if (m_EnableLight) {
-		m_LightRenderer->Render(m_Scene, &context);
-	}
-	else {
-		m_Renderer->Render(m_Scene, &context);
-	}
-
-	//是否输出法线
-	if (m_EnableRenderNormal) {
-		m_NormalRenderer.Render(m_Scene, &context);
-	}
-
-	//轮廓渲染
-	m_SilhouetteRenderer.Render(m_Scene, &context);
-
-	//后期结束
-	if (GetEnablePostEffect()) {
-		m_PostRenderer->EndRender();
-		m_PostRenderer->Render(m_Scene, &context);
-	}
+	m_Renderer->Render(m_Scene, &context);
 
 	//文字
 	if (m_FreeCamera->GetIsActive()) {
@@ -287,10 +210,9 @@ Node* World::PickNode(unsigned int x, unsigned int y)
 	//拾取系统
 	RenderContext context;
 	context.GetParamsFromCamera(GetActiveCamera());
-	m_PickRenderer->Render(m_Scene, &context);
-
+	
 	Node* ret = 0;
-	PickInfo pick = m_PickRenderer->Pick(x, y);
+	PickInfo pick = m_Renderer->Pick(m_Scene, &context, x, y);
 	if (m_Nodes.find(pick.nodeID) != m_Nodes.end() && m_Nodes[pick.nodeID]->GetPickable()) {
 		ret = m_Nodes[pick.nodeID];
 	}
@@ -338,10 +260,6 @@ void World::OnResize(int width, int height)
 	m_FollowCamera->Resize(width, height);
 
 	m_Renderer->Resize(width, height);
-	m_PickRenderer->Resize(width, height);
-	m_PostRenderer->Resize(width, height);
-	m_LightRenderer->Resize(width, height);
-	m_SkyboxRenderer->Resize(width, height);
 }
 
 void World::ToFree(const glm::vec3& position)
@@ -377,40 +295,40 @@ Scene* World::GetScene()
 
 bool World::GetEnablePostEffect()
 {
-	return m_EnablePostEffect;
+	return m_Renderer->GetEnablePostEffect();
 }
 
 void World::SetEnablePostEffect(bool value)
 {
-	m_EnablePostEffect = value;
+	m_Renderer->SetEnablePostEffect(value);
 }
 
 bool World::GetEnableLight()
 {
-	return m_EnableLight;
+	return m_Renderer->GetEnableLighting();
 }
 
 void World::SetEnableLight(bool value)
 {
-	m_EnableLight = value;
+	m_Renderer->SetEnableLighting(value);
 }
 
 bool World::GetEnableSkybox()
 {
-	return m_EnableSkybox;
+	return m_Renderer->GetEnableSkybox();
 }
 
 void World::SetEnableSkybox(bool value)
 {
-	m_EnableSkybox = value;
+	m_Renderer->SetEnableSkybox(value);
 }
 
 bool World::GetEnableRenderNormal()
 {
-	return m_EnableRenderNormal;
+	return m_Renderer->GetEnableNormal();
 }
 
 void World::SetEnableRenderNormal(bool value)
 {
-	m_EnableRenderNormal = value;
+	m_Renderer->SetEnableNormal(value);
 }

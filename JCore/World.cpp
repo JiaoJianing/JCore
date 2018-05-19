@@ -70,6 +70,9 @@ bool World::Initialize()
 	ResourceManager::getInstance()->GetShader("billboard").use().setInt("texture_billboard", 0);
 	ResourceManager::getInstance()->LoadShader("particle_system", "asset/shaders/jcore/particle_system.vs", "asset/shaders/jcore/particle_system.fs", "asset/shaders/jcore/particle_system.gs");
 	ResourceManager::getInstance()->GetShader("particle_system").use().setInt("texture_particle", 0);
+	ResourceManager::getInstance()->LoadShader("post", "asset/shaders/jcore/post.vs", "asset/shaders/jcore/post.fs");
+	ResourceManager::getInstance()->GetShader("post").use().setInt("scene", 0);
+	ResourceManager::getInstance()->LoadShader("pick", "asset/shaders/jcore/pick.vs", "asset/shaders/jcore/pick.fs");
 
 	ResourceManager::getInstance()->LoadTexture("skybox", "asset/resources/skybox", "right.jpg", "left.jpg",
 		"top.jpg", "bottom.jpg", "front.jpg","back.jpg");
@@ -95,7 +98,8 @@ bool World::Initialize()
 	m_TextRender->Load("asset/fonts/msyh.ttf", 36);
 
 	//äÖÈ¾Æ÷
-	m_Renderer = new MainRenderer(m_WindowWidth, m_WindowHeight);
+	m_Renderer = new MainRenderer();
+	m_Renderer->Initialize(m_WindowWidth, m_WindowHeight);
 	return true;
 }
 

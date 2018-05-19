@@ -16,10 +16,10 @@ public:
 class BaseRenderer
 {
 public:
-	BaseRenderer(int width, int height);
+	BaseRenderer();
 	~BaseRenderer();
 
-	virtual void Initialize() = 0;
+	virtual void Initialize(int width, int height) = 0;
 
 	virtual void Render(Scene* scene, RenderContext* context) = 0;
 

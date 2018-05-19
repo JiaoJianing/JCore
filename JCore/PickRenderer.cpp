@@ -2,8 +2,68 @@
 #include "PickRenderer.h"
 #include "ResourceManager.h"
 
-PickRenderer::PickRenderer(int width, int height)
-	:BaseRenderer(width, height)
+PickRenderer::PickRenderer()
+{
+}
+
+
+PickRenderer::~PickRenderer()
+{
+	deleteGraphicsRes();
+}
+
+void PickRenderer::Initialize(int width, int height)
+{
+	m_Width = width;
+	m_Height = height;
+	initGraphicsRes(width, height);
+}
+
+void PickRenderer::Render(Scene* scene, RenderContext* context)
+{
+	glBindFramebuffer(GL_FRAMEBUFFER, m_FBO);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glEnable(GL_DEPTH_TEST);
+
+	Shader shaderPick = ResourceManager::getInstance()->GetShader("pick");
+	shaderPick.use();
+	shaderPick.setMatrix4("view", context->MatView);
+	shaderPick.setMatrix4("projection", context->MatProj);
+	shaderPick.setMatrix4("model", glm::mat4());
+	//渲染Model
+	for (std::vector<Model*>::iterator it = scene->GetModels().begin(); it != scene->GetModels().end(); it++) {
+		(*it)->Render(shaderPick);
+	}
+
+	//渲染自定义图元
+	for (std::vector<CustomPrimitive*>::iterator it = scene->GetCustomPrimitives().begin(); it != scene->GetCustomPrimitives().end(); it++) {
+		(*it)->Render(shaderPick);
+	}
+
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
+void PickRenderer::Resize(int width, int height)
+{
+	m_Width = width;
+	m_Height = height;
+	deleteGraphicsRes();
+	initGraphicsRes(width, height);
+}
+
+PickInfo PickRenderer::Pick(unsigned int x, unsigned int y)
+{
+	glBindFramebuffer(GL_FRAMEBUFFER, m_FBO);
+
+	PickInfo pick;
+	glReadPixels(x, y, 1, 1, GL_RGB, GL_FLOAT, &pick);
+
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	return pick;
+}
+
+void PickRenderer::initGraphicsRes(int width, int height)
 {
 	glGenFramebuffers(1, &m_FBO);
 	glBindFramebuffer(GL_FRAMEBUFFER, m_FBO);
@@ -32,54 +92,9 @@ PickRenderer::PickRenderer(int width, int height)
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-
-PickRenderer::~PickRenderer()
+void PickRenderer::deleteGraphicsRes()
 {
 	glDeleteFramebuffers(1, &m_FBO);
 	glDeleteTextures(1, &m_PickTexture);
 	glDeleteTextures(1, &m_DepthTexture);
-}
-
-void PickRenderer::Initialize()
-{
-	m_PickShader = ResourceManager::getInstance()->LoadShader("pick", "asset/shaders/jcore/pick.vs", "asset/shaders/jcore/pick.fs");
-}
-
-void PickRenderer::Render(Scene* scene, RenderContext* context)
-{
-	glBindFramebuffer(GL_FRAMEBUFFER, m_FBO);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glEnable(GL_DEPTH_TEST);
-
-	m_PickShader.use();
-	m_PickShader.setMatrix4("view", context->MatView);
-	m_PickShader.setMatrix4("projection", context->MatProj);
-	m_PickShader.setMatrix4("model", glm::mat4());
-	//渲染Model
-	for (std::vector<Model*>::iterator it = scene->GetModels().begin(); it != scene->GetModels().end(); it++) {
-		(*it)->Render(m_PickShader);
-	}
-
-	//渲染自定义图元
-	for (std::vector<CustomPrimitive*>::iterator it = scene->GetCustomPrimitives().begin(); it != scene->GetCustomPrimitives().end(); it++) {
-		(*it)->Render(m_PickShader);
-	}
-
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-}
-
-void PickRenderer::Resize(int width, int height)
-{
-}
-
-PickInfo PickRenderer::Pick(unsigned int x, unsigned int y)
-{
-	glBindFramebuffer(GL_FRAMEBUFFER, m_FBO);
-
-	PickInfo pick;
-	glReadPixels(x, y, 1, 1, GL_RGB, GL_FLOAT, &pick);
-
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-	return pick;
 }

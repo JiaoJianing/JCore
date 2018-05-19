@@ -11,10 +11,10 @@ struct PickInfo {
 class PickRenderer : public BaseRenderer
 {
 public:
-	PickRenderer(int width, int height);
+	PickRenderer();
 	~PickRenderer();
 
-	virtual void Initialize();
+	virtual void Initialize(int width, int height);
 
 	virtual void Render(Scene* scene, RenderContext* context);
 
@@ -23,9 +23,13 @@ public:
 	PickInfo Pick(unsigned int x, unsigned int y);
 
 private:
+	void initGraphicsRes(int width, int height);
+
+	void deleteGraphicsRes();
+
+private:
 	unsigned int m_FBO;
 	unsigned int m_PickTexture;
 	unsigned int m_DepthTexture;
-	Shader m_PickShader;
 };
 

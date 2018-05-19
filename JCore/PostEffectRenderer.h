@@ -7,10 +7,10 @@
 class PostEffectRenderer : public BaseRenderer
 {
 public:
-	PostEffectRenderer(int width, int height);
+	PostEffectRenderer();
 	~PostEffectRenderer();
 
-	virtual void Initialize();
+	virtual void Initialize(int width, int height);
 
 	virtual void Render(Scene* scene, RenderContext* context);
 
@@ -21,9 +21,13 @@ public:
 	void EndRender();
 
 private:
+	void initGraphicsRes(int width, int height);
+
+	void deleteGraphicsRes();
+
+private:
 	unsigned int m_MSFBO, m_FBO;
-	unsigned int m_RBO;
-	Shader m_PostShader;
+	unsigned int m_RBO, m_DepthRBO;
 	Texture m_Texture;
 	Quad m_Quad;
 };

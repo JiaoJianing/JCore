@@ -70,7 +70,7 @@ bool GlfwApplication::Initialize(int windowWidth, int windowHeight, const std::s
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+	//glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
 	m_GlfwWindow = glfwCreateWindow(GetWindowWidth(), GetWindowHeight(), GetAppName().c_str(), 0, 0);
 	if (m_GlfwWindow == 0) {
@@ -137,10 +137,10 @@ void GlfwApplication::Run()
 
 void GlfwApplication::OnResize(int width, int height)
 {
+	glViewport(0, 0, width, height);
 	SetWindowWidth(width);
 	SetWindowHeight(height);
 	GetWorld()->OnResize(width, height);
-	glViewport(0, 0, width, height);
 }
 
 void GlfwApplication::OnMouseMove(double x, double y)

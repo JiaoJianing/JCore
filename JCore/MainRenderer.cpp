@@ -7,36 +7,18 @@
 #include "PointLight.h"
 #include "SpotLight.h"
 
-MainRenderer::MainRenderer(int width, int height)
-	: m_Width(width)
-	, m_Height(height)
-	, m_PostRenderer(0)
-	, m_PickRenderer(0)
-	, m_EnableLighting(false)
+MainRenderer::MainRenderer()
+	: m_EnableLighting(false)
 	, m_EnableSkybox(false)
 	, m_EnableNormal(false)
 	, m_EnablePostEffect(false)
 {
-	m_PostRenderer = new PostEffectRenderer(width, height);
-	m_PostRenderer->Initialize();
-	m_PickRenderer = new PickRenderer(width, height);
-	m_PickRenderer->Initialize();
-
 	m_CubeDebug.SetColor(glm::vec3(1.0f));
 }
 
 
 MainRenderer::~MainRenderer()
 {
-	if (m_PostRenderer != 0) {
-		delete m_PostRenderer;
-		m_PostRenderer = 0;
-	}
-
-	if (m_PickRenderer != 0) {
-		delete m_PickRenderer;
-		m_PickRenderer = 0;
-	}
 }
 
 void MainRenderer::Render(Scene* scene, RenderContext* context)
@@ -50,7 +32,7 @@ void MainRenderer::Render(Scene* scene, RenderContext* context)
 
 	//后期开始
 	if (GetEnablePostEffect()) {
-		m_PostRenderer->BeginRender();
+		m_PostRenderer.BeginRender();
 	}
 
 	//渲染天空盒
@@ -92,22 +74,28 @@ void MainRenderer::Render(Scene* scene, RenderContext* context)
 
 	//后期结束
 	if (GetEnablePostEffect()) {
-		m_PostRenderer->EndRender();
-		m_PostRenderer->Render(scene, context);
+		m_PostRenderer.EndRender();
+		m_PostRenderer.Render(scene, context);
 	}
 }
 
 void MainRenderer::Resize(int width, int height)
 {
-	m_PostRenderer->Resize(width, height);
-	m_PickRenderer->Resize(width, height);
+	m_PostRenderer.Resize(width, height);
+	m_PickRenderer.Resize(width, height);
+}
+
+void MainRenderer::Initialize(int width, int height)
+{
+	m_PostRenderer.Initialize(width, height);
+	m_PickRenderer.Initialize(width, height);
 }
 
 PickInfo MainRenderer::Pick(Scene* scene, RenderContext* context, unsigned int x, unsigned int y)
 {
-	m_PickRenderer->Render(scene, context);
+	m_PickRenderer.Render(scene, context);
 
-	return m_PickRenderer->Pick(x, y);
+	return m_PickRenderer.Pick(x, y);
 }
 
 bool MainRenderer::GetEnableSkybox()

@@ -8,12 +8,14 @@
 class MainRenderer
 {
 public:
-	MainRenderer(int width, int height);
+	MainRenderer();
 	~MainRenderer();
 
 	void Render(Scene* scene, RenderContext* context);
 
 	void Resize(int width, int height);
+
+	void Initialize(int width, int height);
 
 	PickInfo Pick(Scene* scene, RenderContext* context, unsigned int x, unsigned int y);
 
@@ -50,17 +52,14 @@ private:
 	//画出光源位置。用来调试
 	void renderLightDebug(Scene* scene, RenderContext* context);
 
-protected:
-	int m_Width;
-	int m_Height;
-
+protected:	
 	bool m_EnableSkybox;
 	bool m_EnableNormal;
 	bool m_EnableLighting;
 	bool m_EnablePostEffect;
 
-	PostEffectRenderer* m_PostRenderer;
-	PickRenderer* m_PickRenderer;
+	PostEffectRenderer m_PostRenderer;
+	PickRenderer m_PickRenderer;
 
 	CubePrimitive m_CubeDebug;	
 	SpherePrimitive m_Sphere; //skydom

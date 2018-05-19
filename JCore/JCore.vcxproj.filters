@@ -153,9 +153,6 @@
     <ClCompile Include="SpherePrimitive.cpp">
       <Filter>RenderObject</Filter>
     </ClCompile>
-    <ClCompile Include="SkyBoxRenderer.cpp">
-      <Filter>Renderer</Filter>
-    </ClCompile>
     <ClCompile Include="CubeMapTexture.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
@@ -301,9 +298,6 @@
     </ClInclude>
     <ClInclude Include="SpherePrimitive.h">
       <Filter>RenderObject</Filter>
-    </ClInclude>
-    <ClInclude Include="SkyBoxRenderer.h">
-      <Filter>Renderer</Filter>
     </ClInclude>
     <ClInclude Include="CubeMapTexture.h">
       <Filter>Graphics</Filter>

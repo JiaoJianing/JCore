@@ -1,9 +1,10 @@
 #pragma once
 #include "BaseRenderer.h"
-#include "SkyBoxRenderer.h"
 #include "SilhouetteRenderer.h"
 #include "PostEffectRenderer.h"
 #include "PickRenderer.h"
+#include "CubePrimitive.h"
+#include "SpherePrimitive.h"
 
 class MainRenderer
 {
@@ -60,10 +61,11 @@ protected:
 	bool m_EnablePostEffect;
 
 	PostEffectRenderer* m_PostRenderer;
-	SkyBoxRenderer* m_SkyboxRenderer;
 	SilhouetteRenderer m_SilhouetteRenderer;
 	PickRenderer* m_PickRenderer;
 
-	CubePrimitive m_CubeDebug;
+	CubePrimitive m_CubeDebug;	
+	SpherePrimitive m_Sphere; //skydom
+	//CubePrimitive m_Sphere; //skybox
 };
 

@@ -9,7 +9,6 @@
 #include "MainRenderer.h"
 #include "PickRenderer.h"
 #include "PostEffectRenderer.h"
-#include "SkyBoxRenderer.h"
 
 class World
 {

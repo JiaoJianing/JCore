@@ -11,7 +11,6 @@ MainRenderer::MainRenderer(int width, int height)
 	: m_Width(width)
 	, m_Height(height)
 	, m_PostRenderer(0)
-	, m_SkyboxRenderer(0)
 	, m_PickRenderer(0)
 	, m_EnableLighting(false)
 	, m_EnableSkybox(false)
@@ -20,8 +19,6 @@ MainRenderer::MainRenderer(int width, int height)
 {
 	m_PostRenderer = new PostEffectRenderer(width, height);
 	m_PostRenderer->Initialize();
-	m_SkyboxRenderer = new SkyBoxRenderer(width, height);
-	m_SkyboxRenderer->Initialize();
 	m_PickRenderer = new PickRenderer(width, height);
 	m_PickRenderer->Initialize();
 
@@ -34,11 +31,6 @@ MainRenderer::~MainRenderer()
 	if (m_PostRenderer != 0) {
 		delete m_PostRenderer;
 		m_PostRenderer = 0;
-	}
-
-	if (m_SkyboxRenderer != 0) {
-		delete m_SkyboxRenderer;
-		m_SkyboxRenderer = 0;
 	}
 
 	if (m_PickRenderer != 0) {
@@ -108,7 +100,6 @@ void MainRenderer::Render(Scene* scene, RenderContext* context)
 void MainRenderer::Resize(int width, int height)
 {
 	m_PostRenderer->Resize(width, height);
-	m_SkyboxRenderer->Resize(width, height);
 	m_PickRenderer->Resize(width, height);
 }
 
@@ -161,7 +152,30 @@ void MainRenderer::SetEnablePostEffect(bool value)
 
 void MainRenderer::renderSkybox(Scene* scene, RenderContext* context)
 {
-	m_SkyboxRenderer->Render(scene, context);
+	GLint OldCullFaceMode;
+	glGetIntegerv(GL_CULL_FACE_MODE, &OldCullFaceMode);
+	GLint OldDepthFuncMode;
+	glGetIntegerv(GL_DEPTH_FUNC, &OldDepthFuncMode);
+
+	//glCullFace(GL_FRONT);
+	glDepthFunc(GL_LEQUAL);
+
+	Shader shaderSkybox = ResourceManager::getInstance()->GetShader("skybox");
+	Texture* textureSkybox = ResourceManager::getInstance()->GetTexture("skybox2");
+	shaderSkybox.use();
+	shaderSkybox.setMatrix4("view", context->MatView);
+	shaderSkybox.setMatrix4("projection", context->MatProj);
+	glm::mat4 model;
+	model = glm::translate(model, context->ViewPos);
+	shaderSkybox.setMatrix4("model", model);
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, textureSkybox->GetID());
+
+	m_Sphere.RenderSimple(shaderSkybox);
+
+	//glCullFace(OldCullFaceMode);
+	glDepthFunc(OldDepthFuncMode);
 }
 
 void MainRenderer::renderNormal(Scene* scene, RenderContext* context)

@@ -1,6 +1,5 @@
 #pragma once
 #include "BaseRenderer.h"
-#include "SilhouetteRenderer.h"
 #include "PostEffectRenderer.h"
 #include "PickRenderer.h"
 #include "CubePrimitive.h"
@@ -61,7 +60,6 @@ protected:
 	bool m_EnablePostEffect;
 
 	PostEffectRenderer* m_PostRenderer;
-	SilhouetteRenderer m_SilhouetteRenderer;
 	PickRenderer* m_PickRenderer;
 
 	CubePrimitive m_CubeDebug;	

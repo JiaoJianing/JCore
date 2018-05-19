@@ -194,7 +194,45 @@ void MainRenderer::renderNormal(Scene* scene, RenderContext* context)
 
 void MainRenderer::renderSihouette(Scene* scene, RenderContext* context)
 {
-	m_SilhouetteRenderer.Render(scene, context);
+	Shader shaderOutline = ResourceManager::getInstance()->GetShader("outline");
+	shaderOutline.use().setMatrix4("view", context->MatView);
+	shaderOutline.use().setMatrix4("projection", context->MatProj);
+
+	//查找需要描边的对象
+	std::vector<Model*> highlightModels;
+	for (std::vector<Model*>::iterator it = scene->GetModels().begin(); it != scene->GetModels().end(); it++) {
+		if ((*it)->GetHighLight()) {
+			highlightModels.push_back(*it);
+		}
+	}
+
+	std::vector<CustomPrimitive*> highlightPrimitives;
+	for (std::vector<CustomPrimitive*>::iterator it = scene->GetCustomPrimitives().begin(); it != scene->GetCustomPrimitives().end(); it++) {
+		if ((*it)->GetHighLight()) {
+			highlightPrimitives.push_back(*it);
+		}
+	}
+
+	if (highlightModels.size() > 0 || highlightPrimitives.size() > 0) {
+		//切换到线框模式，绘制粗一些的线，并剔除背面
+		glEnable(GL_CULL_FACE);
+		glCullFace(GL_FRONT);
+		glLineWidth(2.0f);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+		//渲染
+		for (std::vector<Model*>::iterator it = highlightModels.begin(); it != highlightModels.end(); it++) {
+			(*it)->Render(shaderOutline);
+		}
+		for (std::vector<CustomPrimitive*>::iterator it = highlightPrimitives.begin(); it != highlightPrimitives.end(); it++) {
+			(*it)->Render(shaderOutline);
+		}
+
+		//重置状态
+		glDisable(GL_CULL_FACE);
+		glLineWidth(1.0f);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
 }
 
 void MainRenderer::renderLighting(Scene* scene, RenderContext* context)

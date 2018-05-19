@@ -114,9 +114,6 @@
     <ClCompile Include="PostEffectRenderer.cpp">
       <Filter>Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="SilhouetteRenderer.cpp">
-      <Filter>Renderer</Filter>
-    </ClCompile>
     <ClCompile Include="DirLight.cpp">
       <Filter>RenderObject\Light</Filter>
     </ClCompile>
@@ -258,9 +255,6 @@
       <Filter>Renderer</Filter>
     </ClInclude>
     <ClInclude Include="PostEffectRenderer.h">
-      <Filter>Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="SilhouetteRenderer.h">
       <Filter>Renderer</Filter>
     </ClInclude>
     <ClInclude Include="DirLight.h">

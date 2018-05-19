@@ -64,5 +64,7 @@ protected:
 	CubePrimitive m_CubeDebug;	
 	SpherePrimitive m_Sphere; //skydom
 	//CubePrimitive m_Sphere; //skybox
+
+	Texture m_ShadowMapTexture;
 };
 

@@ -2,7 +2,7 @@
 #include <vector>
 #include <map>
 #include "Node.h"
-#include "Text.h"
+#include "TextRenderer.h"
 #include "FreeCameraComponent.h"
 #include "FollowCameraComponent.h"
 #include "Scene.h"
@@ -85,7 +85,7 @@ private:
 	int m_WindowHeight;
 	float m_FPS;
 
-	Text* m_TextRender;
+	TextRenderer* m_TextRender;
 
 	Node* m_PickingNode;
 

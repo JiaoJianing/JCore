@@ -12,11 +12,11 @@ struct Character {
 	unsigned int advance;//原点距离下一个字形原点的距离
 };
 
-class Text
+class TextRenderer
 {
 public:
-	Text(unsigned int width, unsigned int height);
-	~Text();
+	TextRenderer(unsigned int width, unsigned int height);
+	~TextRenderer();
 
 	void Load(std::string font, unsigned int fontSize);
 

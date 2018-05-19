@@ -21,7 +21,7 @@ void OnWorldInit(World* world) {
 	world->SetEnablePostEffect(true);
 	world->SetEnableLight(true);
 	world->SetEnableSkybox(true);
-	world->SetEnableRenderNormal(true);
+	world->SetEnableRenderNormal(false);
 
 	//µØ°å
 	Node* floor = world->AddNode(_T("floor"));

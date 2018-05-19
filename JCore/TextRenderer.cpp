@@ -1,13 +1,13 @@
 #include "stdafx.h"
-#include "Text.h"
+#include "TextRenderer.h"
 #include "ResourceManager.h"
 
-Text::Text(unsigned int width, unsigned int height)
+TextRenderer::TextRenderer(unsigned int width, unsigned int height)
 {
 	initGraphicsRes(width, height);
 }
 
-Text::~Text()
+TextRenderer::~TextRenderer()
 {
 	deleteGraphicsRes();
 	for (std::map<wchar_t, Character>::iterator it = m_Characters.begin(); it != m_Characters.end(); it++ ) {
@@ -17,7 +17,7 @@ Text::~Text()
 	FT_Done_FreeType(m_Ft);
 }
 
-void Text::Load(std::string font, unsigned int fontSize)
+void TextRenderer::Load(std::string font, unsigned int fontSize)
 {
 	if (FT_Init_FreeType(&m_Ft)) {
 		std::cout << "Failed to init FreeType Library" << std::endl;
@@ -31,7 +31,7 @@ void Text::Load(std::string font, unsigned int fontSize)
 	this->loadChar(L'H');
 }
 
-Character Text::loadChar(wchar_t ch)
+Character TextRenderer::loadChar(wchar_t ch)
 {
 	if (m_Characters.find(ch) == m_Characters.end()) {
 		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
@@ -65,7 +65,7 @@ Character Text::loadChar(wchar_t ch)
 	return m_Characters[ch];
 }
 
-void Text::initGraphicsRes(int width, int height)
+void TextRenderer::initGraphicsRes(int width, int height)
 {
 	glm::mat4 projection = glm::ortho(0.0f, float(width), float(height), 0.0f);
 	this->m_TextShader = ResourceManager::getInstance()->GetShader("text");
@@ -83,13 +83,13 @@ void Text::initGraphicsRes(int width, int height)
 	glBindVertexArray(0);
 }
 
-void Text::deleteGraphicsRes()
+void TextRenderer::deleteGraphicsRes()
 {
 	glDeleteVertexArrays(1, &m_VAO);
 	glDeleteBuffers(1, &m_VBO);
 }
 
-void Text::Draw(const std::wstring& text, float x, float y, float scale, glm::vec3 color)
+void TextRenderer::Draw(const std::wstring& text, float x, float y, float scale, glm::vec3 color)
 {
 	this->m_TextShader.use();
 	this->m_TextShader.setVec3("textColor", color);
@@ -131,7 +131,7 @@ void Text::Draw(const std::wstring& text, float x, float y, float scale, glm::ve
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-void Text::Resize(int width, int height)
+void TextRenderer::Resize(int width, int height)
 {
 	deleteGraphicsRes();
 	initGraphicsRes(width, height);

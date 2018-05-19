@@ -94,7 +94,7 @@ bool World::Initialize()
 	m_CameraNode->AddComponent(m_FreeCamera);
 	m_CameraNode->AddComponent(m_FollowCamera);
 
-	m_TextRender = new Text(m_WindowWidth, m_WindowHeight);
+	m_TextRender = new TextRenderer(m_WindowWidth, m_WindowHeight);
 	m_TextRender->Load("asset/fonts/msyh.ttf", 36);
 
 	//äÖÈ¾Æ÷

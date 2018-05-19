@@ -260,10 +260,13 @@ void World::OnMouseScroll(double xOffset, double yOffset)
 
 void World::OnResize(int width, int height)
 {
+	m_WindowWidth = width;
+	m_WindowHeight = height;
 	m_FreeCamera->Resize(width, height);
 	m_FollowCamera->Resize(width, height);
 
 	m_Renderer->Resize(width, height);
+	m_TextRender->Resize(width, height);
 }
 
 void World::ToFree(const glm::vec3& position)

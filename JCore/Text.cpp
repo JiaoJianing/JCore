@@ -4,24 +4,15 @@
 
 Text::Text(unsigned int width, unsigned int height)
 {
-	glm::mat4 projection = glm::ortho(0.0f, float(width), float(height), 0.0f);
-	this->m_TextShader = ResourceManager::getInstance()->GetShader("text");
-	this->m_TextShader.use().setInt("text", 0);
-	this->m_TextShader.setMatrix4("projection", projection);
-
-	glGenVertexArrays(1, &m_VAO);
-	glGenBuffers(1, &m_VBO);
-	glBindVertexArray(m_VAO);
-	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 6 * 4, NULL, GL_DYNAMIC_DRAW);
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindVertexArray(0);
+	initGraphicsRes(width, height);
 }
 
 Text::~Text()
 {
+	deleteGraphicsRes();
+	for (std::map<wchar_t, Character>::iterator it = m_Characters.begin(); it != m_Characters.end(); it++ ) {
+		glDeleteTextures(1, &it->second.textureID);
+	}
 	FT_Done_Face(m_Face);
 	FT_Done_FreeType(m_Ft);
 }
@@ -74,6 +65,30 @@ Character Text::loadChar(wchar_t ch)
 	return m_Characters[ch];
 }
 
+void Text::initGraphicsRes(int width, int height)
+{
+	glm::mat4 projection = glm::ortho(0.0f, float(width), float(height), 0.0f);
+	this->m_TextShader = ResourceManager::getInstance()->GetShader("text");
+	this->m_TextShader.use().setInt("text", 0);
+	this->m_TextShader.setMatrix4("projection", projection);
+
+	glGenVertexArrays(1, &m_VAO);
+	glGenBuffers(1, &m_VBO);
+	glBindVertexArray(m_VAO);
+	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 6 * 4, NULL, GL_DYNAMIC_DRAW);
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
+}
+
+void Text::deleteGraphicsRes()
+{
+	glDeleteVertexArrays(1, &m_VAO);
+	glDeleteBuffers(1, &m_VBO);
+}
+
 void Text::Draw(const std::wstring& text, float x, float y, float scale, glm::vec3 color)
 {
 	this->m_TextShader.use();
@@ -114,4 +129,10 @@ void Text::Draw(const std::wstring& text, float x, float y, float scale, glm::ve
 	}
 	glBindVertexArray(0);
 	glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+void Text::Resize(int width, int height)
+{
+	deleteGraphicsRes();
+	initGraphicsRes(width, height);
 }

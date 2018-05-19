@@ -14,8 +14,7 @@ PickRenderer::~PickRenderer()
 
 void PickRenderer::Initialize(int width, int height)
 {
-	m_Width = width;
-	m_Height = height;
+	__super::Initialize(width, height);
 	initGraphicsRes(width, height);
 }
 
@@ -45,8 +44,7 @@ void PickRenderer::Render(Scene* scene, RenderContext* context)
 
 void PickRenderer::Resize(int width, int height)
 {
-	m_Width = width;
-	m_Height = height;
+	__super::Resize(width, height);
 	deleteGraphicsRes();
 	initGraphicsRes(width, height);
 }

@@ -20,6 +20,9 @@ ParticleSystem::~ParticleSystem()
 		delete[] m_InstanceData;
 		m_InstanceData = 0;
 	}
+
+	glDeleteVertexArrays(1, &m_VAO);
+	glDeleteBuffers(1, &m_InstanceVBO);
 }
 
 void ParticleSystem::Initialize(int particleCount)

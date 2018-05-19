@@ -57,6 +57,13 @@ unsigned int Mesh::getVAO()
 	return VAO;
 }
 
+void Mesh::deleteGraphicsRes()
+{
+	glDeleteVertexArrays(1, &VAO);
+	glDeleteBuffers(1, &VBO);
+	glDeleteBuffers(1, &EBO);
+}
+
 void Mesh::setupMesh()
 {
 	glGenVertexArrays(1, &VAO);

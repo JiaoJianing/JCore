@@ -22,8 +22,13 @@ public:
 
 	void Draw(const std::wstring& text, float x, float y, float scale, glm::vec3 color);
 
+	void Resize(int width, int height);
+
 private:
 	Character loadChar(wchar_t ch);
+
+	void initGraphicsRes(int width, int height);
+	void deleteGraphicsRes();
 
 private:
 	FT_Library m_Ft;

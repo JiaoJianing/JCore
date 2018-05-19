@@ -14,8 +14,7 @@ PostEffectRenderer::~PostEffectRenderer()
 
 void PostEffectRenderer::Initialize(int width, int height)
 {
-	m_Width = width;
-	m_Height = height;
+	__super::Initialize(width, height);
 	initGraphicsRes(width, height);
 }
 
@@ -33,8 +32,7 @@ void PostEffectRenderer::Render(Scene* scene, RenderContext* context)
 
 void PostEffectRenderer::Resize(int width, int height)
 {
-	m_Width = width;
-	m_Height = height;
+	__super::Resize(width, height);
 	deleteGraphicsRes();
 	initGraphicsRes(width, height);
 }

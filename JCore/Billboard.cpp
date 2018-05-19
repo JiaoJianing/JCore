@@ -22,6 +22,8 @@ Billboard::Billboard()
 
 Billboard::~Billboard()
 {
+	glDeleteVertexArrays(1, &m_VAO);
+	glDeleteBuffers(1, &m_VBO);
 }
 
 void Billboard::Render(Shader shader)

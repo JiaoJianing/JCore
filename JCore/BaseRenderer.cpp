@@ -11,3 +11,15 @@ BaseRenderer::BaseRenderer()
 BaseRenderer::~BaseRenderer()
 {
 }
+
+void BaseRenderer::Initialize(int width, int height)
+{
+	m_Width = width;
+	m_Height = height;
+}
+
+void BaseRenderer::Resize(int width, int height)
+{
+	m_Width = width;
+	m_Height = height;
+}

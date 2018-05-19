@@ -28,6 +28,8 @@ public:
 
 	unsigned int getVAO();
 
+	void deleteGraphicsRes();
+
 private:
 	unsigned int VAO, VBO, EBO;
 	void setupMesh();

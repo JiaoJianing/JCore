@@ -19,11 +19,11 @@ public:
 	BaseRenderer();
 	~BaseRenderer();
 
-	virtual void Initialize(int width, int height) = 0;
+	virtual void Initialize(int width, int height);
 
 	virtual void Render(Scene* scene, RenderContext* context) = 0;
 
-	virtual void Resize(int width, int height) = 0;
+	virtual void Resize(int width, int height);
 
 protected:
 	int m_Width;

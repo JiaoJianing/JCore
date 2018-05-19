@@ -18,6 +18,9 @@ Model::Model()
 
 Model::~Model()
 {
+	for (unsigned int i = 0; i < meshes.size(); i++) {
+		meshes[i].deleteGraphicsRes();
+	}
 }
 
 void Model::LoadModel(const char* path)

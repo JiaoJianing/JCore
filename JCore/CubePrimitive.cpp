@@ -58,6 +58,8 @@ CubePrimitive::CubePrimitive()
 CubePrimitive::~CubePrimitive()
 {
 	glDeleteVertexArrays(1, &m_VAO);
+	glDeleteBuffers(1, &m_VBO);
+	glDeleteBuffers(1, &m_EBO);
 }
 
 void CubePrimitive::Render(Shader shader)

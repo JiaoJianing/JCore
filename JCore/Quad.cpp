@@ -31,6 +31,7 @@ Quad::Quad()
 Quad::~Quad()
 {
 	glDeleteVertexArrays(1, &m_VAO);
+	glDeleteBuffers(1, &m_VBO);
 }
 
 void Quad::Render(Shader shader)

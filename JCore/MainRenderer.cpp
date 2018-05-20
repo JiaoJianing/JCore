@@ -30,8 +30,14 @@ void MainRenderer::Render(Scene* scene, RenderContext* context)
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	//glEnable(GL_CULL_FACE);
 
+	if (m_EnableLighting) {
+		m_ShadowMapRenderer.Render(scene, context);
+	}
+
+	glViewport(0, 0, m_Width, m_Height);
+
 	//后期开始
-	if (GetEnablePostEffect()) {
+	if (m_EnablePostEffect) {
 		m_PostRenderer.BeginRender();
 	}
 
@@ -73,7 +79,7 @@ void MainRenderer::Render(Scene* scene, RenderContext* context)
 	renderSihouette(scene, context);
 
 	//后期结束
-	if (GetEnablePostEffect()) {
+	if (m_EnablePostEffect) {
 		m_PostRenderer.EndRender();
 		m_PostRenderer.Render(scene, context);
 	}
@@ -81,14 +87,20 @@ void MainRenderer::Render(Scene* scene, RenderContext* context)
 
 void MainRenderer::Resize(int width, int height)
 {
+	m_Width = width;
+	m_Height = height;
 	m_PostRenderer.Resize(width, height);
 	m_PickRenderer.Resize(width, height);
+	m_ShadowMapRenderer.Resize(width, height);
 }
 
 void MainRenderer::Initialize(int width, int height)
 {
+	m_Width = width;
+	m_Height = height;
 	m_PostRenderer.Initialize(width, height);
 	m_PickRenderer.Initialize(width, height);
+	m_ShadowMapRenderer.Initialize(width, height);
 }
 
 PickInfo MainRenderer::Pick(Scene* scene, RenderContext* context, unsigned int x, unsigned int y)
@@ -230,6 +242,10 @@ void MainRenderer::renderLighting(Scene* scene, RenderContext* context)
 	shaderPhong.setMatrix4("view", context->MatView);
 	shaderPhong.setMatrix4("projection", context->MatProj);
 	shaderPhong.setVec3("viewPos", context->ViewPos);
+	shaderPhong.setMatrix4("lightSpaceMat", m_ShadowMapRenderer.GetLightSpaceMat());
+
+	glActiveTexture(GL_TEXTURE4);
+	glBindTexture(GL_TEXTURE_2D, m_ShadowMapRenderer.GetShadowMapTexture());
 
 	//设置光照参数
 	int pointlightNum = 0;

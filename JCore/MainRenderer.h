@@ -4,6 +4,7 @@
 #include "PickRenderer.h"
 #include "CubePrimitive.h"
 #include "SpherePrimitive.h"
+#include "ShadowMapRenderer.h"
 
 class MainRenderer
 {
@@ -60,11 +61,13 @@ protected:
 
 	PostEffectRenderer m_PostRenderer;
 	PickRenderer m_PickRenderer;
+	ShadowMapRenderer m_ShadowMapRenderer;
 
-	CubePrimitive m_CubeDebug;	
+	CubePrimitive m_CubeDebug;
 	SpherePrimitive m_Sphere; //skydom
 	//CubePrimitive m_Sphere; //skybox
 
-	Texture m_ShadowMapTexture;
+	int m_Width;
+	int m_Height;
 };
 

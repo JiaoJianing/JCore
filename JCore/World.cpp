@@ -62,6 +62,7 @@ bool World::Initialize()
 	ResourceManager::getInstance()->LoadShader("outline", "asset/shaders/jcore/outline.vs", "asset/shaders/jcore/outline.fs");
 	ResourceManager::getInstance()->GetShader("outline").use().setVec3("outlineColor", glm::vec3(1.0f));
 	ResourceManager::getInstance()->LoadShader("phong", "asset/shaders/jcore/phong.vs", "asset/shaders/jcore/phong.fs");
+	ResourceManager::getInstance()->GetShader("phong").use().setInt("texture_shadowmap", 4);
 	ResourceManager::getInstance()->LoadShader("light_debug", "asset/shaders/jcore/light_debug.vs", "asset/shaders/jcore/light_debug.fs");
 	ResourceManager::getInstance()->LoadShader("skybox", "asset/shaders/jcore/skybox.vs", "asset/shaders/jcore/skybox.fs");
 	ResourceManager::getInstance()->GetShader("skybox").use().setInt("texture_skybox", 0);
@@ -73,6 +74,7 @@ bool World::Initialize()
 	ResourceManager::getInstance()->LoadShader("post", "asset/shaders/jcore/post.vs", "asset/shaders/jcore/post.fs");
 	ResourceManager::getInstance()->GetShader("post").use().setInt("scene", 0);
 	ResourceManager::getInstance()->LoadShader("pick", "asset/shaders/jcore/pick.vs", "asset/shaders/jcore/pick.fs");
+	ResourceManager::getInstance()->LoadShader("shadow_map", "asset/shaders/jcore/shadow_map.vs", "asset/shaders/jcore/shadow_map.fs");
 
 	ResourceManager::getInstance()->LoadTexture("skybox", "asset/resources/skybox", "right.jpg", "left.jpg",
 		"top.jpg", "bottom.jpg", "front.jpg","back.jpg");

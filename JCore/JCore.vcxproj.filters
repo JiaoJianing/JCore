@@ -189,6 +189,9 @@
     <ClCompile Include="MainRenderer.cpp">
       <Filter>Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="ShadowMapRenderer.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -330,6 +333,9 @@
       <Filter>Renderer</Filter>
     </ClInclude>
     <ClInclude Include="MainRenderer.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="ShadowMapRenderer.h">
       <Filter>Renderer</Filter>
     </ClInclude>
   </ItemGroup>

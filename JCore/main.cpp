@@ -43,6 +43,9 @@ void OnWorldInit(World* world) {
 	dirLightCmp->SetAmbientIntensity(0.05f);
 	dirLightCmp->SetDiffuseIntensity(0.2f);
 	dirLight->AddComponent(dirLightCmp);
+	BillboardComponent* sunBillboard = new BillboardComponent("asset/resources/sunny.png");
+	dirLight->AddComponent(sunBillboard);
+
 	//点光源1
 	Node* pointLight1 = world->AddNode(_T("pointLight1"));
 	SRTTransformComponent* srtPointLight1 = new SRTTransformComponent();
@@ -126,13 +129,6 @@ void OnWorldInit(World* world) {
 	SphereComponent* sphereCmp = new SphereComponent("asset/resources/toy_box_diffuse.png", "asset/resources/toy_box_normal.png", "asset/resources/toy_box_specular.png");
 	sphere->AddComponent(sphereCmp);
 
-	//太阳
-	Node* sun = world->AddNode(_T("sun"));
-	SRTTransformComponent* sunSrt = new SRTTransformComponent();
-	sun->AddComponent(sunSrt);
-	BillboardComponent* sunBillboard = new BillboardComponent("asset/resources/sunny.png");
-	sun->AddComponent(sunBillboard);
-
 	//粒子系统 雪
 	Node* snow = world->AddNode(_T("snow"));
 	SnowParticleSystemComponent* snowCmp = new SnowParticleSystemComponent();
@@ -160,12 +156,12 @@ void OnWorldUpdate(World* world, float currentFrame, float deltaFrame) {
 		}
 	}
 
-	Node* sun = world->FindNode(_T("sun"));
+	Node* sun = world->FindNode(_T("dirLight"));
 	if (sun) {
 		SRTTransformComponent* srt = 0;
 		srt = sun->FindComponent<SRTTransformComponent>();
 		if (srt) {
-			srt->SetTranslation(glm::vec3(20.0f*sin(currentFrame*0.05), 10.0f, 20.0f*cos(currentFrame*0.05)));
+			srt->SetTranslation(glm::vec3(20.0f*sin(currentFrame*0.01), 10.0f, 20.0f*cos(currentFrame*0.01)));
 		}
 	}
 }

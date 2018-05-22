@@ -12,6 +12,8 @@ ShadowMapRenderer::ShadowMapRenderer()
 
 ShadowMapRenderer::~ShadowMapRenderer()
 {
+	glDeleteFramebuffers(1, &m_FBO);
+	glDeleteTextures(1, &m_ShadowMapTexture);
 }
 
 void ShadowMapRenderer::Initialize(int width, int height)

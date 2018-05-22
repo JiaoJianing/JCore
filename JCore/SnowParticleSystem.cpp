@@ -77,7 +77,7 @@ void SnowParticleSystem::initParticle(Particle& particle)
 	particle.Color = glm::vec3(r, g, b);
 
 	float x = -10.0f + 0.0001f * (m_Random() % 200000);
-	float y = 3 + 0.0001f *(m_Random() % 200000);
+	float y = 30 + 0.0001f *(m_Random() % 200000);
 	float z = 0.0f;
 	if ((int)x % 2 == 0)
 		z = 0.0001f * (m_Random() % 100000);

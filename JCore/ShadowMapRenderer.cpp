@@ -56,7 +56,7 @@ void ShadowMapRenderer::Render(Scene* scene, RenderContext* context)
 
 	for (std::vector<BaseLight*>::iterator it = scene->GetLights().begin(); it != scene->GetLights().end(); it++) {
 		if (dynamic_cast<DirLight*>(*it) != 0) {
-			glm::mat4 view = glm::lookAt((*it)->GetLightPos(), glm::vec3(0.0f), glm::vec3(0, 1, 0));
+			glm::mat4 view = glm::lookAt((*it)->GetLightPos(), glm::vec3(0.0f, 27.0f, 0.0f), glm::vec3(0, 1, 0));
 			m_LightSpaceMat = m_LightSpaceProj * view;
 		}
 	}

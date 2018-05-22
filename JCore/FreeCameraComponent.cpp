@@ -9,7 +9,7 @@ FreeCameraComponent::FreeCameraComponent(int width, int height)
 	, m_Roll(0.0f)
 	, m_HeightOffset(5.0f)
 {
-	m_KeySensitivity = 50.0f;
+	m_KeySensitivity = 30.0f;
 }
 
 

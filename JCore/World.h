@@ -58,6 +58,7 @@ public:
 	void ToFollow(Node* node);
 
 	void ToFlyMode(bool value);
+	bool& GetFlyMode();
 
 	CameraComponent* GetActiveCamera();
 
@@ -68,13 +69,13 @@ public:
 	bool GetEnablePostEffect();
 	void SetEnablePostEffect(bool value);
 
-	bool GetEnableLight();
+	bool& GetEnableLight();
 	void SetEnableLight(bool value);
 
-	bool GetEnableSkybox();
+	bool& GetEnableSkybox();
 	void SetEnableSkybox(bool value);
 
-	bool GetEnableRenderNormal();
+	bool& GetEnableRenderNormal();
 	void SetEnableRenderNormal(bool value);
 
 private:

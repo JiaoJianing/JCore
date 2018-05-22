@@ -43,12 +43,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>../3rdLibrary/assimp/include;../3rdLibrary/freetype/include;../3rdLibrary/glad/include;../3rdLibrary/glfw/include;../3rdLibrary/glm;../3rdLibrary/irrKlang/include;$(IncludePath)</IncludePath>
-    <LibraryPath>../3rdLibrary/assimp;../3rdLibrary/freetype;../3rdLibrary/glfw/libs;../3rdLibrary/irrKlang;$(LibraryPath)</LibraryPath>
+    <IncludePath>../3rdLibrary/assimp/include;../3rdLibrary/freetype/include;../3rdLibrary/glad/include;../3rdLibrary/glfw/include;../3rdLibrary/glm;../3rdLibrary/irrKlang/include;../3rdLibrary/AntTweakBar/include;$(IncludePath)</IncludePath>
+    <LibraryPath>../3rdLibrary/assimp;../3rdLibrary/freetype;../3rdLibrary/glfw/libs;../3rdLibrary/irrKlang;../3rdLibrary/AntTweakBar;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>../3rdLibrary/assimp/include;../3rdLibrary/freetype/include;../3rdLibrary/glad/include;../3rdLibrary/glfw/include;../3rdLibrary/glm;../3rdLibrary/irrKlang/include;$(IncludePath)</IncludePath>
-    <LibraryPath>../3rdLibrary/assimp/release;../3rdLibrary/freetype;../3rdLibrary/glfw/libs/release;../3rdLibrary/irrKlang;$(LibraryPath)</LibraryPath>
+    <IncludePath>../3rdLibrary/assimp/include;../3rdLibrary/freetype/include;../3rdLibrary/glad/include;../3rdLibrary/glfw/include;../3rdLibrary/glm;../3rdLibrary/irrKlang/include;../3rdLibrary/AntTweakBar/include;$(IncludePath)</IncludePath>
+    <LibraryPath>../3rdLibrary/assimp/release;../3rdLibrary/freetype;../3rdLibrary/glfw/libs/release;../3rdLibrary/irrKlang;../3rdLibrary/AntTweakBar/release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -61,7 +61,7 @@
     <Link>
       <AdditionalLibraryDirectories>
       </AdditionalLibraryDirectories>
-      <AdditionalDependencies>assimp-vc140-mt.lib;freetyped.lib;glfw3.lib;irrKlang.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>assimp-vc140-mt.lib;freetyped.lib;glfw3.lib;irrKlang.lib;AntTweakBar.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -76,7 +76,7 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>assimp-vc140-mt.lib;freetyped.lib;glfw3.lib;irrKlang.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>assimp-vc140-mt.lib;freetyped.lib;glfw3.lib;irrKlang.lib;AntTweakBar.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

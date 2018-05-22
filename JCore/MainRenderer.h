@@ -21,13 +21,13 @@ public:
 	PickInfo Pick(Scene* scene, RenderContext* context, unsigned int x, unsigned int y);
 
 public:
-	bool GetEnableSkybox();
+	bool& GetEnableSkybox();
 	void SetEnableSkybox(bool value);
 
-	bool GetEnableNormal();
+	bool& GetEnableNormal();
 	void SetEnableNormal(bool value);
 
-	bool GetEnableLighting();
+	bool& GetEnableLighting();
 	void SetEnableLighting(bool value);
 
 	bool GetEnablePostEffect();

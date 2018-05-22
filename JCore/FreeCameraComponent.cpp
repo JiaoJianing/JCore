@@ -99,3 +99,8 @@ void FreeCameraComponent::ToFlyMode(bool value)
 {
 	m_FlyMode = value;
 }
+
+bool& FreeCameraComponent::GetFlyMode()
+{
+	return m_FlyMode;
+}

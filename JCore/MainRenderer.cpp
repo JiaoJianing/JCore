@@ -113,7 +113,7 @@ PickInfo MainRenderer::Pick(Scene* scene, RenderContext* context, unsigned int x
 	return m_PickRenderer.Pick(x, y);
 }
 
-bool MainRenderer::GetEnableSkybox()
+bool& MainRenderer::GetEnableSkybox()
 {
 	return m_EnableSkybox;
 }
@@ -123,7 +123,7 @@ void MainRenderer::SetEnableSkybox(bool value)
 	m_EnableSkybox = value;
 }
 
-bool MainRenderer::GetEnableNormal()
+bool& MainRenderer::GetEnableNormal()
 {
 	return m_EnableNormal;
 }
@@ -133,7 +133,7 @@ void MainRenderer::SetEnableNormal(bool value)
 	m_EnableNormal = value;
 }
 
-bool MainRenderer::GetEnableLighting()
+bool& MainRenderer::GetEnableLighting()
 {
 	return m_EnableLighting;
 }

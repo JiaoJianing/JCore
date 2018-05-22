@@ -18,6 +18,7 @@ public:
 	virtual stringT GetTypeName();
 
 	void ToFlyMode(bool value);
+	bool& GetFlyMode();
 
 private:
 	float m_Yaw;

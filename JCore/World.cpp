@@ -299,6 +299,11 @@ void World::ToFlyMode(bool value)
 	m_FollowCamera->SetIsActive(false);
 }
 
+bool& World::GetFlyMode()
+{
+	return m_FreeCamera->GetFlyMode();
+}
+
 CameraComponent* World::GetActiveCamera()
 {
 	if (m_FreeCamera->GetIsActive()) {
@@ -335,7 +340,7 @@ void World::SetEnablePostEffect(bool value)
 	m_Renderer->SetEnablePostEffect(value);
 }
 
-bool World::GetEnableLight()
+bool& World::GetEnableLight()
 {
 	return m_Renderer->GetEnableLighting();
 }
@@ -345,7 +350,7 @@ void World::SetEnableLight(bool value)
 	m_Renderer->SetEnableLighting(value);
 }
 
-bool World::GetEnableSkybox()
+bool& World::GetEnableSkybox()
 {
 	return m_Renderer->GetEnableSkybox();
 }
@@ -355,7 +360,7 @@ void World::SetEnableSkybox(bool value)
 	m_Renderer->SetEnableSkybox(value);
 }
 
-bool World::GetEnableRenderNormal()
+bool& World::GetEnableRenderNormal()
 {
 	return m_Renderer->GetEnableNormal();
 }

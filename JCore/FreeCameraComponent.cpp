@@ -24,8 +24,10 @@ void FreeCameraComponent::Update(double curFrame, double deltaFrame)
 	if (GetWorld() != 0) {
 		glm::vec3 position = m_Camera.GetPosition();
 		float height = GetWorld()->GetHeightAt(position);
-		position.y = height + m_HeightOffset;
-		m_Camera.SetPosition(position);
+		if (height > 0) {
+			position.y = height + m_HeightOffset;
+			m_Camera.SetPosition(position);
+		}
 	}
 }
 

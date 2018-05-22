@@ -77,8 +77,8 @@ bool World::Initialize()
 	ResourceManager::getInstance()->LoadShader("shadow_map", "asset/shaders/jcore/shadow_map.vs", "asset/shaders/jcore/shadow_map.fs");
 	ResourceManager::getInstance()->LoadShader("terrain", "asset/shaders/jcore/terrain.vs", "asset/shaders/jcore/terrain.fs");
 	ResourceManager::getInstance()->GetShader("terrain").use().setInt("texture_grass", 0);
-	ResourceManager::getInstance()->GetShader("terrain").use().setInt("texture_rock", 0);
-	ResourceManager::getInstance()->GetShader("terrain").use().setInt("texture_snow", 0);
+	ResourceManager::getInstance()->GetShader("terrain").setInt("texture_rock", 1);
+	ResourceManager::getInstance()->GetShader("terrain").setInt("texture_snow", 2);
 
 	ResourceManager::getInstance()->LoadTexture("skybox", "asset/resources/skybox", "right.jpg", "left.jpg",
 		"top.jpg", "bottom.jpg", "front.jpg","back.jpg");

@@ -9,7 +9,7 @@ FreeCameraComponent::FreeCameraComponent(int width, int height)
 	, m_Roll(0.0f)
 	, m_HeightOffset(5.0f)
 {
-	m_KeySensitivity = 30.0f;
+	m_KeySensitivity = 10.0f;
 }
 
 
@@ -24,10 +24,8 @@ void FreeCameraComponent::Update(double curFrame, double deltaFrame)
 	if (GetWorld() != 0) {
 		glm::vec3 position = m_Camera.GetPosition();
 		float height = GetWorld()->GetHeightAt(position);
-		if (position.y < (height + m_HeightOffset)) {
-			position.y = height + m_HeightOffset;
-			m_Camera.SetPosition(position);
-		}
+		position.y = height + m_HeightOffset;
+		m_Camera.SetPosition(position);
 	}
 }
 

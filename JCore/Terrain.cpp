@@ -12,8 +12,8 @@ Terrain::Terrain(float heightScale, float blockScale)
 	, m_BlockScale(blockScale)
 {
 	m_GrassTexture = *ResourceManager::getInstance()->LoadTexture("grass", "asset/resources/grass.jpg");
-	m_RockTexture = *ResourceManager::getInstance()->LoadTexture("grass", "asset/resources/rock.jpg");
-	m_SnowTexture = *ResourceManager::getInstance()->LoadTexture("grass", "asset/resources/snow.jpg");
+	m_RockTexture = *ResourceManager::getInstance()->LoadTexture("rock", "asset/resources/rock.jpg");
+	m_SnowTexture = *ResourceManager::getInstance()->LoadTexture("snow", "asset/resources/snow.jpg");
 }
 
 Terrain::~Terrain()
@@ -157,6 +157,7 @@ void Terrain::Render(Shader shader)
 	glBindTexture(GL_TEXTURE_2D, m_RockTexture.GetID());
 	glActiveTexture(GL_TEXTURE2);
 	glBindTexture(GL_TEXTURE_2D, m_SnowTexture.GetID());
+	shader.setFloat("heightThreshold", m_HeightScale);
 
 	glBindVertexArray(m_VAO);
 	glDrawElements(GL_TRIANGLES, m_Indexs.size(), GL_UNSIGNED_INT, 0);

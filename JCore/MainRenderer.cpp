@@ -46,6 +46,9 @@ void MainRenderer::Render(Scene* scene, RenderContext* context)
 		renderSkybox(scene, context);
 	}
 
+	//渲染地形
+	renderTerrain(scene, context);
+
 	//是否使用光照
 	if (m_EnableLighting) {
 		renderLighting(scene, context);
@@ -161,7 +164,7 @@ void MainRenderer::renderSkybox(Scene* scene, RenderContext* context)
 	glDepthFunc(GL_LEQUAL);
 
 	Shader shaderSkybox = ResourceManager::getInstance()->GetShader("skybox");
-	Texture* textureSkybox = ResourceManager::getInstance()->GetTexture("skybox2");
+	Texture* textureSkybox = ResourceManager::getInstance()->GetTexture("skybox3");
 	shaderSkybox.use();
 	shaderSkybox.setMatrix4("view", context->MatView);
 	shaderSkybox.setMatrix4("projection", context->MatProj);
@@ -339,6 +342,18 @@ void MainRenderer::renderCustomPrimitive(Scene* scene, RenderContext* context, S
 {
 	for (std::vector<CustomPrimitive*>::iterator it = scene->GetCustomPrimitives().begin(); it != scene->GetCustomPrimitives().end(); it++) {
 		(*it)->Render(shader);
+	}
+}
+
+void MainRenderer::renderTerrain(Scene* scene, RenderContext* context)
+{
+	Terrain* terrain = scene->GetTerrain();
+	if (terrain != 0) {
+		Shader shaderTerrain = ResourceManager::getInstance()->GetShader("terrain");
+		shaderTerrain.use();
+		shaderTerrain.setMatrix4("view", context->MatView);
+		shaderTerrain.setMatrix4("projection", context->MatProj);
+		terrain->Render(shaderTerrain);
 	}
 }
 

@@ -75,11 +75,17 @@ bool World::Initialize()
 	ResourceManager::getInstance()->GetShader("post").use().setInt("scene", 0);
 	ResourceManager::getInstance()->LoadShader("pick", "asset/shaders/jcore/pick.vs", "asset/shaders/jcore/pick.fs");
 	ResourceManager::getInstance()->LoadShader("shadow_map", "asset/shaders/jcore/shadow_map.vs", "asset/shaders/jcore/shadow_map.fs");
+	ResourceManager::getInstance()->LoadShader("terrain", "asset/shaders/jcore/terrain.vs", "asset/shaders/jcore/terrain.fs");
+	ResourceManager::getInstance()->GetShader("terrain").use().setInt("texture_grass", 0);
+	ResourceManager::getInstance()->GetShader("terrain").use().setInt("texture_rock", 0);
+	ResourceManager::getInstance()->GetShader("terrain").use().setInt("texture_snow", 0);
 
 	ResourceManager::getInstance()->LoadTexture("skybox", "asset/resources/skybox", "right.jpg", "left.jpg",
 		"top.jpg", "bottom.jpg", "front.jpg","back.jpg");
 	ResourceManager::getInstance()->LoadTexture("skybox2", "asset/resources/skybox2", "sp3right.jpg", "sp3left.jpg",
 		"sp3top.jpg", "sp3bot.jpg", "sp3front.jpg", "sp3back.jpg");
+	ResourceManager::getInstance()->LoadTexture("skybox3", "asset/resources/skybox3", "right.jpg", "left.jpg",
+		"top.jpg", "bottom.jpg", "front.jpg", "back.jpg");
 
 	//³¡¾°¹ÜÀíÆ÷
 	m_Scene = new Scene();
@@ -91,6 +97,7 @@ bool World::Initialize()
 	m_CameraNode = AddNode(_T("MainCamera"));
 	m_FreeCamera = new FreeCameraComponent(m_WindowWidth, m_WindowHeight);
 	m_FreeCamera->SetIsActive(true);
+	m_FreeCamera->SetWorld(this);
 	m_FollowCamera = new FollowCameraComponent(m_WindowWidth, m_WindowHeight);
 	m_FollowCamera->SetIsActive(false);
 	m_CameraNode->AddComponent(m_FreeCamera);
@@ -300,6 +307,15 @@ CameraComponent* World::GetActiveCamera()
 Scene* World::GetScene()
 {
 	return m_Scene;
+}
+
+float World::GetHeightAt(const glm::vec3& position)
+{
+	if (m_Scene->GetTerrain() != 0) {
+		return m_Scene->GetTerrain()->GetHeightAt(position);
+	}
+
+	return -FLT_MAX;
 }
 
 bool World::GetEnablePostEffect()

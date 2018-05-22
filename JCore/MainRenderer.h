@@ -50,6 +50,8 @@ private:
 
 	void renderCustomPrimitive(Scene* scene, RenderContext* context, Shader shader);
 
+	void renderTerrain(Scene* scene, RenderContext* context);
+
 	//画出光源位置。用来调试
 	void renderLightDebug(Scene* scene, RenderContext* context);
 

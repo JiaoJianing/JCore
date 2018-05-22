@@ -2,6 +2,7 @@
 #include "Scene.h"
 
 Scene::Scene()
+	: m_Terrain(0)
 {
 }
 
@@ -37,4 +38,14 @@ std::vector<Billboard*>& Scene::GetBillboards()
 std::vector<ParticleSystem*>& Scene::GetParticleSystems()
 {
 	return m_ParticleSystems;
+}
+
+Terrain* Scene::GetTerrain()
+{
+	return m_Terrain;
+}
+
+void Scene::SetTerrain(Terrain* value)
+{
+	m_Terrain = value;
 }

@@ -11,6 +11,7 @@
 #include "SphereComponent.h"
 #include "BillboardComponent.h"
 #include "SnowParticleSystemComponent.h"
+#include "TerrainComponent.h"
 
 int nodeID = 0;
 
@@ -22,6 +23,14 @@ void OnWorldInit(World* world) {
 	world->SetEnableLight(true);
 	world->SetEnableSkybox(true);
 	world->SetEnableRenderNormal(false);
+
+	//µØÐÎ
+	Node* terrain = world->AddNode(_T("terrain"));
+	terrain->SetPickable(false);
+	SRTTransformComponent* terrainSRT = new SRTTransformComponent();
+	terrain->AddComponent(terrainSRT);
+	TerrainComponent* terrainCmp = new TerrainComponent("asset/resources/Terrain/terrain0-16bbp-257x257.raw", 16, 257, 257, 30.0f, 2.0f);
+	terrain->AddComponent(terrainCmp);
 
 	//µØ°å
 	Node* floor = world->AddNode(_T("floor"));

@@ -1,17 +1,57 @@
 #include "stdafx.h"
 #include "FreeCameraComponent.h"
+#include "World.h"
 
 FreeCameraComponent::FreeCameraComponent(int width, int height)
 	: CameraComponent(width, height)
 	, m_Yaw(-90.0f)
 	, m_Pitch(0.0f)
 	, m_Roll(0.0f)
+	, m_HeightOffset(5.0f)
 {
+	m_KeySensitivity = 50.0f;
 }
 
 
 FreeCameraComponent::~FreeCameraComponent()
 {
+}
+
+void FreeCameraComponent::Update(double curFrame, double deltaFrame)
+{
+	__super::Update(curFrame, deltaFrame);
+
+	if (GetWorld() != 0) {
+		glm::vec3 position = m_Camera.GetPosition();
+		float height = GetWorld()->GetHeightAt(position);
+		if (position.y < (height + m_HeightOffset)) {
+			position.y = height + m_HeightOffset;
+			m_Camera.SetPosition(position);
+		}
+	}
+}
+
+void FreeCameraComponent::OnKeyboard(int key)
+{
+	float cameraSpeed = m_KeySensitivity * m_DeltaFrame;
+
+	switch (key)
+	{
+	case GLFW_KEY_UP:
+		m_Camera.SetPosition(m_Camera.GetPosition() + cameraSpeed * m_Target);
+		break;
+	case GLFW_KEY_DOWN:
+		m_Camera.SetPosition(m_Camera.GetPosition() - cameraSpeed * m_Target);
+		break;
+	case GLFW_KEY_LEFT:
+		m_Camera.SetPosition(m_Camera.GetPosition() - glm::normalize(glm::cross(m_Target, m_Up)) * cameraSpeed);
+		break;
+	case GLFW_KEY_RIGHT:
+		m_Camera.SetPosition(m_Camera.GetPosition() + glm::normalize(glm::cross(m_Target, m_Up)) * cameraSpeed);
+		break;
+	default:
+		break;
+	}
 }
 
 void FreeCameraComponent::OnMouseMove(double x, double y)

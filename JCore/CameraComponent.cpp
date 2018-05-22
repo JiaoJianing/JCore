@@ -14,6 +14,7 @@ CameraComponent::CameraComponent(int width, int height)
 	, m_MousePress(false)
 	, m_FirstMouse(true)
 	, m_IsActive(false)
+	, m_World(0)
 {
 	m_Camera.SetViewportRect(glm::vec4(0.0f, 0.0f, width, height));
 	m_Camera.SetAspect((float)width / height);
@@ -48,25 +49,6 @@ void CameraComponent::Resize(int width, int height)
 
 void CameraComponent::OnKeyboard(int key)
 {
-	float cameraSpeed = m_KeySensitivity * m_DeltaFrame;
-
-	switch (key)
-	{
-	case GLFW_KEY_UP:
-		m_Camera.SetPosition(m_Camera.GetPosition() + cameraSpeed * m_Target);
-		break;
-	case GLFW_KEY_DOWN:
-		m_Camera.SetPosition(m_Camera.GetPosition() - cameraSpeed * m_Target);
-		break;
-	case GLFW_KEY_LEFT:
-		m_Camera.SetPosition(m_Camera.GetPosition() - glm::normalize(glm::cross(m_Target, m_Up)) * cameraSpeed);
-		break;
-	case GLFW_KEY_RIGHT:
-		m_Camera.SetPosition(m_Camera.GetPosition() + glm::normalize(glm::cross(m_Target, m_Up)) * cameraSpeed);
-		break;
-	default:
-		break;
-	}
 }
 
 void CameraComponent::OnMouseUp()
@@ -151,4 +133,14 @@ void CameraComponent::SetIsActive(bool value)
 Camera* CameraComponent::GetCamera()
 {
 	return &m_Camera;
+}
+
+void CameraComponent::SetWorld(World* world)
+{
+	m_World = world;
+}
+
+World* CameraComponent::GetWorld()
+{
+	return m_World;
 }

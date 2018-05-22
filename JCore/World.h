@@ -61,6 +61,8 @@ public:
 
 	Scene* GetScene();
 
+	float GetHeightAt(const glm::vec3& position);
+
 	bool GetEnablePostEffect();
 	void SetEnablePostEffect(bool value);
 

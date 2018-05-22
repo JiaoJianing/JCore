@@ -2,6 +2,7 @@
 #include "BaseComponent.h"
 #include "Camera.h"
 
+class World;
 class CameraComponent : public BaseComponent
 {
 public:
@@ -40,6 +41,9 @@ public:
 
 	Camera* GetCamera();
 
+	void SetWorld(World* world);
+	World* GetWorld();
+
 protected:
 	float m_MouseX;
 	float m_MouseY;
@@ -54,6 +58,7 @@ protected:
 
 	Camera m_Camera;
 
+	World* m_World;
 private:
 
 	bool m_FirstMouse;

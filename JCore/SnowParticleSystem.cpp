@@ -4,7 +4,7 @@
 
 SnowParticleSystem::SnowParticleSystem()
 {
-	m_ParticleTexture = *ResourceManager::getInstance()->LoadTexture("snow", "asset/resources/White snow.png");
+	m_ParticleTexture = *ResourceManager::getInstance()->LoadTexture("white_snow", "asset/resources/White snow.png");
 }
 
 

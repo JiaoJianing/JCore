@@ -67,6 +67,7 @@ Shader ResourceManager::GetShader(std::string name)
 Texture* ResourceManager::LoadTexture(std::string name, std::string path)
 {
 	if (Textures.find(name) != Textures.end()) {
+		std::cout << "Warning: load same texture name: " << name << std::endl;
 		return &Textures[name];
 	}
 

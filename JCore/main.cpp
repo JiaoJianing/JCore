@@ -23,6 +23,7 @@ void OnWorldInit(World* world) {
 	world->SetEnableLight(true);
 	world->SetEnableSkybox(true);
 	world->SetEnableRenderNormal(false);
+	world->ToFlyMode(false);
 
 	//µØÐÎ
 	Node* terrain = world->AddNode(_T("terrain"));
@@ -144,14 +145,15 @@ void OnWorldInit(World* world) {
 	snowCmp->Initialize(10000);
 	snow->AddComponent(snowCmp);
 
-	nodes.push_back(dirLight);
-	nodes.push_back(pointLight1);
-	nodes.push_back(pointLight2);
-	nodes.push_back(spotLight1);
-	nodes.push_back(spotLight2);
+	//nodes.push_back(dirLight);
+	//nodes.push_back(pointLight1);
+	//nodes.push_back(pointLight2);
+	//nodes.push_back(spotLight1);
+	//nodes.push_back(spotLight2);
 	nodes.push_back(parent1);
 	nodes.push_back(child1);
 	nodes.push_back(child2);
+	nodes.push_back(sphere);
 }
 
 void OnWorldUpdate(World* world, float currentFrame, float deltaFrame) {

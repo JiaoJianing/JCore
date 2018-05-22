@@ -8,6 +8,7 @@ FreeCameraComponent::FreeCameraComponent(int width, int height)
 	, m_Pitch(0.0f)
 	, m_Roll(0.0f)
 	, m_HeightOffset(5.0f)
+	, m_FlyMode(false)
 {
 	m_KeySensitivity = 10.0f;
 }
@@ -23,10 +24,12 @@ void FreeCameraComponent::Update(double curFrame, double deltaFrame)
 
 	if (GetWorld() != 0) {
 		glm::vec3 position = m_Camera.GetPosition();
-		float height = GetWorld()->GetHeightAt(position);
-		if (height > 0) {
-			position.y = height + m_HeightOffset;
-			m_Camera.SetPosition(position);
+		if (!m_FlyMode) {
+			float height = GetWorld()->GetHeightAt(position);
+			if (height > 0) {
+				position.y = height + m_HeightOffset;
+				m_Camera.SetPosition(position);
+			}
 		}
 	}
 }
@@ -90,4 +93,9 @@ void FreeCameraComponent::OnMouseScroll(double xOffset, double yOffset)
 stringT FreeCameraComponent::GetTypeName()
 {
 	return _T("FreeCameraComponent");
+}
+
+void FreeCameraComponent::ToFlyMode(bool value)
+{
+	m_FlyMode = value;
 }

@@ -17,11 +17,14 @@ public:
 
 	virtual stringT GetTypeName();
 
+	void ToFlyMode(bool value);
+
 private:
 	float m_Yaw;
 	float m_Pitch;
 	float m_Roll;
 
 	float m_HeightOffset;
+	bool m_FlyMode;
 };
 

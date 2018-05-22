@@ -292,6 +292,13 @@ void World::ToFollow(Node* node)
 	m_FollowCamera->SetFollowNode(node);
 }
 
+void World::ToFlyMode(bool value)
+{
+	m_FreeCamera->SetIsActive(true);
+	m_FreeCamera->ToFlyMode(value);
+	m_FollowCamera->SetIsActive(false);
+}
+
 CameraComponent* World::GetActiveCamera()
 {
 	if (m_FreeCamera->GetIsActive()) {

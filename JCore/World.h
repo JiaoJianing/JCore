@@ -57,6 +57,8 @@ public:
 
 	void ToFollow(Node* node);
 
+	void ToFlyMode(bool value);
+
 	CameraComponent* GetActiveCamera();
 
 	Scene* GetScene();

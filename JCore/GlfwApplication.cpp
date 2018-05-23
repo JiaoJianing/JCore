@@ -196,13 +196,6 @@ bool GlfwApplication::Initialize(int windowWidth, int windowHeight, const std::s
 		result = false;
 	}
 
-	TwBar* bar = TwNewBar("JCore");
-	TwWindowSize(800, 600);
-	TwAddVarRW(bar, "normal", TW_TYPE_BOOLCPP, &GetWorld()->GetEnableRenderNormal(), "help='Turn On/Off normal'");
-	TwAddVarRW(bar, "fly", TW_TYPE_BOOLCPP, &GetWorld()->GetFlyMode(), "help='Turn On/Off fly mode'");
-	TwAddVarRW(bar, "light", TW_TYPE_BOOLCPP, &GetWorld()->GetEnableLight(), "help='Turn On/Off light'");
-	TwAddVarRW(bar, "skybox", TW_TYPE_BOOLCPP, &GetWorld()->GetEnableSkybox(), "help='Turn On/Off skybox'");
-
 	if (result && OnInitializeCallback != 0) {
 		OnInitializeCallback(GetWorld());
 	}

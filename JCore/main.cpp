@@ -12,6 +12,7 @@
 #include "BillboardComponent.h"
 #include "SnowParticleSystemComponent.h"
 #include "TerrainComponent.h"
+#include "AntTweakBar.h"
 
 int nodeID = 0;
 
@@ -154,6 +155,25 @@ void OnWorldInit(World* world) {
 	nodes.push_back(child1);
 	nodes.push_back(child2);
 	nodes.push_back(sphere);
+
+	TwBar* bar = TwNewBar("JCore");
+	TwWindowSize(world->GetWindowWidth(), world->GetWindowHeight());
+	TwAddVarRW(bar, "normal", TW_TYPE_BOOLCPP, &world->GetEnableRenderNormal(), "help='Turn On/Off normal'");
+	TwAddVarRW(bar, "fly", TW_TYPE_BOOLCPP, &world->GetFlyMode(), "help='Turn On/Off fly mode'");
+	TwAddVarRW(bar, "light", TW_TYPE_BOOLCPP, &world->GetEnableLight(), "help='Turn On/Off light'");
+	TwAddVarRW(bar, "skybox", TW_TYPE_BOOLCPP, &world->GetEnableSkybox(), "help='Turn On/Off skybox'");
+	TwAddSeparator(bar, "", "");
+
+	TwStructMember vec3Members[] = {
+		{"x", TW_TYPE_FLOAT, offsetof(glm::vec3, x), "" },
+		{"y", TW_TYPE_FLOAT, offsetof(glm::vec3, y), "" },
+		{"z", TW_TYPE_FLOAT, offsetof(glm::vec3, z), "" }
+	};
+	TwType typeVec3 = TwDefineStruct("glm::vec3", vec3Members, 3, sizeof(glm::vec3), 0, 0);
+	TwAddButton(bar, "FPS Camera", 0, 0, "");
+	TwAddVarRW(bar, "position", typeVec3, (void*)&world->GetFreeCamera()->GetPos(), 0);
+	TwAddVarRO(bar, "direction", TW_TYPE_DIR3F, (void*)&world->GetFreeCamera()->GetTarget(), "");
+	TwAddVarRW(bar, "key-sensitivity", TW_TYPE_FLOAT, &world->GetFreeCamKeySensitivity(), "min=1 max=50 step=1");
 }
 
 void OnWorldUpdate(World* world, float currentFrame, float deltaFrame) {

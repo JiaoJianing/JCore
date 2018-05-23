@@ -62,6 +62,10 @@ public:
 
 	CameraComponent* GetActiveCamera();
 
+	CameraComponent* GetFreeCamera();
+
+	CameraComponent* GetFollowCamera();
+
 	Scene* GetScene();
 
 	float GetHeightAt(const glm::vec3& position);
@@ -77,6 +81,11 @@ public:
 
 	bool& GetEnableRenderNormal();
 	void SetEnableRenderNormal(bool value);
+
+	int GetWindowWidth();
+	int GetWindowHeight();
+
+	float& GetFreeCamKeySensitivity();
 
 private:
 	std::map<unsigned long, Node*> m_Nodes;//场景中所有的节点，使用map便于查询

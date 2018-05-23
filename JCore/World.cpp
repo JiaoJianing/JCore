@@ -316,6 +316,16 @@ CameraComponent* World::GetActiveCamera()
 	return 0;
 }
 
+CameraComponent* World::GetFreeCamera()
+{
+	return m_FreeCamera;
+}
+
+CameraComponent* World::GetFollowCamera()
+{
+	return m_FollowCamera;
+}
+
 Scene* World::GetScene()
 {
 	return m_Scene;
@@ -368,4 +378,19 @@ bool& World::GetEnableRenderNormal()
 void World::SetEnableRenderNormal(bool value)
 {
 	m_Renderer->SetEnableNormal(value);
+}
+
+int World::GetWindowWidth()
+{
+	return m_WindowWidth;
+}
+
+int World::GetWindowHeight()
+{
+	return m_WindowHeight;
+}
+
+float& World::GetFreeCamKeySensitivity()
+{
+	return m_FreeCamera->GetKeySensitivity();
 }

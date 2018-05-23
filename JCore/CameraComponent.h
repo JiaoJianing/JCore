@@ -44,6 +44,8 @@ public:
 	void SetWorld(World* world);
 	World* GetWorld();
 
+	float& GetKeySensitivity();
+
 protected:
 	float m_MouseX;
 	float m_MouseY;

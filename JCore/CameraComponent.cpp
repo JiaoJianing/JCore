@@ -144,3 +144,8 @@ World* CameraComponent::GetWorld()
 {
 	return m_World;
 }
+
+float& CameraComponent::GetKeySensitivity()
+{
+	return m_KeySensitivity;
+}

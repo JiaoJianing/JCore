@@ -87,6 +87,7 @@ void FollowCameraComponent::OnKeyboard(int key)
 	switch (key)
 	{
 	case GLFW_KEY_UP:
+	case GLFW_KEY_W:
 	{
 		if (m_ViewDistance >= m_MinViewDistance) {
 			m_Camera.SetPosition(m_Camera.GetPosition() + cameraSpeed * m_Target);
@@ -94,12 +95,15 @@ void FollowCameraComponent::OnKeyboard(int key)
 	}
 	break;
 	case GLFW_KEY_DOWN:
+	case GLFW_KEY_S:
 		m_Camera.SetPosition(m_Camera.GetPosition() - cameraSpeed * m_Target);
 		break;
 	case GLFW_KEY_LEFT:
+	case GLFW_KEY_A:
 		m_Camera.SetPosition(m_Camera.GetPosition() - glm::normalize(glm::cross(m_Target, m_Up)) * cameraSpeed);
 		break;
 	case GLFW_KEY_RIGHT:
+	case GLFW_KEY_D:
 		m_Camera.SetPosition(m_Camera.GetPosition() + glm::normalize(glm::cross(m_Target, m_Up)) * cameraSpeed);
 		break;
 	default:

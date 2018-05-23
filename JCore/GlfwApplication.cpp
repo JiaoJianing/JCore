@@ -60,7 +60,7 @@ int glfwKey2TwKey(int glfwKey) {
 	case GLFW_KEY_F12:
 		return TW_KEY_F12;
 	default:
-		std::cout << "UnImplemented Key: " << glfwKey << std::endl;
+		//std::cout << "UnImplemented Key: " << glfwKey << std::endl;
 		break;
 	}
 
@@ -107,7 +107,9 @@ void glfw_OnKeyClick(GLFWwindow* window, int key, int scancode, int action, int 
 
 	if (pressed) {
 		int TwKey = glfwKey2TwKey(key);
-		TwKeyPressed(TwKey, TW_KMOD_NONE);
+		if (TwKey != -1) {
+			TwKeyPressed(TwKey, TW_KMOD_NONE);
+		}
 	}
 
 	g_App->OnKeyboard(key, pressed);
@@ -125,6 +127,18 @@ void glfw_ProcessInput(GLFWwindow* window) {
 	}
 	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
 		g_App->OnKeyboard(GLFW_KEY_RIGHT, true);
+	}
+	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
+		g_App->OnKeyboard(GLFW_KEY_W, true);
+	}
+	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
+		g_App->OnKeyboard(GLFW_KEY_A, true);
+	}
+	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
+		g_App->OnKeyboard(GLFW_KEY_S, true);
+	}
+	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
+		g_App->OnKeyboard(GLFW_KEY_D, true);
 	}
 }
 

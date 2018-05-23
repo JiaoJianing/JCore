@@ -187,7 +187,7 @@ void OnWorldKeyboard(World* world, int key, bool pressed) {
 	switch (key)
 	{
 
-	case GLFW_KEY_A:
+	case GLFW_KEY_3:
 	{
 		Node* node = world->AddNode(_T("test") + std::to_wstring(nodeID++));
 		node->SetColor(glm::vec3(rand() % 255 / 255.0f, rand() % 255 / 255.0f, rand() % 255 / 255.0f));
@@ -203,7 +203,7 @@ void OnWorldKeyboard(World* world, int key, bool pressed) {
 		nodes.push_back(node);
 	}
 	break;
-	case GLFW_KEY_D:
+	case GLFW_KEY_4:
 	{
 		if (nodes.size() > 0) {
 			Node * node = nodes[0];

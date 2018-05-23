@@ -5,6 +5,7 @@
 typedef void (*OnInitializeCb)(World* world);
 typedef void (*OnUpdateCb)(World* world, float currentFrame, float deltaFrame);
 typedef void(*OnKeyboardCb)(World* world, int key, bool pressed);
+typedef void(*OnMouseDownCb)(World* world, double x, double y);
 
 class Application
 {
@@ -44,6 +45,8 @@ public:
 	OnUpdateCb OnUpdateCallback;
 
 	OnKeyboardCb OnKeyboardCallback;
+
+	OnMouseDownCb OnMouseDownCallback;
 
 protected:
 	int m_WindowWidth;

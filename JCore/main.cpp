@@ -13,11 +13,14 @@
 #include "SnowParticleSystemComponent.h"
 #include "TerrainComponent.h"
 #include "AntTweakBar.h"
+#include "StringHelper.h"
 
 int nodeID = 0;
 
 std::vector<Node*> nodes;
 int nodeIndex = 0;
+
+TwBar* g_TwBar = 0;
 
 void OnWorldInit(World* world) {
 	world->SetEnablePostEffect(true);
@@ -156,13 +159,21 @@ void OnWorldInit(World* world) {
 	nodes.push_back(child2);
 	nodes.push_back(sphere);
 
-	TwBar* bar = TwNewBar("JCore");
+	g_TwBar = TwNewBar("JCore");
+	float refresh = 0.1f;
+	TwSetParam(g_TwBar, NULL, "refresh", TW_PARAM_FLOAT, 1, &refresh);
+
+	TwDefine("JCore/GLOBAL_TOOGLE label='Global Toggle'");
+	
 	TwWindowSize(world->GetWindowWidth(), world->GetWindowHeight());
-	TwAddVarRW(bar, "normal", TW_TYPE_BOOLCPP, &world->GetEnableRenderNormal(), "help='Turn On/Off normal'");
-	TwAddVarRW(bar, "fly", TW_TYPE_BOOLCPP, &world->GetFlyMode(), "help='Turn On/Off fly mode'");
-	TwAddVarRW(bar, "light", TW_TYPE_BOOLCPP, &world->GetEnableLight(), "help='Turn On/Off light'");
-	TwAddVarRW(bar, "skybox", TW_TYPE_BOOLCPP, &world->GetEnableSkybox(), "help='Turn On/Off skybox'");
-	TwAddSeparator(bar, "", "");
+	TwAddVarRW(g_TwBar, "normal", TW_TYPE_BOOLCPP, &world->GetEnableRenderNormal(), "help='Turn On/Off normal' group='GLOBAL_TOOGLE'");
+	TwAddVarRW(g_TwBar, "fly", TW_TYPE_BOOLCPP, &world->GetFlyMode(), "help='Turn On/Off fly mode' group='GLOBAL_TOOGLE'");
+	TwAddVarRW(g_TwBar, "light", TW_TYPE_BOOLCPP, &world->GetEnableLight(), "help='Turn On/Off light' group='GLOBAL_TOOGLE'");
+	TwAddVarRW(g_TwBar, "skybox", TW_TYPE_BOOLCPP, &world->GetEnableSkybox(), "help='Turn On/Off skybox' group='GLOBAL_TOOGLE'");
+	TwAddSeparator(g_TwBar, "", "");
+
+	TwAddButton(g_TwBar, "camera-mode", 0, 0, "label='Current Camera: free'");
+	TwAddButton(g_TwBar, "pick-info", 0, 0, "label='Current Pick: none'");
 
 	TwStructMember vec3Members[] = {
 		{"x", TW_TYPE_FLOAT, offsetof(glm::vec3, x), "" },
@@ -170,10 +181,11 @@ void OnWorldInit(World* world) {
 		{"z", TW_TYPE_FLOAT, offsetof(glm::vec3, z), "" }
 	};
 	TwType typeVec3 = TwDefineStruct("glm::vec3", vec3Members, 3, sizeof(glm::vec3), 0, 0);
-	TwAddButton(bar, "FPS Camera", 0, 0, "");
-	TwAddVarRW(bar, "position", typeVec3, (void*)&world->GetFreeCamera()->GetPos(), 0);
-	TwAddVarRO(bar, "direction", TW_TYPE_DIR3F, (void*)&world->GetFreeCamera()->GetTarget(), "");
-	TwAddVarRW(bar, "key-sensitivity", TW_TYPE_FLOAT, &world->GetFreeCamKeySensitivity(), "min=1 max=50 step=1");
+	TwAddButton(g_TwBar, "FPS Camera", 0, 0, "");
+	TwAddVarRO(g_TwBar, "position", typeVec3, (void*)&world->GetFreeCamera()->GetPos(), 0);
+	TwAddVarRW(g_TwBar, "direction", TW_TYPE_DIR3F, (void*)&world->GetFreeCamera()->GetTarget(), "");
+	TwAddVarRW(g_TwBar, "key-sensitivity", TW_TYPE_FLOAT, &world->GetFreeCamKeySensitivity(), "min=1 max=50 step=1");
+	TwAddSeparator(g_TwBar, "", "");
 }
 
 void OnWorldUpdate(World* world, float currentFrame, float deltaFrame) {
@@ -239,15 +251,36 @@ void OnWorldKeyboard(World* world, int key, bool pressed) {
 	case GLFW_KEY_1://切换free相机模式
 	{
 		world->ToFree(glm::vec3(0.0f, 0.0f, 3.0f));
+
+		TwSetParam(g_TwBar, "camera-mode", "label", TW_PARAM_CSTRING, 1, "Current Camera: free");
 	}
 	break;
 	case GLFW_KEY_2://切换follow相机模式
 	{
-		world->ToFollow(nodes.at(nodeIndex++ % nodes.size()));
+		Node* node = nodes.at(nodeIndex++ % nodes.size());
+		world->ToFollow(node);
+
+		char paramValue[64];
+		_snprintf(paramValue, sizeof(paramValue), "Camera fix to: %s", StringHelper::WString2String(node->GetName()).c_str());
+		TwSetParam(g_TwBar, "camera-mode", "label", TW_PARAM_CSTRING, 1, paramValue);
 	}
 	break;
 	default:
 		break;
+	}
+}
+
+void OnWorldMouseDown(World* world, double x, double y) {
+
+	Node* select = world->PickNode(x, world->GetWindowHeight() - y - 1);
+
+	if (select != 0) {
+		char paramValue[64];
+		_snprintf(paramValue, sizeof(paramValue), "Current Pick: %s", StringHelper::WString2String(select->GetName()).c_str());
+		TwSetParam(g_TwBar, "pick-info", "label", TW_PARAM_CSTRING, 1, paramValue);
+	}
+	else {
+		TwSetParam(g_TwBar, "pick-info", "label", TW_PARAM_CSTRING, 1, "Current Pick: none");
 	}
 }
 
@@ -258,6 +291,7 @@ int main(int argc, char** argv) {
 	g_App->OnInitializeCallback = OnWorldInit;
 	g_App->OnUpdateCallback = OnWorldUpdate;
 	g_App->OnKeyboardCallback = OnWorldKeyboard;
+	g_App->OnMouseDownCallback = OnWorldMouseDown;
 
 	if (!g_App->Initialize(800, 600, "JCore")) {
 		std::cout << "Failed to initialize application" << std::endl;

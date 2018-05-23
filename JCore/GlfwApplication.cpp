@@ -255,7 +255,9 @@ void GlfwApplication::OnMouseScroll(double xOffset, double yOffset)
 void GlfwApplication::OnLButtonDown(double x, double y)
 {
 	GetWorld()->OnMouseDown();
-	Node* select = GetWorld()->PickNode(x, GetWindowHeight() - y - 1);
+	if (OnMouseDownCallback != 0) {
+		OnMouseDownCallback(GetWorld(), x, y);
+	}
 }
 
 void GlfwApplication::OnLButtonUp(double x, double y)

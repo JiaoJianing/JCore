@@ -140,18 +140,6 @@ void World::Render()
 
 	m_Renderer->Render(m_Scene, &context);
 
-	//文字
-	if (m_FreeCamera->GetIsActive()) {
-		m_TextRender->Draw(std::wstring(L"自由相机"), 15.0f, 15.0f, 0.5f, glm::vec3(1.0f, 0.5f, 0.5f));
-	}
-	else if (m_FollowCamera->GetIsActive()) {
-		m_TextRender->Draw(std::wstring(L"跟随相机: ") + m_FollowCamera->GetFollowNode()->GetName(), 15.0f, 15.0f, 0.5f, glm::vec3(1.0f, 0.5f, 0.5f));
-	}
-
-	if (m_PickingNode != 0) {
-		m_TextRender->Draw(std::wstring(L"当前拾取: ") + m_PickingNode->GetName(), 15.0f, 35.0f, 0.5f, glm::vec3(1.0f, 0.5f, 0.5f));
-	}
-
 	//绘制FPS
 	std::wstring fps = std::to_wstring(m_FPS);
 	m_TextRender->Draw(std::wstring(L"FPS: ") + fps.substr(0, fps.size() - 5), m_WindowWidth - 90.0f, 15.0f, 0.5f, glm::vec3(1.0f));

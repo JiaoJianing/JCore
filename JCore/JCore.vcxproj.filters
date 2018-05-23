@@ -43,6 +43,9 @@
     <Filter Include="Component\ParticleSystem">
       <UniqueIdentifier>{f1857283-1a7c-437e-9a5f-70574118b549}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Helper">
+      <UniqueIdentifier>{8a2964af-fac5-4bad-87e4-538ab8dfc878}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -198,6 +201,9 @@
     <ClCompile Include="TerrainComponent.cpp">
       <Filter>Component</Filter>
     </ClCompile>
+    <ClCompile Include="StringHelper.cpp">
+      <Filter>Helper</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -349,6 +355,9 @@
     </ClInclude>
     <ClInclude Include="TerrainComponent.h">
       <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="StringHelper.h">
+      <Filter>Helper</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

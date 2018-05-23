@@ -10,6 +10,7 @@ Application::Application()
 	, OnInitializeCallback(0)
 	, OnUpdateCallback(0)
 	, OnKeyboardCallback(0)
+	, OnMouseDownCallback(0)
 	, m_DeltaFrame(0)
 	, m_LastFrame(0)
 {

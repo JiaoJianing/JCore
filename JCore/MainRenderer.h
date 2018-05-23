@@ -55,6 +55,8 @@ private:
 	//画出光源位置。用来调试
 	void renderLightDebug(Scene* scene, RenderContext* context);
 
+	void renderShadowDebug(Scene* scene, RenderContext* context);
+
 protected:	
 	bool m_EnableSkybox;
 	bool m_EnableNormal;
@@ -71,5 +73,7 @@ protected:
 
 	int m_Width;
 	int m_Height;
+
+	Quad m_ShadowDebugQuad;
 };
 

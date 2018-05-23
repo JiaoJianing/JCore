@@ -17,7 +17,7 @@ CameraComponent::CameraComponent(int width, int height)
 	, m_World(0)
 {
 	m_Camera.SetViewportRect(glm::vec4(0.0f, 0.0f, width, height));
-	m_Camera.SetAspect((float)width / height);
+	m_Camera.SetAspect((float)width / __max(height, 0.1));
 	m_Camera.SetProjTransform(glm::perspective(m_Camera.GetFov(), m_Camera.GetAspect(), m_Camera.GetNear(), m_Camera.GetFar()));
 	m_Camera.SetViewTransform(glm::lookAt(m_Camera.GetPosition(), m_Camera.GetPosition() + GetTarget(), GetUp()));
 }
@@ -43,7 +43,7 @@ void CameraComponent::Update(double curFrame, double deltaFrame)
 void CameraComponent::Resize(int width, int height)
 {
 	m_Camera.SetViewportRect(glm::vec4(0.0f, 0.0f, width, height));
-	m_Camera.SetAspect((float)width / height);
+	m_Camera.SetAspect((float)width / __max(height, 0.1));
 	m_Camera.SetProjTransform(glm::perspective(m_Camera.GetFov(), m_Camera.GetAspect(), m_Camera.GetNear(), m_Camera.GetFar()));
 }
 

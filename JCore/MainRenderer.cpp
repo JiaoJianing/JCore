@@ -34,6 +34,11 @@ void MainRenderer::Render(Scene* scene, RenderContext* context)
 		m_ShadowMapRenderer.Render(scene, context);
 	}
 
+	if (false) {
+		renderShadowDebug(scene, context);
+		return;
+	}
+
 	glViewport(0, 0, m_Width, m_Height);
 
 	//后期开始
@@ -370,6 +375,16 @@ void MainRenderer::renderLightDebug(Scene* scene, RenderContext* context)
 		shaderLightDbg.setMatrix4("model", model);
 		m_CubeDebug.RenderSimple(shaderLightDbg);
 	}
+}
+
+void MainRenderer::renderShadowDebug(Scene* scene, RenderContext* context)
+{
+	Shader shaderShadowDbg = ResourceManager::getInstance()->GetShader("shadow_debug");
+	shaderShadowDbg.use();
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, m_ShadowMapRenderer.GetShadowMapTexture());
+
+	m_ShadowDebugQuad.Render(shaderShadowDbg);
 }
 
 void RenderContext::GetParamsFromCamera(CameraComponent* camera)

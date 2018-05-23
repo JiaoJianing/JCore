@@ -68,9 +68,8 @@ int glfwKey2TwKey(int glfwKey) {
 }
 
 void glfw_onResize(GLFWwindow* window, int width, int height) {
-	g_App->OnResize(width, height);
-
 	TwWindowSize(width, height);
+	g_App->OnResize(width, height);
 }
 
 void glfw_onMouseMove(GLFWwindow* window, double x, double y) {

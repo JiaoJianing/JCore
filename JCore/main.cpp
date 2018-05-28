@@ -57,8 +57,8 @@ void OnWorldInit(World* world) {
 	dirLightCmp->SetAmbientIntensity(0.05f);
 	dirLightCmp->SetDiffuseIntensity(0.2f);
 	dirLight->AddComponent(dirLightCmp);
-	BillboardComponent* sunBillboard = new BillboardComponent("asset/resources/sunny.png");
-	dirLight->AddComponent(sunBillboard);
+	//BillboardComponent* sunBillboard = new BillboardComponent("asset/resources/sunny.png");
+	//dirLight->AddComponent(sunBillboard);
 
 	//µã¹âÔ´1
 	Node* pointLight1 = world->AddNode(_T("pointLight1"));
@@ -199,14 +199,14 @@ void OnWorldUpdate(World* world, float currentFrame, float deltaFrame) {
 		}
 	}
 
-	Node* sun = world->FindNode(_T("dirLight"));
-	if (sun) {
-		SRTTransformComponent* srt = 0;
-		srt = sun->FindComponent<SRTTransformComponent>();
-		if (srt) {
-			srt->SetTranslation(glm::vec3(20.0f*sin(currentFrame*0.01), 37.0f, 20.0f*cos(currentFrame*0.01)));
-		}
-	}
+	//Node* sun = world->FindNode(_T("dirLight"));
+	//if (sun) {
+	//	SRTTransformComponent* srt = 0;
+	//	srt = sun->FindComponent<SRTTransformComponent>();
+	//	if (srt) {
+	//		srt->SetTranslation(glm::vec3(20.0f*sin(currentFrame*0.01), 37.0f, 20.0f*cos(currentFrame*0.01)));
+	//	}
+	//}
 }
 
 void OnWorldKeyboard(World* world, int key, bool pressed) {

@@ -10,6 +10,7 @@ public:
 	glm::vec3 ViewPos;
 	glm::vec3 ViewTarget;
 	glm::vec3 ViewUp;
+	float CurrentFrame;
 
 	void GetParamsFromCamera(CameraComponent* camera);
 	void UpdateTransform();

@@ -227,7 +227,7 @@ std::string Shader::readShaderFile(const GLchar* path)
 		}
 		catch (std::ifstream::failure e)
 		{
-			std::cout << "Read Shader File Failed: " << e.what() << std::endl;
+			std::cout << "Read Shader File Failed: " << path << e.what() << std::endl;
 		}
 	}
 

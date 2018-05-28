@@ -79,8 +79,8 @@ bool World::Initialize()
 	ResourceManager::getInstance()->GetShader("terrain").use().setInt("texture_grass", 0);
 	ResourceManager::getInstance()->GetShader("terrain").setInt("texture_rock", 1);
 	ResourceManager::getInstance()->GetShader("terrain").setInt("texture_snow", 2);
-	ResourceManager::getInstance()->LoadShader("shadow_debug", "asset/shaders/jcore/shadow_debug.vs", "asset/shaders/jcore/shadow_debug.fs");
-	ResourceManager::getInstance()->GetShader("shadow_debug").use().setInt("texture_shadow", 0);
+	//ResourceManager::getInstance()->LoadShader("shadow_debug", "asset/shaders/jcore/shadow_debug.vs", "asset/shaders/jcore/shadow_debug.fs");
+	//ResourceManager::getInstance()->GetShader("shadow_debug").use().setInt("texture_shadow", 0);
 	ResourceManager::getInstance()->LoadShader("csm", "asset/shaders/jcore/csm/csm.vs", "asset/shaders/jcore/csm/csm.fs");
 	ResourceManager::getInstance()->LoadShader("csm_terrain", "asset/shaders/jcore/csm/csm_terrain.vs", "asset/shaders/jcore/csm/csm_terrain.fs");
 	ResourceManager::getInstance()->GetShader("csm_terrain").use().setInt("texture_grass", 0);
@@ -128,6 +128,8 @@ bool World::Initialize()
 
 void World::Update(double curFrame, double deltaFrame)
 {
+	m_CurrentFrame = curFrame;
+	m_DeltaFrame = deltaFrame;
 	m_FPS = round(1 / deltaFrame);
 	glm::mat4 worldTransform;
 	if (m_RootNode != 0) {
@@ -151,6 +153,7 @@ void World::Render()
 {
 	RenderContext context;
 	context.GetParamsFromCamera(GetActiveCamera());
+	context.CurrentFrame = m_CurrentFrame;
 
 	m_Renderer->Render(m_Scene, &context);
 

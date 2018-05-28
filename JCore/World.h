@@ -105,5 +105,8 @@ private:
 
 	Scene* m_Scene;
 	MainRenderer* m_Renderer;
+
+	double m_CurrentFrame;
+	double m_DeltaFrame;
 };
 

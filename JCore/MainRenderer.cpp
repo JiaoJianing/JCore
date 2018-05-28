@@ -31,7 +31,8 @@ void MainRenderer::Render(Scene* scene, RenderContext* context)
 	//glEnable(GL_CULL_FACE);
 
 	if (m_EnableLighting) {
-		m_ShadowMapRenderer.Render(scene, context);
+		//m_ShadowMapRenderer.Render(scene, context);
+		m_CSMRenderer.Render(scene, context);
 	}
 
 	if (false) {
@@ -51,14 +52,15 @@ void MainRenderer::Render(Scene* scene, RenderContext* context)
 		renderSkybox(scene, context);
 	}
 
-	//渲染地形
-	renderTerrain(scene, context);
-
 	//是否使用光照
 	if (m_EnableLighting) {
-		renderLighting(scene, context);
+		//renderLighting(scene, context);
+		renderLightingCSM(scene, context);
 	}
 	else {
+		//渲染地形
+		renderTerrain(scene, context);
+
 		Shader shaderModel = ResourceManager::getInstance()->GetShader("model");
 		shaderModel.use();
 		shaderModel.setMatrix4("view", context->MatView);
@@ -100,6 +102,7 @@ void MainRenderer::Resize(int width, int height)
 	m_PostRenderer.Resize(width, height);
 	m_PickRenderer.Resize(width, height);
 	m_ShadowMapRenderer.Resize(width, height);
+	m_CSMRenderer.Resize(width, height);
 }
 
 void MainRenderer::Initialize(int width, int height)
@@ -109,6 +112,7 @@ void MainRenderer::Initialize(int width, int height)
 	m_PostRenderer.Initialize(width, height);
 	m_PickRenderer.Initialize(width, height);
 	m_ShadowMapRenderer.Initialize(width, height);
+	m_CSMRenderer.Initialize(width, height);
 }
 
 PickInfo MainRenderer::Pick(Scene* scene, RenderContext* context, unsigned int x, unsigned int y)
@@ -312,6 +316,56 @@ void MainRenderer::renderLighting(Scene* scene, RenderContext* context)
 	}
 }
 
+void MainRenderer::renderLightingCSM(Scene* scene, RenderContext* context)
+{
+	Shader shaderCSM_Terrain = ResourceManager::getInstance()->GetShader("csm_terrain");
+	shaderCSM_Terrain.use();
+	glActiveTexture(GL_TEXTURE3);
+	glBindTexture(GL_TEXTURE_2D, m_CSMRenderer.GetCascadeAt(0)->ShadowTexture);
+	glActiveTexture(GL_TEXTURE4);
+	glBindTexture(GL_TEXTURE_2D, m_CSMRenderer.GetCascadeAt(1)->ShadowTexture);
+	glActiveTexture(GL_TEXTURE5);
+	glBindTexture(GL_TEXTURE_2D, m_CSMRenderer.GetCascadeAt(2)->ShadowTexture);
+	shaderCSM_Terrain.setMatrix4("view", context->MatView);
+	shaderCSM_Terrain.setMatrix4("projection", context->MatProj);
+	shaderCSM_Terrain.setMatrix4("lightViewProj[0]", m_CSMRenderer.GetCascadeAt(0)->LightViewProj);
+	shaderCSM_Terrain.setMatrix4("lightViewProj[1]", m_CSMRenderer.GetCascadeAt(1)->LightViewProj);
+	shaderCSM_Terrain.setMatrix4("lightViewProj[2]", m_CSMRenderer.GetCascadeAt(2)->LightViewProj);
+	shaderCSM_Terrain.setFloat("cascadeSpace[0]", m_CSMRenderer.GetCascadeAt(0)->CascadeSpace);
+	shaderCSM_Terrain.setFloat("cascadeSpace[1]", m_CSMRenderer.GetCascadeAt(1)->CascadeSpace);
+	shaderCSM_Terrain.setFloat("cascadeSpace[2]", m_CSMRenderer.GetCascadeAt(2)->CascadeSpace);
+	shaderCSM_Terrain.setVec3("lightDirection", glm::vec3(1.0f, 1.0f, 1.0f));
+	scene->GetTerrain()->Render(shaderCSM_Terrain);
+
+	Shader shaderCSM_Model = ResourceManager::getInstance()->GetShader("csm_model");
+	shaderCSM_Model.use();
+	glActiveTexture(GL_TEXTURE4);
+	glBindTexture(GL_TEXTURE_2D, m_CSMRenderer.GetCascadeAt(0)->ShadowTexture);
+	glActiveTexture(GL_TEXTURE5);
+	glBindTexture(GL_TEXTURE_2D, m_CSMRenderer.GetCascadeAt(1)->ShadowTexture);
+	glActiveTexture(GL_TEXTURE6);
+	glBindTexture(GL_TEXTURE_2D, m_CSMRenderer.GetCascadeAt(2)->ShadowTexture);
+	shaderCSM_Model.setMatrix4("view", context->MatView);
+	shaderCSM_Model.setMatrix4("projection", context->MatProj);
+	shaderCSM_Model.setMatrix4("lightViewProj[0]", m_CSMRenderer.GetCascadeAt(0)->LightViewProj);
+	shaderCSM_Model.setMatrix4("lightViewProj[1]", m_CSMRenderer.GetCascadeAt(1)->LightViewProj);
+	shaderCSM_Model.setMatrix4("lightViewProj[2]", m_CSMRenderer.GetCascadeAt(2)->LightViewProj);
+	shaderCSM_Model.setFloat("cascadeSpace[0]", m_CSMRenderer.GetCascadeAt(0)->CascadeSpace);
+	shaderCSM_Model.setFloat("cascadeSpace[1]", m_CSMRenderer.GetCascadeAt(1)->CascadeSpace);
+	shaderCSM_Model.setFloat("cascadeSpace[2]", m_CSMRenderer.GetCascadeAt(2)->CascadeSpace);
+	shaderCSM_Model.setVec3("dirLight.base.color", glm::vec3(1.0f));
+	shaderCSM_Model.setFloat("dirLight.base.ambientIntensity", 0.05f);
+	shaderCSM_Model.setFloat("dirLight.base.diffuseIntensity", 0.8f);
+	shaderCSM_Model.setVec3("dirLight.direction", glm::vec3(1.0f, 1.0f, 1.0f));
+
+	//渲染模型
+	renderModel(scene, context, shaderCSM_Model);
+
+	//渲染自定义图元
+	renderCustomPrimitive(scene, context, shaderCSM_Model);
+
+}
+
 void MainRenderer::renderBillboard(Scene* scene, RenderContext* context)
 {
 	Shader shaderBillboard = ResourceManager::getInstance()->GetShader("billboard");
@@ -392,6 +446,8 @@ void RenderContext::GetParamsFromCamera(CameraComponent* camera)
 	MatView = camera->GetViewTransform();
 	MatProj = camera->GetProjectionTransform();
 	ViewPos = camera->GetPos();
+	ViewTarget = camera->GetTarget();
+	ViewUp = camera->GetUp();
 }
 
 void RenderContext::UpdateTransform()

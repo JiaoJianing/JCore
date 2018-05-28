@@ -8,6 +8,8 @@ public:
 	glm::mat4 MatView;
 	glm::mat4 MatProj;
 	glm::vec3 ViewPos;
+	glm::vec3 ViewTarget;
+	glm::vec3 ViewUp;
 
 	void GetParamsFromCamera(CameraComponent* camera);
 	void UpdateTransform();

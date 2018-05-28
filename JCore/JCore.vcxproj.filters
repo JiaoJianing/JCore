@@ -204,6 +204,9 @@
     <ClCompile Include="StringHelper.cpp">
       <Filter>Helper</Filter>
     </ClCompile>
+    <ClCompile Include="CSMRenderer.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -358,6 +361,9 @@
     </ClInclude>
     <ClInclude Include="StringHelper.h">
       <Filter>Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="CSMRenderer.h">
+      <Filter>Renderer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

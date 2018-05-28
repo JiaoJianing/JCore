@@ -5,6 +5,7 @@
 #include "CubePrimitive.h"
 #include "SpherePrimitive.h"
 #include "ShadowMapRenderer.h"
+#include "CSMRenderer.h"
 
 class MainRenderer
 {
@@ -42,6 +43,8 @@ private:
 
 	void renderLighting(Scene* scene, RenderContext* context);
 
+	void renderLightingCSM(Scene* scene, RenderContext* context);
+
 	void renderBillboard(Scene* scene, RenderContext* context);
 
 	void renderParticleSys(Scene* scene, RenderContext* context);
@@ -66,6 +69,7 @@ protected:
 	PostEffectRenderer m_PostRenderer;
 	PickRenderer m_PickRenderer;
 	ShadowMapRenderer m_ShadowMapRenderer;
+	CSMRenderer m_CSMRenderer;
 
 	CubePrimitive m_CubeDebug;
 	SpherePrimitive m_Sphere; //skydom

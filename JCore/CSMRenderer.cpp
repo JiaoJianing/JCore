@@ -19,8 +19,8 @@ void CSMRenderer::Initialize(int width, int height)
 	m_Cascades[2].ShadowmapSize = 1024;
 
 	m_Cascades[0].CameraProj = glm::perspective(45.0f, (float)width / height, 0.1f, 30.0f);
-	m_Cascades[1].CameraProj = glm::perspective(45.0f, (float)width / height, 25.0f, 80.0f);
-	m_Cascades[2].CameraProj = glm::perspective(45.0f, (float)width / height, 75.0f, 400.0f);
+	m_Cascades[1].CameraProj = glm::perspective(45.0f, (float)width / height, 20.0f, 80.0f);
+	m_Cascades[2].CameraProj = glm::perspective(45.0f, (float)width / height, 60.0f, 400.0f);
 
 	glGenFramebuffers(1, &m_ShadowFBO);
 	for (unsigned int i = 0; i < 3; i++) {
@@ -46,6 +46,7 @@ void CSMRenderer::Initialize(int width, int height)
 	}
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
+	m_SunDirection = glm::vec3(-1.0f, -1.0f, -1.0f);
 }
 
 void CSMRenderer::Render(Scene* scene, RenderContext* context)
@@ -93,6 +94,16 @@ CascadeInfo* CSMRenderer::GetCascadeAt(int index)
 	return &m_Cascades[index];
 }
 
+glm::vec3& CSMRenderer::GetSunDirection()
+{
+	return m_SunDirection;
+}
+
+void CSMRenderer::SetSunDirection(const glm::vec3& value)
+{
+	m_SunDirection = value;
+}
+
 void CSMRenderer::updateCascades(RenderContext* context)
 {
 	glm::mat4 cameraView = glm::lookAt(context->ViewPos, context->ViewPos + context->ViewTarget, context->ViewUp);
@@ -106,7 +117,6 @@ void CSMRenderer::updateCascades(RenderContext* context)
 		glm::vec4(-1.0f, -1.0f, 1.0f, 1.0f),
 		glm::vec4(1.0f, -1.0f, 1.0f, 1.0f),
 	};
-	glm::vec3 lightDirection(-1.0f, -1.0f, -1.0f);
 
 	for (int i = 0; i < 3; i++) {
 		glm::mat4 cameraViewProj = m_Cascades[i].CameraProj * cameraView;
@@ -129,10 +139,10 @@ void CSMRenderer::updateCascades(RenderContext* context)
 		frustumCenter = frustumCenter * (1.0f / 8.0f);
 
 		float radius = glm::length(corners[1] - corners[7]) / 2.0f;
-		float texelsPerUnit = 1024.0f / (radius * 2.0f);
+		float texelsPerUnit = m_Cascades[i].ShadowmapSize / (radius * 2.0f);
 		glm::mat4 matScale;
 		matScale = glm::scale(matScale, glm::vec3(texelsPerUnit));
-		glm::mat4 matView = glm::lookAt(-lightDirection, glm::vec3(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		glm::mat4 matView = glm::lookAt(-m_SunDirection, glm::vec3(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		matView *= matScale;
 		glm::mat4 matInvView = glm::inverse(matView);
 
@@ -141,7 +151,7 @@ void CSMRenderer::updateCascades(RenderContext* context)
 		frustumCenter.y = (float)floor(frustumCenter.y);
 		frustumCenter = matInvView * glm::vec4(frustumCenter, 1.0f);
 
-		glm::vec3 eye = frustumCenter - (lightDirection * radius * 2.0f);
+		glm::vec3 eye = frustumCenter - (m_SunDirection * radius * 2.0f);
 		glm::mat4 lookat = glm::lookAt(eye, frustumCenter, glm::vec3(0.0f, 1.0f, 0.0f));
 		glm::mat4 proj = glm::ortho(-radius, radius, -radius, radius, -6 * radius, 6 * radius);
 

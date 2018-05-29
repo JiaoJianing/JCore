@@ -24,11 +24,15 @@ public:
 
 	CascadeInfo* GetCascadeAt(int index);
 
+	glm::vec3& GetSunDirection();
+	void SetSunDirection(const glm::vec3& value);
+
 private:
 	void updateCascades(RenderContext* context);
 
 private:
 	unsigned int m_ShadowFBO;
 	CascadeInfo m_Cascades[3];
+	glm::vec3 m_SunDirection;
 };
 

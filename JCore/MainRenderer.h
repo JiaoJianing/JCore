@@ -34,6 +34,9 @@ public:
 	bool GetEnablePostEffect();
 	void SetEnablePostEffect(bool value);
 
+	glm::vec3& GetSunDirection();
+	void SetSunDirection(const glm::vec3& value);
+
 private:
 	void renderSkybox(Scene* scene, RenderContext* context);
 

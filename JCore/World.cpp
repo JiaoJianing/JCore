@@ -399,3 +399,13 @@ float& World::GetFreeCamKeySensitivity()
 {
 	return m_FreeCamera->GetKeySensitivity();
 }
+
+glm::vec3& World::GetSunDirection()
+{
+	return m_Renderer->GetSunDirection();
+}
+
+void World::SetSunDirection(const glm::vec3& value)
+{
+	m_Renderer->SetSunDirection(value);
+}

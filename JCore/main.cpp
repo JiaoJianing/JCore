@@ -184,6 +184,7 @@ void OnWorldInit(World* world) {
 	TwAddButton(g_TwBar, "FPS Camera", 0, 0, "");
 	TwAddVarRO(g_TwBar, "position", typeVec3, (void*)&world->GetFreeCamera()->GetPos(), 0);
 	TwAddVarRW(g_TwBar, "direction", TW_TYPE_DIR3F, (void*)&world->GetFreeCamera()->GetTarget(), "");
+	TwAddVarRW(g_TwBar, "sun_dir", TW_TYPE_DIR3F, (void*)&world->GetSunDirection(), "");
 	TwAddVarRW(g_TwBar, "key-sensitivity", TW_TYPE_FLOAT, &world->GetFreeCamKeySensitivity(), "min=1 max=50 step=1");
 	TwAddSeparator(g_TwBar, "", "");
 }

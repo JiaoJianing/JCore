@@ -162,6 +162,16 @@ void MainRenderer::SetEnablePostEffect(bool value)
 	m_EnablePostEffect = value;
 }
 
+glm::vec3& MainRenderer::GetSunDirection()
+{
+	return m_CSMRenderer.GetSunDirection();
+}
+
+void MainRenderer::SetSunDirection(const glm::vec3& value)
+{
+	m_CSMRenderer.SetSunDirection(value);
+}
+
 void MainRenderer::renderSkybox(Scene* scene, RenderContext* context)
 {
 	GLint OldCullFaceMode;
@@ -334,7 +344,7 @@ void MainRenderer::renderLightingCSM(Scene* scene, RenderContext* context)
 	shaderCSM_Terrain.setFloat("cascadeSpace[0]", m_CSMRenderer.GetCascadeAt(0)->CascadeSpace);
 	shaderCSM_Terrain.setFloat("cascadeSpace[1]", m_CSMRenderer.GetCascadeAt(1)->CascadeSpace);
 	shaderCSM_Terrain.setFloat("cascadeSpace[2]", m_CSMRenderer.GetCascadeAt(2)->CascadeSpace);
-	shaderCSM_Terrain.setVec3("lightDirection", glm::vec3(1.0f, 1.0f, 1.0f));
+	shaderCSM_Terrain.setVec3("lightDirection", -m_CSMRenderer.GetSunDirection());
 	scene->GetTerrain()->Render(shaderCSM_Terrain);
 
 	Shader shaderCSM_Model = ResourceManager::getInstance()->GetShader("csm_model");
@@ -356,7 +366,7 @@ void MainRenderer::renderLightingCSM(Scene* scene, RenderContext* context)
 	shaderCSM_Model.setVec3("dirLight.base.color", glm::vec3(1.0f));
 	shaderCSM_Model.setFloat("dirLight.base.ambientIntensity", 0.05f);
 	shaderCSM_Model.setFloat("dirLight.base.diffuseIntensity", 0.8f);
-	shaderCSM_Model.setVec3("dirLight.direction", glm::vec3(1.0f, 1.0f, 1.0f));
+	shaderCSM_Model.setVec3("dirLight.direction", -m_CSMRenderer.GetSunDirection());
 
 	//äÖÈ¾Ä£ÐÍ
 	renderModel(scene, context, shaderCSM_Model);

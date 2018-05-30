@@ -62,6 +62,7 @@ void MainRenderer::Render(Scene* scene, RenderContext* context)
 		renderTerrain(scene, context);
 
 		Shader shaderModel = ResourceManager::getInstance()->GetShader("model");
+		Shader shaderModel_Animation = ResourceManager::getInstance()->GetShader("model_animation");
 		shaderModel.use();
 		shaderModel.setMatrix4("view", context->MatView);
 		shaderModel.setMatrix4("projection", context->MatProj);
@@ -72,6 +73,12 @@ void MainRenderer::Render(Scene* scene, RenderContext* context)
 
 		//渲染自定义图元
 		renderCustomPrimitive(scene, context, shaderModel);
+
+		shaderModel_Animation.use();
+		shaderModel_Animation.setMatrix4("view", context->MatView);
+		shaderModel_Animation.setMatrix4("projection", context->MatProj);
+		shaderModel_Animation.setVec3("viewPos", context->ViewPos);
+		renderAnimationModel(scene, context, shaderModel_Animation);
 	}
 
 	//渲染标牌
@@ -203,6 +210,7 @@ void MainRenderer::renderSkybox(Scene* scene, RenderContext* context)
 void MainRenderer::renderNormal(Scene* scene, RenderContext* context)
 {
 	Shader shaderShowNormal = ResourceManager::getInstance()->GetShader("show_normal");
+	Shader shaderShowNormal_Animation = ResourceManager::getInstance()->GetShader("show_normal_animation");
 	shaderShowNormal.use();
 	shaderShowNormal.setMatrix4("view", context->MatView);
 	shaderShowNormal.setMatrix4("projection", context->MatProj);
@@ -212,6 +220,11 @@ void MainRenderer::renderNormal(Scene* scene, RenderContext* context)
 
 	//渲染自定义图元
 	renderCustomPrimitive(scene, context, shaderShowNormal);
+
+	shaderShowNormal_Animation.use();
+	shaderShowNormal_Animation.setMatrix4("view", context->MatView);
+	shaderShowNormal_Animation.setMatrix4("projection", context->MatProj);
+	renderAnimationModel(scene, context, shaderShowNormal_Animation);
 }
 
 void MainRenderer::renderSihouette(Scene* scene, RenderContext* context)
@@ -248,6 +261,34 @@ void MainRenderer::renderSihouette(Scene* scene, RenderContext* context)
 		}
 		for (std::vector<CustomPrimitive*>::iterator it = highlightPrimitives.begin(); it != highlightPrimitives.end(); it++) {
 			(*it)->Render(shaderOutline);
+		}
+
+		//重置状态
+		glDisable(GL_CULL_FACE);
+		glLineWidth(1.0f);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+
+	std::vector<Model*> highlightAnimationModels;
+	for (std::vector<Model*>::iterator it = scene->GetAnimationModels().begin(); it != scene->GetAnimationModels().end(); it++) {
+		if ((*it)->GetHighLight()) {
+			highlightAnimationModels.push_back(*it);
+		}
+	}
+
+	Shader shaderOutline_Animation = ResourceManager::getInstance()->GetShader("outline_animation");
+	shaderOutline_Animation.use().setMatrix4("view", context->MatView);
+	shaderOutline_Animation.use().setMatrix4("projection", context->MatProj);
+	if (highlightAnimationModels.size() > 0) {
+		//切换到线框模式，绘制粗一些的线，并剔除背面
+		glEnable(GL_CULL_FACE);
+		glCullFace(GL_FRONT);
+		glLineWidth(2.0f);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+		//渲染
+		for (std::vector<Model*>::iterator it = highlightAnimationModels.begin(); it != highlightAnimationModels.end(); it++) {
+			(*it)->Render(shaderOutline_Animation);
 		}
 
 		//重置状态
@@ -374,6 +415,27 @@ void MainRenderer::renderLightingCSM(Scene* scene, RenderContext* context)
 	//渲染自定义图元
 	renderCustomPrimitive(scene, context, shaderCSM_Model);
 
+	Shader shaderCSM_Model_Animation = ResourceManager::getInstance()->GetShader("csm_model_animation");
+	shaderCSM_Model_Animation.use();
+	glActiveTexture(GL_TEXTURE4);
+	glBindTexture(GL_TEXTURE_2D, m_CSMRenderer.GetCascadeAt(0)->ShadowTexture);
+	glActiveTexture(GL_TEXTURE5);
+	glBindTexture(GL_TEXTURE_2D, m_CSMRenderer.GetCascadeAt(1)->ShadowTexture);
+	glActiveTexture(GL_TEXTURE6);
+	glBindTexture(GL_TEXTURE_2D, m_CSMRenderer.GetCascadeAt(2)->ShadowTexture);
+	shaderCSM_Model_Animation.setMatrix4("view", context->MatView);
+	shaderCSM_Model_Animation.setMatrix4("projection", context->MatProj);
+	shaderCSM_Model_Animation.setMatrix4("lightViewProj[0]", m_CSMRenderer.GetCascadeAt(0)->LightViewProj);
+	shaderCSM_Model_Animation.setMatrix4("lightViewProj[1]", m_CSMRenderer.GetCascadeAt(1)->LightViewProj);
+	shaderCSM_Model_Animation.setMatrix4("lightViewProj[2]", m_CSMRenderer.GetCascadeAt(2)->LightViewProj);
+	shaderCSM_Model_Animation.setFloat("cascadeSpace[0]", m_CSMRenderer.GetCascadeAt(0)->CascadeSpace);
+	shaderCSM_Model_Animation.setFloat("cascadeSpace[1]", m_CSMRenderer.GetCascadeAt(1)->CascadeSpace);
+	shaderCSM_Model_Animation.setFloat("cascadeSpace[2]", m_CSMRenderer.GetCascadeAt(2)->CascadeSpace);
+	shaderCSM_Model_Animation.setVec3("dirLight.base.color", glm::vec3(1.0f));
+	shaderCSM_Model_Animation.setFloat("dirLight.base.ambientIntensity", 0.05f);
+	shaderCSM_Model_Animation.setFloat("dirLight.base.diffuseIntensity", 0.8f);
+	shaderCSM_Model_Animation.setVec3("dirLight.direction", -m_CSMRenderer.GetSunDirection());
+	renderAnimationModel(scene, context, shaderCSM_Model_Animation);
 }
 
 void MainRenderer::renderBillboard(Scene* scene, RenderContext* context)
@@ -403,6 +465,13 @@ void MainRenderer::renderParticleSys(Scene* scene, RenderContext* context)
 void MainRenderer::renderModel(Scene* scene, RenderContext* context, Shader shader)
 {
 	for (std::vector<Model*>::iterator it = scene->GetModels().begin(); it != scene->GetModels().end(); it++) {
+		(*it)->Render(shader);
+	}
+}
+
+void MainRenderer::renderAnimationModel(Scene* scene, RenderContext* context, Shader shader)
+{
+	for (std::vector<Model*>::iterator it = scene->GetAnimationModels().begin(); it != scene->GetAnimationModels().end(); it++) {
 		(*it)->Render(shader);
 	}
 }

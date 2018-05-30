@@ -15,6 +15,10 @@ std::vector<Model*>& Scene::GetModels()
 	return m_Models;
 }
 
+std::vector<Model*>& Scene::GetAnimationModels() {
+	return m_AnimationModels;
+}
+
 std::vector<CustomPrimitive*>& Scene::GetCustomPrimitives()
 {
 	return m_CustomPrimitives;

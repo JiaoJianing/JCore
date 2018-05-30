@@ -54,13 +54,14 @@ void CSMRenderer::Render(Scene* scene, RenderContext* context)
 	updateCascades(context);
 
 	Shader shaderCSM = ResourceManager::getInstance()->GetShader("csm");
-	shaderCSM.use();
+	Shader shaderCSM_Animation = ResourceManager::getInstance()->GetShader("csm_animation");
 	glBindFramebuffer(GL_FRAMEBUFFER, m_ShadowFBO);
 	for (int i = 0; i < 3; i++) {
 		glViewport(0, 0, m_Cascades[i].ShadowmapSize, m_Cascades[i].ShadowmapSize);
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, m_Cascades[i].ShadowTexture, 0);
 		glClear(GL_DEPTH_BUFFER_BIT);
 		//terrain
+		shaderCSM.use();
 		glm::mat4 model;
 		shaderCSM.setMatrix4("model", model);
 		shaderCSM.setMatrix4("lightViewProj", m_Cascades[i].LightViewProj);
@@ -72,6 +73,13 @@ void CSMRenderer::Render(Scene* scene, RenderContext* context)
 
 		for (std::vector<CustomPrimitive*>::iterator it = scene->GetCustomPrimitives().begin(); it != scene->GetCustomPrimitives().end(); it++) {
 			(*it)->Render(shaderCSM);
+		}
+
+		shaderCSM_Animation.use();
+		shaderCSM_Animation.setMatrix4("model", model);
+		shaderCSM_Animation.setMatrix4("lightViewProj", m_Cascades[i].LightViewProj);		
+		for (std::vector<Model*>::iterator it = scene->GetAnimationModels().begin(); it != scene->GetAnimationModels().end(); it++) {
+			(*it)->Render(shaderCSM_Animation);
 		}
 	}
 

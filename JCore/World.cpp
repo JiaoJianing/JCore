@@ -56,17 +56,21 @@ bool World::Initialize()
 {
 	//shader
 	ResourceManager::getInstance()->LoadShader("model", "asset/shaders/jcore/model.vs", "asset/shaders/jcore/model.fs");
+	ResourceManager::getInstance()->LoadShader("model_animation", "asset/shaders/jcore/model_animation.vs", "asset/shaders/jcore/model_animation.fs");
 	ResourceManager::getInstance()->LoadShader("text", "asset/shaders/jcore/text.vs", "asset/shaders/jcore/text.fs");
 	ResourceManager::getInstance()->LoadShader("quad", "asset/shaders/jcore/quad.vs", "asset/shaders/jcore/quad.fs");
 	ResourceManager::getInstance()->GetShader("quad").use().setInt("texture1", 0);
 	ResourceManager::getInstance()->LoadShader("outline", "asset/shaders/jcore/outline.vs", "asset/shaders/jcore/outline.fs");
 	ResourceManager::getInstance()->GetShader("outline").use().setVec3("outlineColor", glm::vec3(1.0f));
+	ResourceManager::getInstance()->LoadShader("outline_animation", "asset/shaders/jcore/outline_animation.vs", "asset/shaders/jcore/outline_animation.fs");
+	ResourceManager::getInstance()->GetShader("outline_animation").use().setVec3("outlineColor", glm::vec3(1.0f));
 	ResourceManager::getInstance()->LoadShader("phong", "asset/shaders/jcore/phong.vs", "asset/shaders/jcore/phong.fs");
 	ResourceManager::getInstance()->GetShader("phong").use().setInt("texture_shadowmap", 4);
 	ResourceManager::getInstance()->LoadShader("light_debug", "asset/shaders/jcore/light_debug.vs", "asset/shaders/jcore/light_debug.fs");
 	ResourceManager::getInstance()->LoadShader("skybox", "asset/shaders/jcore/skybox.vs", "asset/shaders/jcore/skybox.fs");
 	ResourceManager::getInstance()->GetShader("skybox").use().setInt("texture_skybox", 0);
 	ResourceManager::getInstance()->LoadShader("show_normal", "asset/shaders/jcore/show_normal.vs", "asset/shaders/jcore/show_normal.fs", "asset/shaders/jcore/show_normal.gs");
+	ResourceManager::getInstance()->LoadShader("show_normal_animation", "asset/shaders/jcore/show_normal_animation.vs", "asset/shaders/jcore/show_normal.fs", "asset/shaders/jcore/show_normal.gs");
 	ResourceManager::getInstance()->LoadShader("billboard", "asset/shaders/jcore/billboard.vs", "asset/shaders/jcore/billboard.fs", "asset/shaders/jcore/billboard.gs");
 	ResourceManager::getInstance()->GetShader("billboard").use().setInt("texture_billboard", 0);
 	ResourceManager::getInstance()->LoadShader("particle_system", "asset/shaders/jcore/particle_system.vs", "asset/shaders/jcore/particle_system.fs", "asset/shaders/jcore/particle_system.gs");
@@ -74,6 +78,7 @@ bool World::Initialize()
 	ResourceManager::getInstance()->LoadShader("post", "asset/shaders/jcore/post.vs", "asset/shaders/jcore/post.fs");
 	ResourceManager::getInstance()->GetShader("post").use().setInt("scene", 0);
 	ResourceManager::getInstance()->LoadShader("pick", "asset/shaders/jcore/pick.vs", "asset/shaders/jcore/pick.fs");
+	ResourceManager::getInstance()->LoadShader("pick_animation", "asset/shaders/jcore/pick_animation.vs", "asset/shaders/jcore/pick_animation.fs");
 	ResourceManager::getInstance()->LoadShader("shadow_map", "asset/shaders/jcore/shadow_map.vs", "asset/shaders/jcore/shadow_map.fs");
 	ResourceManager::getInstance()->LoadShader("terrain", "asset/shaders/jcore/terrain.vs", "asset/shaders/jcore/terrain.fs");
 	ResourceManager::getInstance()->GetShader("terrain").use().setInt("texture_grass", 0);
@@ -83,6 +88,7 @@ bool World::Initialize()
 	ResourceManager::getInstance()->GetShader("shadow_debug").use().setInt("texture_shadow", 0);
 	ResourceManager::getInstance()->LoadShader("csm", "asset/shaders/jcore/csm/csm.vs", "asset/shaders/jcore/csm/csm.fs");
 	ResourceManager::getInstance()->LoadShader("csm_terrain", "asset/shaders/jcore/csm/csm_terrain.vs", "asset/shaders/jcore/csm/csm_terrain.fs");
+	ResourceManager::getInstance()->LoadShader("csm_animation", "asset/shaders/jcore/csm/csm_animation.vs", "asset/shaders/jcore/csm/csm_animation.fs");
 	ResourceManager::getInstance()->GetShader("csm_terrain").use().setInt("texture_grass", 0);
 	ResourceManager::getInstance()->GetShader("csm_terrain").setInt("texture_rock", 1);
 	ResourceManager::getInstance()->GetShader("csm_terrain").setInt("texture_snow", 2);
@@ -93,6 +99,10 @@ bool World::Initialize()
 	ResourceManager::getInstance()->GetShader("csm_model").use().setInt("texture_shadow[0]", 4);
 	ResourceManager::getInstance()->GetShader("csm_model").setInt("texture_shadow[1]", 5);
 	ResourceManager::getInstance()->GetShader("csm_model").setInt("texture_shadow[2]", 6);
+	ResourceManager::getInstance()->LoadShader("csm_model_animation", "asset/shaders/jcore/csm/csm_model_animation.vs", "asset/shaders/jcore/csm/csm_model_animation.fs");
+	ResourceManager::getInstance()->GetShader("csm_model_animation").use().setInt("texture_shadow[0]", 4);
+	ResourceManager::getInstance()->GetShader("csm_model_animation").setInt("texture_shadow[1]", 5);
+	ResourceManager::getInstance()->GetShader("csm_model_animation").setInt("texture_shadow[2]", 6);
 
 	ResourceManager::getInstance()->LoadTexture("skybox", "asset/resources/skybox", "right.jpg", "left.jpg",
 		"top.jpg", "bottom.jpg", "front.jpg","back.jpg");

@@ -3,11 +3,12 @@
 
 
 
-Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textureus)
+Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<VertexBone> bones, std::vector<Texture> textureus)
 {
 	this->vertices = vertices;
 	this->indices = indices;
 	this->textures = textureus;
+	this->bones = bones;
 
 	setupMesh();
 }
@@ -60,26 +61,20 @@ unsigned int Mesh::getVAO()
 void Mesh::deleteGraphicsRes()
 {
 	glDeleteVertexArrays(1, &VAO);
-	glDeleteBuffers(1, &VBO);
-	glDeleteBuffers(1, &EBO);
+	glDeleteBuffers(3, VBOs);
 }
 
 void Mesh::setupMesh()
 {
 	glGenVertexArrays(1, &VAO);
-	glGenBuffers(1, &VBO);
-	glGenBuffers(1, &EBO);
+	glGenBuffers(3, VBOs);
 
 #pragma region ÅäÖÃVAO
 	glBindVertexArray(VAO);
 
 	//¶¥µã»º³å
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBindBuffer(GL_ARRAY_BUFFER, VBOs[0]);
 	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), &vertices[0], GL_STATIC_DRAW);
-	
-	//Ë÷Òý»º³å
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);
 
 	//Î»ÖÃ
 	glEnableVertexAttribArray(0);
@@ -97,6 +92,34 @@ void Mesh::setupMesh()
 	glEnableVertexAttribArray(4);
 	glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, bitangent));
 
+	if (bones.size() > 0) {
+		//¹Ç÷À¶¯»­ÐÅÏ¢
+		glBindBuffer(GL_ARRAY_BUFFER, VBOs[1]);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(bones[0]) * bones.size(), &bones[0], GL_STATIC_DRAW);
+		glEnableVertexAttribArray(5);
+		glVertexAttribIPointer(5, 4, GL_INT, sizeof(VertexBone), (void*)0);
+		glEnableVertexAttribArray(6);
+		glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, sizeof(VertexBone), (void*)offsetof(VertexBone, BoneWeights));
+	}
+
+	//Ë÷Òý»º³å
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, VBOs[2]);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);
+
 	glBindVertexArray(0);
 #pragma endregion
+}
+
+void VertexBone::AddVertexBone(unsigned int boneID, float weight)
+{
+	for (unsigned int i = 0; i < 4; i++) {
+		if (BoneWeights[i] == 0.0) {
+			BoneIDs[i] = boneID;
+			BoneWeights[i] = weight;
+			return;
+		}
+	}
+
+	// should never get here - more bones than we have space for
+	assert(0);
 }

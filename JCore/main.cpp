@@ -115,6 +115,16 @@ void OnWorldInit(World* world) {
 	ModelComponent* model1 = new ModelComponent("asset/models/nanosuit/nanosuit.obj");
 	parent1->AddComponent(model1);
 
+	Node* animationBody = world->AddNode(_T("animationBody"));
+	animationBody->SetHighLightColor(glm::vec3(1.0f, 0.0f, 1.0f));
+	SRTTransformComponent* animationSrt = new SRTTransformComponent();
+	animationSrt->SetTranslation(glm::vec3(4.0f, 26.0f, 6.0f));
+	//animationSrt->SetRotate(glm::vec3(-90.0f, 0.0f, 0.0f));
+	animationSrt->SetScale(glm::vec3(0.05f));
+	animationBody->AddComponent(animationSrt);
+	ModelComponent* animationModel = new ModelComponent("asset/models/boblampclean/boblampclean.md5mesh");
+	animationBody->AddComponent(animationModel);
+
 	//Ä£ÐÍ2
 	Node* child1 = world->AddNode(_T("child1"));
 	child1->SetHighLightColor(glm::vec3(1.0f, 0.0f, 1.0f));

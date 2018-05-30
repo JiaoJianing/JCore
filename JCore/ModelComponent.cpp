@@ -25,11 +25,20 @@ void ModelComponent::Update(double curFrame, double deltaFrame)
 	m_Model.SetHighLightColor(GetOwner()->GetHighLightColor());
 	m_Model.SetID(GetOwner()->GetID());
 	m_Model.SetColor(GetOwner()->GetColor());
+
+	if (m_Model.GetSupportBone()) {
+		m_Model.UpdateBoneTransform(curFrame);
+	}
 }
 
 void ModelComponent::OnAddToWorld(World* world)
 {
-	world->GetScene()->GetModels().push_back(&m_Model);
+	if (m_Model.GetSupportBone()) {
+		world->GetScene()->GetAnimationModels().push_back(&m_Model);
+	}
+	else {
+		world->GetScene()->GetModels().push_back(&m_Model);
+	}
 }
 
 void ModelComponent::OnRemoveFromWorld(World* world)
@@ -37,5 +46,10 @@ void ModelComponent::OnRemoveFromWorld(World* world)
 	auto it = std::find(world->GetScene()->GetModels().begin(), world->GetScene()->GetModels().end(), &m_Model);
 	if (it != world->GetScene()->GetModels().end()) {
 		world->GetScene()->GetModels().erase(it);
+	}
+
+	it = std::find(world->GetScene()->GetAnimationModels().begin(), world->GetScene()->GetAnimationModels().end(), &m_Model);
+	if (it != world->GetScene()->GetAnimationModels().end()) {
+		world->GetScene()->GetAnimationModels().erase(it);
 	}
 }

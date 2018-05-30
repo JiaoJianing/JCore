@@ -104,12 +104,12 @@ void glfw_OnMouseClick(GLFWwindow* window, int button, int action, int mods) {
 void glfw_OnKeyClick(GLFWwindow* window, int key, int scancode, int action, int mods) {
 	bool pressed = (action == GLFW_PRESS);
 
-	if (pressed) {
-		int TwKey = glfwKey2TwKey(key);
-		if (TwKey != -1) {
-			TwKeyPressed(TwKey, TW_KMOD_NONE);
-		}
-	}
+	//if (pressed) {
+	//	int TwKey = glfwKey2TwKey(key);
+	//	if (TwKey != -1) {
+	//		TwKeyPressed(TwKey, TW_KMOD_NONE);
+	//	}
+	//}
 
 	g_App->OnKeyboard(key, pressed);
 }

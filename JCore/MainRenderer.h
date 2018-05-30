@@ -54,6 +54,8 @@ private:
 
 	void renderModel(Scene* scene, RenderContext* context, Shader shader);
 
+	void renderAnimationModel(Scene* scene, RenderContext* context, Shader shader);
+
 	void renderCustomPrimitive(Scene* scene, RenderContext* context, Shader shader);
 
 	void renderTerrain(Scene* scene, RenderContext* context);

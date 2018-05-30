@@ -25,6 +25,7 @@ void PickRenderer::Render(Scene* scene, RenderContext* context)
 	glEnable(GL_DEPTH_TEST);
 
 	Shader shaderPick = ResourceManager::getInstance()->GetShader("pick");
+	Shader shaderPick_Animation = ResourceManager::getInstance()->GetShader("pick_animation");
 	shaderPick.use();
 	shaderPick.setMatrix4("view", context->MatView);
 	shaderPick.setMatrix4("projection", context->MatProj);
@@ -37,6 +38,14 @@ void PickRenderer::Render(Scene* scene, RenderContext* context)
 	//渲染自定义图元
 	for (std::vector<CustomPrimitive*>::iterator it = scene->GetCustomPrimitives().begin(); it != scene->GetCustomPrimitives().end(); it++) {
 		(*it)->Render(shaderPick);
+	}
+	
+	shaderPick_Animation.use();
+	shaderPick_Animation.setMatrix4("view", context->MatView);
+	shaderPick_Animation.setMatrix4("projection", context->MatProj);
+	shaderPick_Animation.setMatrix4("model", glm::mat4());
+	for (std::vector<Model*>::iterator it = scene->GetAnimationModels().begin(); it != scene->GetAnimationModels().end(); it++) {
+		(*it)->Render(shaderPick_Animation);
 	}
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);

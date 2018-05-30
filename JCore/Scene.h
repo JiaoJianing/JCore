@@ -16,6 +16,8 @@ public:
 
 	std::vector<Model*>& GetModels();
 
+	std::vector<Model*>& GetAnimationModels();
+
 	std::vector<CustomPrimitive*>& GetCustomPrimitives();
 
 	std::vector<Camera*>& GetCameras();
@@ -31,6 +33,7 @@ public:
 
 private:
 	std::vector<Model*> m_Models;
+	std::vector<Model*> m_AnimationModels;
 	std::vector<CustomPrimitive*> m_CustomPrimitives;
 	std::vector<Camera*> m_Cameras;
 	std::vector<BaseLight*> m_Lights;

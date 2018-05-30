@@ -125,6 +125,16 @@ void OnWorldInit(World* world) {
 	ModelComponent* animationModel = new ModelComponent("asset/models/boblampclean/boblampclean.md5mesh");
 	animationBody->AddComponent(animationModel);
 
+	Node* animationBody2 = world->AddNode(_T("animationBody2"));
+	animationBody2->SetHighLightColor(glm::vec3(1.0f, 0.0f, 1.0f));
+	SRTTransformComponent* animationSrt2 = new SRTTransformComponent();
+	animationSrt2->SetTranslation(glm::vec3(-4.0f, 26.0f, 6.0f));
+	//animationSrt->SetRotate(glm::vec3(-90.0f, 0.0f, 0.0f));
+	animationSrt2->SetScale(glm::vec3(0.05f));
+	animationBody2->AddComponent(animationSrt2);
+	ModelComponent* animationModel2 = new ModelComponent("asset/models/dwarf/dwarf.x");
+	animationBody2->AddComponent(animationModel2);
+
 	//Ä£ÐÍ2
 	Node* child1 = world->AddNode(_T("child1"));
 	child1->SetHighLightColor(glm::vec3(1.0f, 0.0f, 1.0f));

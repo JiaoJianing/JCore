@@ -88,9 +88,9 @@ void CSMRenderer::Render(Scene* scene, RenderContext* context)
 
 void CSMRenderer::Resize(int width, int height)
 {
-	m_Cascades[0].CameraProj = glm::perspective(45.0f, (float)width / height, 0.1f, 30.0f);
-	m_Cascades[1].CameraProj = glm::perspective(45.0f, (float)width / height, 25.0f, 80.0f);
-	m_Cascades[2].CameraProj = glm::perspective(45.0f, (float)width / height, 75.0f, 400.0f);
+	m_Cascades[0].CameraProj = glm::perspective(45.0f, (float)width / __max(height, 0.1f), 0.1f, 30.0f);
+	m_Cascades[1].CameraProj = glm::perspective(45.0f, (float)width / __max(height, 0.1f), 25.0f, 80.0f);
+	m_Cascades[2].CameraProj = glm::perspective(45.0f, (float)width / __max(height, 0.1f), 75.0f, 400.0f);
 }
 
 CascadeInfo* CSMRenderer::GetCascadeAt(int index)

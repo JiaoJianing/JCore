@@ -121,5 +121,5 @@ void VertexBone::AddVertexBone(unsigned int boneID, float weight)
 	}
 
 	// should never get here - more bones than we have space for
-	assert(0);
+	//assert(0);
 }

@@ -344,7 +344,7 @@ void Model::calcInterpolatedScaling(aiVector3D& Out, float AnimationTime, const 
 	assert(NextScalingIndex < pNodeAnim->mNumScalingKeys);
 	float DeltaTime = (float)(pNodeAnim->mScalingKeys[NextScalingIndex].mTime - pNodeAnim->mScalingKeys[ScalingIndex].mTime);
 	float Factor = (AnimationTime - (float)pNodeAnim->mScalingKeys[ScalingIndex].mTime) / DeltaTime;
-	assert(Factor >= 0.0f && Factor <= 1.0f);
+	//assert(Factor >= 0.0f && Factor <= 1.0f);
 	const aiVector3D& Start = pNodeAnim->mScalingKeys[ScalingIndex].mValue;
 	const aiVector3D& End = pNodeAnim->mScalingKeys[NextScalingIndex].mValue;
 	aiVector3D Delta = End - Start;
@@ -400,7 +400,7 @@ unsigned int Model::findScaling(float AnimationTime, const aiNodeAnim* pNodeAnim
 		}
 	}
 
-	assert(0);
+	//assert(0);
 
 	return 0;
 }
@@ -415,7 +415,7 @@ unsigned int Model::findRotation(float AnimationTime, const aiNodeAnim* pNodeAni
 		}
 	}
 
-	assert(0);
+	//assert(0);
 
 	return 0;
 }
@@ -428,7 +428,7 @@ unsigned int Model::findPosition(float AnimationTime, const aiNodeAnim* pNodeAni
 		}
 	}
 
-	assert(0);
+	//assert(0);
 
 	return 0;
 }

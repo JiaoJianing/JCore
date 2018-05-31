@@ -22,12 +22,24 @@ int nodeIndex = 0;
 
 TwBar* g_TwBar = 0;
 
+void addAnimationModel(World* world, stringT nodeName, const char* path, glm::vec3 scale, glm::vec3 rotate, glm::vec3 translate) {
+	Node* animationBody = world->AddNode(nodeName);
+	animationBody->SetHighLightColor(glm::vec3(1.0f, 0.0f, 1.0f));
+	SRTTransformComponent* animationSrt = new SRTTransformComponent();
+	animationSrt->SetTranslation(translate);
+	animationSrt->SetRotate(rotate);
+	animationSrt->SetScale(scale);
+	animationBody->AddComponent(animationSrt);
+	ModelComponent* animationModel = new ModelComponent(path);
+	animationBody->AddComponent(animationModel);
+}
+
 void OnWorldInit(World* world) {
 	world->SetEnablePostEffect(true);
 	world->SetEnableLight(true);
 	world->SetEnableSkybox(true);
 	world->SetEnableRenderNormal(false);
-	world->ToFlyMode(false);
+	world->ToFlyMode(true);
 
 	//地形
 	Node* terrain = world->AddNode(_T("terrain"));
@@ -105,41 +117,34 @@ void OnWorldInit(World* world) {
 	spotLightCmp2->SetDirection(glm::vec3(-5.0f, -5.0f, 0.0));
 	spotLight2->AddComponent(spotLightCmp2);
 
+	addAnimationModel(world, _T("boblampclean"), "asset/animate_models/boblampclean/boblampclean.md5mesh", glm::vec3(0.05f), glm::vec3(0.0f), glm::vec3(-7.0f, 26.0f, 6.0f));
+	addAnimationModel(world, _T("dwarf"), "asset/animate_models/dwarf/dwarf.x", glm::vec3(0.05f), glm::vec3(0.0f), glm::vec3(-4.0f, 26.0f, 6.0f));
+	addAnimationModel(world, _T("aatrox"), "asset/animate_models/aatrox/aatrox.dae", glm::vec3(1.0f), glm::vec3(0.0f), glm::vec3(-1.0f, 26.0f, 6.0f));
+	addAnimationModel(world, _T("Borvar"), "asset/animate_models/Borvar/Borvar.dae", glm::vec3(1.0f), glm::vec3(0.0f), glm::vec3(2.0f, 26.0f, 6.0f));
+	addAnimationModel(world, _T("cartoon_turtle"), "asset/animate_models/cartoon_turtle/cartoon_turtle.dae", glm::vec3(4.0f), glm::vec3(0.0f, -90.0f, 0.0f), glm::vec3(5.0f, 26.0f, 6.0f));
+	addAnimationModel(world, _T("crazy_frog"), "asset/animate_models/crazy_frog/crazy_frog.dae", glm::vec3(10.0f), glm::vec3(0.0f), glm::vec3(8.0f, 26.0f, 6.0f));
+	addAnimationModel(world, _T("dancing_crab"), "asset/animate_models/dancing_crab/dancing_crab.dae", glm::vec3(40.0f), glm::vec3(0.0f, 180.0f, 0.0f), glm::vec3(8.0f, 28.0f, 0.0f));
+	addAnimationModel(world, _T("dragon"), "asset/animate_models/dragon/dragon.dae", glm::vec3(10.0f), glm::vec3(0.0f), glm::vec3(5.0f, 26.0f, 0.0f));
+	addAnimationModel(world, _T("gex-4-walk"), "asset/animate_models/gex-4-walk/gex-4-walk.dae", glm::vec3(1.0f), glm::vec3(0.0f), glm::vec3(2.0f, 26.0f, 0.0f));
+	addAnimationModel(world, _T("gregory-dragon-ball"), "asset/animate_models/gregory-dragon-ball/gregory-dragon-ball.dae", glm::vec3(3.0f), glm::vec3(0.0f), glm::vec3(-1.0f, 26.0f, 0.0f));
+	addAnimationModel(world, _T("lambert"), "asset/animate_models/lambert/lambert.dae", glm::vec3(1.0f), glm::vec3(0.0f), glm::vec3(-4.0f, 26.0f, 0.0f));
+	addAnimationModel(world, _T("low-poly-warrior"), "asset/animate_models/low-poly-warrior/low-poly-warrior.dae", glm::vec3(1.0f), glm::vec3(0.0f), glm::vec3(-7.0f, 26.0f, 0.0f));
+
 	//模型1
 	Node* parent1 = world->AddNode(_T("parent1"));
 	parent1->SetHighLightColor(glm::vec3(1.0f, 0.0f, 1.0f));
 	SRTTransformComponent* srt1 = new SRTTransformComponent();
-	srt1->SetTranslation(glm::vec3(2.0f, 26.0f, 0.0f));
+	srt1->SetTranslation(glm::vec3(2.0f, 26.0f, -3.0f));
 	srt1->SetScale(glm::vec3(0.2f));
 	parent1->AddComponent(srt1);
 	ModelComponent* model1 = new ModelComponent("asset/models/nanosuit/nanosuit.obj");
 	parent1->AddComponent(model1);
 
-	Node* animationBody = world->AddNode(_T("animationBody"));
-	animationBody->SetHighLightColor(glm::vec3(1.0f, 0.0f, 1.0f));
-	SRTTransformComponent* animationSrt = new SRTTransformComponent();
-	animationSrt->SetTranslation(glm::vec3(4.0f, 26.0f, 6.0f));
-	//animationSrt->SetRotate(glm::vec3(-90.0f, 0.0f, 0.0f));
-	animationSrt->SetScale(glm::vec3(0.05f));
-	animationBody->AddComponent(animationSrt);
-	ModelComponent* animationModel = new ModelComponent("asset/models/boblampclean/boblampclean.md5mesh");
-	animationBody->AddComponent(animationModel);
-
-	Node* animationBody2 = world->AddNode(_T("animationBody2"));
-	animationBody2->SetHighLightColor(glm::vec3(1.0f, 0.0f, 1.0f));
-	SRTTransformComponent* animationSrt2 = new SRTTransformComponent();
-	animationSrt2->SetTranslation(glm::vec3(-4.0f, 26.0f, 6.0f));
-	//animationSrt->SetRotate(glm::vec3(-90.0f, 0.0f, 0.0f));
-	animationSrt2->SetScale(glm::vec3(0.05f));
-	animationBody2->AddComponent(animationSrt2);
-	ModelComponent* animationModel2 = new ModelComponent("asset/models/dwarf/dwarf.x");
-	animationBody2->AddComponent(animationModel2);
-
 	//模型2
 	Node* child1 = world->AddNode(_T("child1"));
 	child1->SetHighLightColor(glm::vec3(1.0f, 0.0f, 1.0f));
 	SRTTransformComponent* srt3 = new SRTTransformComponent();
-	srt3->SetTranslation(glm::vec3(1.0f, 27.0f, 2.0f));
+	srt3->SetTranslation(glm::vec3(1.0f, 27.0f, -5.0f));
 	child1->AddComponent(srt3);
 	ModelComponent* model2 = new ModelComponent("asset/models/cyborg/cyborg.obj");
 	child1->AddComponent(model2);
@@ -148,7 +153,7 @@ void OnWorldInit(World* world) {
 	//立方体
 	Node* child2 = world->AddNode(_T("child2"));
 	SRTTransformComponent* srt4 = new SRTTransformComponent();
-	srt4->SetTranslation(glm::vec3(-5.0f, 27.0f, 0.0f));
+	srt4->SetTranslation(glm::vec3(-5.0f, 27.0f, -5.0f));
 	//srt4->SetScale(glm::vec3(0.5f, 1.0f, 0.5f));
 	child2->AddComponent(srt4);
 	CubeComponent* cubeCmp4 = new CubeComponent("asset/resources/toy_box_diffuse.png", "asset/resources/toy_box_normal.png", "asset/resources/toy_box_specular.png");
@@ -157,7 +162,7 @@ void OnWorldInit(World* world) {
 	//球体
 	Node* sphere = world->AddNode(_T("sphere"));
 	SRTTransformComponent* sphereSrt = new SRTTransformComponent();
-	sphereSrt->SetTranslation(glm::vec3(-2.0f, 27.0f, 0.0f));
+	sphereSrt->SetTranslation(glm::vec3(-2.0f, 27.0f, -5.0f));
 	//srt4->SetScale(glm::vec3(0.5f, 1.0f, 0.5f));
 	sphere->AddComponent(sphereSrt);
 	SphereComponent* sphereCmp = new SphereComponent("asset/resources/toy_box_diffuse.png", "asset/resources/toy_box_normal.png", "asset/resources/toy_box_specular.png");
@@ -271,7 +276,7 @@ void OnWorldKeyboard(World* world, int key, bool pressed) {
 	break;
 	case GLFW_KEY_1://切换free相机模式
 	{
-		world->ToFree(glm::vec3(0.0f, 0.0f, 3.0f));
+		world->ToFree(glm::vec3(0.0f, 30.0f, 3.0f));
 
 		TwSetParam(g_TwBar, "camera-mode", "label", TW_PARAM_CSTRING, 1, "Current Camera: free");
 	}

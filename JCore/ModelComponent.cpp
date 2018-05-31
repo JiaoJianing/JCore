@@ -26,14 +26,14 @@ void ModelComponent::Update(double curFrame, double deltaFrame)
 	m_Model.SetID(GetOwner()->GetID());
 	m_Model.SetColor(GetOwner()->GetColor());
 
-	if (m_Model.GetSupportBone()) {
+	if (m_Model.GetSupportAnimation()) {
 		m_Model.UpdateBoneTransform(curFrame);
 	}
 }
 
 void ModelComponent::OnAddToWorld(World* world)
 {
-	if (m_Model.GetSupportBone()) {
+	if (m_Model.GetSupportAnimation()) {
 		world->GetScene()->GetAnimationModels().push_back(&m_Model);
 	}
 	else {

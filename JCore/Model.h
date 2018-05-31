@@ -41,7 +41,7 @@ public:
 	glm::vec3& GetColor();
 	void SetColor(const glm::vec3& value);
 
-	bool GetSupportBone();
+	bool GetSupportAnimation();
 
 	void UpdateBoneTransform(float currentFrame);
 
@@ -76,7 +76,7 @@ private:
 	bool m_HighLight;
 	glm::vec3 m_HighLightColor;
 	unsigned long m_ID;
-	bool m_SupportBone;
+	bool m_SupportAnimation;
 
 	std::map<std::string, unsigned int> m_BoneMapping; // maps a bone name to its index
 	unsigned int m_NumBones;

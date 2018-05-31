@@ -9,7 +9,7 @@ Model::Model(const char* path)
 	: m_Color(1.0f)
 	, m_Scene(0)
 	, m_NumBones(0)
-	, m_SupportBone(false)
+	, m_SupportAnimation(false)
 {
 	loadModel(path);
 }
@@ -18,7 +18,7 @@ Model::Model()
 	: m_Color(1.0f)
 	, m_Scene(0)
 	, m_NumBones(0)
-	, m_SupportBone(false)
+	, m_SupportAnimation(false)
 {
 
 }
@@ -43,7 +43,7 @@ void Model::Render(Shader shader)
 	shader.setVec3("g_highLightColor", GetHighLightColor());
 	shader.setVec3("g_Color", GetColor());
 	shader.setInt("nodeID", GetID());
-	if (m_SupportBone) {
+	if (m_SupportAnimation) {
 		for (unsigned i = 0; i < m_BoneTransforms.size(); i++) {
 			shader.setMatrix4("gBones[" + std::to_string(i) + "]", m_BoneTransforms[i]);
 		}
@@ -115,9 +115,9 @@ void Model::SetColor(const glm::vec3& value)
 	}
 }
 
-bool Model::GetSupportBone()
+bool Model::GetSupportAnimation()
 {
-	return m_SupportBone;
+	return m_SupportAnimation;
 }
 
 void Model::UpdateBoneTransform(float currentFrame)
@@ -144,7 +144,7 @@ void Model::loadModel(std::string path)
 		std::cout << "Assimp load failed: " << m_Importer.GetErrorString() << std::endl;
 		return;
 	}
-	m_SupportBone = m_Scene->HasAnimations();
+	m_SupportAnimation = m_Scene->HasAnimations();
 
 	directory = path.substr(0, path.find_last_of('/'));
 
@@ -216,7 +216,7 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
 		vertices.push_back(vertex);
 	}
 
-	if (m_SupportBone) {
+	if (m_SupportAnimation) {
 		bones.resize(vertices.size());
 		processBones(mesh, bones);
 	}

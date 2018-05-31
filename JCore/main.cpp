@@ -22,7 +22,7 @@ int nodeIndex = 0;
 
 TwBar* g_TwBar = 0;
 
-void addAnimationModel(World* world, stringT nodeName, const char* path, glm::vec3 scale, glm::vec3 rotate, glm::vec3 translate) {
+Node* addAnimationModel(World* world, stringT nodeName, const char* path, glm::vec3 scale, glm::vec3 rotate, glm::vec3 translate) {
 	Node* animationBody = world->AddNode(nodeName);
 	animationBody->SetHighLightColor(glm::vec3(1.0f, 0.0f, 1.0f));
 	SRTTransformComponent* animationSrt = new SRTTransformComponent();
@@ -32,6 +32,9 @@ void addAnimationModel(World* world, stringT nodeName, const char* path, glm::ve
 	animationBody->AddComponent(animationSrt);
 	ModelComponent* animationModel = new ModelComponent(path);
 	animationBody->AddComponent(animationModel);
+
+	nodes.push_back(animationBody);
+	return animationBody;
 }
 
 void OnWorldInit(World* world) {
@@ -117,18 +120,22 @@ void OnWorldInit(World* world) {
 	spotLightCmp2->SetDirection(glm::vec3(-5.0f, -5.0f, 0.0));
 	spotLight2->AddComponent(spotLightCmp2);
 
-	addAnimationModel(world, _T("boblampclean"), "asset/animate_models/boblampclean/boblampclean.md5mesh", glm::vec3(0.05f), glm::vec3(0.0f), glm::vec3(-7.0f, 26.0f, 6.0f));
-	addAnimationModel(world, _T("dwarf"), "asset/animate_models/dwarf/dwarf.x", glm::vec3(0.05f), glm::vec3(0.0f), glm::vec3(-4.0f, 26.0f, 6.0f));
-	addAnimationModel(world, _T("aatrox"), "asset/animate_models/aatrox/aatrox.dae", glm::vec3(1.0f), glm::vec3(0.0f), glm::vec3(-1.0f, 26.0f, 6.0f));
-	addAnimationModel(world, _T("Borvar"), "asset/animate_models/Borvar/Borvar.dae", glm::vec3(1.0f), glm::vec3(0.0f), glm::vec3(2.0f, 26.0f, 6.0f));
-	addAnimationModel(world, _T("cartoon_turtle"), "asset/animate_models/cartoon_turtle/cartoon_turtle.dae", glm::vec3(4.0f), glm::vec3(0.0f, -90.0f, 0.0f), glm::vec3(5.0f, 26.0f, 6.0f));
-	addAnimationModel(world, _T("crazy_frog"), "asset/animate_models/crazy_frog/crazy_frog.dae", glm::vec3(10.0f), glm::vec3(0.0f), glm::vec3(8.0f, 26.0f, 6.0f));
-	addAnimationModel(world, _T("dancing_crab"), "asset/animate_models/dancing_crab/dancing_crab.dae", glm::vec3(40.0f), glm::vec3(0.0f, 180.0f, 0.0f), glm::vec3(8.0f, 28.0f, 0.0f));
-	addAnimationModel(world, _T("dragon"), "asset/animate_models/dragon/dragon.dae", glm::vec3(10.0f), glm::vec3(0.0f), glm::vec3(5.0f, 26.0f, 0.0f));
-	addAnimationModel(world, _T("gex-4-walk"), "asset/animate_models/gex-4-walk/gex-4-walk.dae", glm::vec3(1.0f), glm::vec3(0.0f), glm::vec3(2.0f, 26.0f, 0.0f));
-	addAnimationModel(world, _T("gregory-dragon-ball"), "asset/animate_models/gregory-dragon-ball/gregory-dragon-ball.dae", glm::vec3(3.0f), glm::vec3(0.0f), glm::vec3(-1.0f, 26.0f, 0.0f));
-	addAnimationModel(world, _T("lambert"), "asset/animate_models/lambert/lambert.dae", glm::vec3(1.0f), glm::vec3(0.0f), glm::vec3(-4.0f, 26.0f, 0.0f));
-	addAnimationModel(world, _T("low-poly-warrior"), "asset/animate_models/low-poly-warrior/low-poly-warrior.dae", glm::vec3(1.0f), glm::vec3(0.0f), glm::vec3(-7.0f, 26.0f, 0.0f));
+	Node* n1 = addAnimationModel(world, _T("boblampclean"), "asset/animate_models/boblampclean/boblampclean.md5mesh", glm::vec3(0.05f), glm::vec3(0.0f), glm::vec3(-7.0f, 26.0f, 4.0f));
+	Node* n2 = addAnimationModel(world, _T("dwarf"), "asset/animate_models/dwarf/dwarf.x", glm::vec3(0.05f), glm::vec3(0.0f), glm::vec3(-4.0f, 26.0f, 4.0f));
+	Node* n3 = addAnimationModel(world, _T("aatrox"), "asset/animate_models/aatrox/aatrox.dae", glm::vec3(1.0f), glm::vec3(0.0f), glm::vec3(-1.0f, 26.0f, 4.0f));
+	Node* n4 = addAnimationModel(world, _T("Borvar"), "asset/animate_models/Borvar/Borvar.dae", glm::vec3(1.0f), glm::vec3(0.0f), glm::vec3(2.0f, 26.0f, 4.0f));
+	Node* n5 = addAnimationModel(world, _T("cartoon_turtle"), "asset/animate_models/cartoon_turtle/cartoon_turtle.dae", glm::vec3(4.0f), glm::vec3(0.0f, -90.0f, 0.0f), glm::vec3(5.0f, 26.0f, 4.0f));
+	Node* n6 = addAnimationModel(world, _T("crazy_frog"), "asset/animate_models/crazy_frog/crazy_frog.dae", glm::vec3(10.0f), glm::vec3(0.0f), glm::vec3(8.0f, 26.0f, 4.0f));
+	Node* n7 = addAnimationModel(world, _T("dancing_crab"), "asset/animate_models/dancing_crab/dancing_crab.dae", glm::vec3(40.0f), glm::vec3(0.0f, 180.0f, 0.0f), glm::vec3(8.0f, 28.0f, 0.0f));
+	Node* n8 = addAnimationModel(world, _T("dragon"), "asset/animate_models/dragon/dragon.dae", glm::vec3(10.0f), glm::vec3(0.0f), glm::vec3(5.0f, 26.0f, 0.0f));
+	Node* n9 = addAnimationModel(world, _T("gex-4-walk"), "asset/animate_models/gex-4-walk/gex-4-walk.dae", glm::vec3(1.0f), glm::vec3(0.0f), glm::vec3(2.0f, 26.0f, 0.0f));
+	Node* n10 = addAnimationModel(world, _T("gregory-dragon-ball"), "asset/animate_models/gregory-dragon-ball/gregory-dragon-ball.dae", glm::vec3(3.0f), glm::vec3(0.0f), glm::vec3(-1.0f, 26.0f, 0.0f));
+	Node* n11 = addAnimationModel(world, _T("lambert"), "asset/animate_models/lambert/lambert.dae", glm::vec3(1.0f), glm::vec3(0.0f), glm::vec3(-4.0f, 26.0f, 0.0f));
+	Node* n12 = addAnimationModel(world, _T("low-poly-warrior"), "asset/animate_models/low-poly-warrior/low-poly-warrior.dae", glm::vec3(1.0f), glm::vec3(0.0f), glm::vec3(-7.0f, 26.0f, 0.0f));
+	Node* n13 = addAnimationModel(world, _T("ava-yonng"), "asset/animate_models/ava-yonng/ava-yonng.dae", glm::vec3(40.0f), glm::vec3(0.0f), glm::vec3(-7.0f, 26.0f, 8.0f));
+	Node* n14 = addAnimationModel(world, _T("bristleback"), "asset/animate_models/bristleback/bristleback.dae", glm::vec3(1.5f), glm::vec3(0.0f), glm::vec3(-4.0f, 26.0f, 8.0f));
+	Node* n15 = addAnimationModel(world, _T("greet_frog"), "asset/animate_models/greet_frog/greet_frog.dae", glm::vec3(1.0f), glm::vec3(0.0f), glm::vec3(-1.0f, 26.0f, 8.0f));
+	Node* n16 = addAnimationModel(world, _T("phoenix-bird"), "asset/animate_models/phoenix-bird/phoenix-bird.dae", glm::vec3(3.0f), glm::vec3(0.0f, -90.0f, 0.0f), glm::vec3(2.0f, 27.0f, 8.0f));
 
 	//Ä£ÐÍ1
 	Node* parent1 = world->AddNode(_T("parent1"));
@@ -173,16 +180,6 @@ void OnWorldInit(World* world) {
 	SnowParticleSystemComponent* snowCmp = new SnowParticleSystemComponent();
 	snowCmp->Initialize(10000);
 	snow->AddComponent(snowCmp);
-
-	//nodes.push_back(dirLight);
-	//nodes.push_back(pointLight1);
-	//nodes.push_back(pointLight2);
-	//nodes.push_back(spotLight1);
-	//nodes.push_back(spotLight2);
-	nodes.push_back(parent1);
-	nodes.push_back(child1);
-	nodes.push_back(child2);
-	nodes.push_back(sphere);
 
 	g_TwBar = TwNewBar("JCore");
 	float refresh = 0.1f;

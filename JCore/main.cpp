@@ -64,14 +64,14 @@ void OnWorldInit(World* world) {
 	floor->AddComponent(floorCube);
 
 	//方向光
-	Node* dirLight = world->AddNode(_T("dirLight"));
-	SRTTransformComponent* srtDirLight = new SRTTransformComponent();
-	srtDirLight->SetTranslation(glm::vec3(.0f, 28.0f, 1.0f));
-	dirLight->AddComponent(srtDirLight);
-	DirLightComponent* dirLightCmp = new DirLightComponent();
-	dirLightCmp->SetAmbientIntensity(0.05f);
-	dirLightCmp->SetDiffuseIntensity(0.2f);
-	dirLight->AddComponent(dirLightCmp);
+	//Node* dirLight = world->AddNode(_T("dirLight"));
+	//SRTTransformComponent* srtDirLight = new SRTTransformComponent();
+	//srtDirLight->SetTranslation(glm::vec3(.0f, 28.0f, 1.0f));
+	//dirLight->AddComponent(srtDirLight);
+	//DirLightComponent* dirLightCmp = new DirLightComponent();
+	//dirLightCmp->SetAmbientIntensity(0.05f);
+	//dirLightCmp->SetDiffuseIntensity(0.2f);
+	//dirLight->AddComponent(dirLightCmp);
 	//BillboardComponent* sunBillboard = new BillboardComponent("asset/resources/sunny.png");
 	//dirLight->AddComponent(sunBillboard);
 
@@ -98,7 +98,7 @@ void OnWorldInit(World* world) {
 	//聚光灯1
 	Node* spotLight1 = world->AddNode(_T("spotLight1"));
 	SRTTransformComponent* srtSpotLight1 = new SRTTransformComponent();
-	srtSpotLight1->SetTranslation(glm::vec3(-2.0f, 32.0f, 3.0f));
+	srtSpotLight1->SetTranslation(glm::vec3(-2.0f, 32.0f, -3.0f));
 	spotLight1->AddComponent(srtSpotLight1);
 	SpotLightComponent* spotLightCmp1 = new SpotLightComponent();
 	//spotLightCmp1->SetLightColor(glm::vec3(1.0f, 0.0f, 1.0f));
@@ -120,8 +120,13 @@ void OnWorldInit(World* world) {
 	spotLightCmp2->SetDirection(glm::vec3(-5.0f, -5.0f, 0.0));
 	spotLight2->AddComponent(spotLightCmp2);
 
-	Node* n1 = addAnimationModel(world, _T("boblampclean"), "asset/animate_models/boblampclean/boblampclean.md5mesh", glm::vec3(0.05f), glm::vec3(0.0f), glm::vec3(-7.0f, 26.0f, 4.0f));
-	Node* n2 = addAnimationModel(world, _T("dwarf"), "asset/animate_models/dwarf/dwarf.x", glm::vec3(0.05f), glm::vec3(0.0f), glm::vec3(-4.0f, 26.0f, 4.0f));
+	//nodes.push_back(pointLight1);
+	//nodes.push_back(pointLight2);
+	//nodes.push_back(spotLight1);
+	//nodes.push_back(spotLight2);
+
+	//Node* n1 = addAnimationModel(world, _T("boblampclean"), "asset/animate_models/boblampclean/boblampclean.md5mesh", glm::vec3(0.05f), glm::vec3(0.0f), glm::vec3(-7.0f, 26.0f, 4.0f));
+	//Node* n2 = addAnimationModel(world, _T("dwarf"), "asset/animate_models/dwarf/dwarf.x", glm::vec3(0.05f), glm::vec3(0.0f), glm::vec3(-4.0f, 26.0f, 4.0f));
 	Node* n3 = addAnimationModel(world, _T("aatrox"), "asset/animate_models/aatrox/aatrox.dae", glm::vec3(1.0f), glm::vec3(0.0f), glm::vec3(-1.0f, 26.0f, 4.0f));
 	Node* n4 = addAnimationModel(world, _T("Borvar"), "asset/animate_models/Borvar/Borvar.dae", glm::vec3(1.0f), glm::vec3(0.0f), glm::vec3(2.0f, 26.0f, 4.0f));
 	Node* n5 = addAnimationModel(world, _T("cartoon_turtle"), "asset/animate_models/cartoon_turtle/cartoon_turtle.dae", glm::vec3(4.0f), glm::vec3(0.0f, -90.0f, 0.0f), glm::vec3(5.0f, 26.0f, 4.0f));
@@ -131,7 +136,6 @@ void OnWorldInit(World* world) {
 	Node* n9 = addAnimationModel(world, _T("gex-4-walk"), "asset/animate_models/gex-4-walk/gex-4-walk.dae", glm::vec3(1.0f), glm::vec3(0.0f), glm::vec3(2.0f, 26.0f, 0.0f));
 	Node* n10 = addAnimationModel(world, _T("gregory-dragon-ball"), "asset/animate_models/gregory-dragon-ball/gregory-dragon-ball.dae", glm::vec3(3.0f), glm::vec3(0.0f), glm::vec3(-1.0f, 26.0f, 0.0f));
 	Node* n11 = addAnimationModel(world, _T("lambert"), "asset/animate_models/lambert/lambert.dae", glm::vec3(1.0f), glm::vec3(0.0f), glm::vec3(-4.0f, 26.0f, 0.0f));
-	Node* n12 = addAnimationModel(world, _T("low-poly-warrior"), "asset/animate_models/low-poly-warrior/low-poly-warrior.dae", glm::vec3(1.0f), glm::vec3(0.0f), glm::vec3(-7.0f, 26.0f, 0.0f));
 	Node* n13 = addAnimationModel(world, _T("ava-yonng"), "asset/animate_models/ava-yonng/ava-yonng.dae", glm::vec3(40.0f), glm::vec3(0.0f), glm::vec3(-7.0f, 26.0f, 8.0f));
 	Node* n14 = addAnimationModel(world, _T("bristleback"), "asset/animate_models/bristleback/bristleback.dae", glm::vec3(1.5f), glm::vec3(0.0f), glm::vec3(-4.0f, 26.0f, 8.0f));
 	Node* n15 = addAnimationModel(world, _T("greet_frog"), "asset/animate_models/greet_frog/greet_frog.dae", glm::vec3(1.0f), glm::vec3(0.0f), glm::vec3(-1.0f, 26.0f, 8.0f));

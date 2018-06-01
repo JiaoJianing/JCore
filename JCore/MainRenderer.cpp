@@ -428,11 +428,13 @@ void MainRenderer::renderLightingCSM(Scene* scene, RenderContext* context)
 	shaderCSM_Model_Animation.setFloat("cascadeSpace[0]", m_CSMRenderer.GetCascadeAt(0)->CascadeSpace);
 	shaderCSM_Model_Animation.setFloat("cascadeSpace[1]", m_CSMRenderer.GetCascadeAt(1)->CascadeSpace);
 	shaderCSM_Model_Animation.setFloat("cascadeSpace[2]", m_CSMRenderer.GetCascadeAt(2)->CascadeSpace);
-	shaderCSM_Model_Animation.setVec3("dirLight.base.color", glm::vec3(1.0f));
-	shaderCSM_Model_Animation.setFloat("dirLight.base.ambientIntensity", 0.05f);
-	shaderCSM_Model_Animation.setFloat("dirLight.base.diffuseIntensity", 0.8f);
-	shaderCSM_Model_Animation.setVec3("dirLight.direction", -m_CSMRenderer.GetSunDirection());
+	prepareLightingParams(scene, shaderCSM_Model_Animation);
 	renderAnimationModel(scene, context, shaderCSM_Model_Animation);
+
+	//调试输出光源位置
+	if (false) {
+		renderLightDebug(scene, context);
+	}
 }
 
 void MainRenderer::renderBillboard(Scene* scene, RenderContext* context)
@@ -563,8 +565,8 @@ void MainRenderer::prepareLightingParams(Scene* scene, Shader shader)
 		}
 	}
 	shader.setVec3("dirLights[" + std::to_string(dirlightNum) + "].base.color", glm::vec3(1.0f));
-	shader.setFloat("dirLights[" + std::to_string(dirlightNum) + "].base.ambientIntensity", 0.05f);
-	shader.setFloat("dirLights[" + std::to_string(dirlightNum) + "].base.diffuseIntensity", 0.8f);
+	shader.setFloat("dirLights[" + std::to_string(dirlightNum) + "].base.ambientIntensity", 0.1f);
+	shader.setFloat("dirLights[" + std::to_string(dirlightNum) + "].base.diffuseIntensity", 1.0f);
 	shader.setVec3("dirLights[" + std::to_string(dirlightNum) + "].direction", -m_CSMRenderer.GetSunDirection());
 	dirlightNum++;
 

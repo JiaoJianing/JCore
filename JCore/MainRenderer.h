@@ -65,6 +65,8 @@ private:
 
 	void renderShadowDebug(Scene* scene, RenderContext* context);
 
+	void prepareLightingParams(Scene* scene, Shader shader);
+
 protected:	
 	bool m_EnableSkybox;
 	bool m_EnableNormal;

@@ -404,10 +404,7 @@ void MainRenderer::renderLightingCSM(Scene* scene, RenderContext* context)
 	shaderCSM_Model.setFloat("cascadeSpace[0]", m_CSMRenderer.GetCascadeAt(0)->CascadeSpace);
 	shaderCSM_Model.setFloat("cascadeSpace[1]", m_CSMRenderer.GetCascadeAt(1)->CascadeSpace);
 	shaderCSM_Model.setFloat("cascadeSpace[2]", m_CSMRenderer.GetCascadeAt(2)->CascadeSpace);
-	shaderCSM_Model.setVec3("dirLight.base.color", glm::vec3(1.0f));
-	shaderCSM_Model.setFloat("dirLight.base.ambientIntensity", 0.05f);
-	shaderCSM_Model.setFloat("dirLight.base.diffuseIntensity", 0.8f);
-	shaderCSM_Model.setVec3("dirLight.direction", -m_CSMRenderer.GetSunDirection());
+	prepareLightingParams(scene, shaderCSM_Model);
 
 	//渲染模型
 	renderModel(scene, context, shaderCSM_Model);
@@ -518,6 +515,62 @@ void MainRenderer::renderShadowDebug(Scene* scene, RenderContext* context)
 	glBindTexture(GL_TEXTURE_2D, m_ShadowMapRenderer.GetShadowMapTexture());
 
 	m_ShadowDebugQuad.Render(shaderShadowDbg);
+}
+
+void MainRenderer::prepareLightingParams(Scene* scene, Shader shader)
+{
+	shader.use();
+
+	//设置光照参数
+	int pointlightNum = 0;
+	int spotlightNum = 0;
+	int dirlightNum = 0;
+	for (std::vector<BaseLight*>::iterator it = scene->GetLights().begin(); it != scene->GetLights().end(); it++) {
+		//方向光
+		//if (dynamic_cast<DirLight*>(*it) != 0) {
+		//	DirLight* light = dynamic_cast<DirLight*>(*it);
+		//	shader.setVec3("dirLights[" + std::to_string(dirlightNum) + "].base.color", light->GetLightColor());
+		//	shader.setFloat("dirLights[" + std::to_string(dirlightNum) + "].base.ambientIntensity", light->GetAmbientIntensity());
+		//	shader.setFloat("dirLights[" + std::to_string(dirlightNum) + "].base.diffuseIntensity", light->GetDiffuseIntensity());
+		//	shader.setVec3("dirLights[" + std::to_string(dirlightNum) + "].direction", light->GetLightPos());
+		//	dirlightNum++;
+		//}
+		//聚光灯
+		if (dynamic_cast<SpotLight*>(*it) != 0) {
+			SpotLight* light = dynamic_cast<SpotLight*>(*it);
+			shader.setVec3("spotLights[" + std::to_string(spotlightNum) + "].base.base.color", light->GetLightColor());
+			shader.setFloat("spotLights[" + std::to_string(spotlightNum) + "].base.base.ambientIntensity", light->GetAmbientIntensity());
+			shader.setFloat("spotLights[" + std::to_string(spotlightNum) + "].base.base.diffuseIntensity", light->GetDiffuseIntensity());
+			shader.setFloat("spotLights[" + std::to_string(spotlightNum) + "].base.attenuation.constant", light->GetConstant());
+			shader.setFloat("spotLights[" + std::to_string(spotlightNum) + "].base.attenuation.linear", light->GetLinear());
+			shader.setFloat("spotLights[" + std::to_string(spotlightNum) + "].base.attenuation.exp", light->GetExp());
+			shader.setVec3("spotLights[" + std::to_string(spotlightNum) + "].base.position", light->GetLightPos());
+			shader.setVec3("spotLights[" + std::to_string(spotlightNum) + "].direction", light->GetDirection());
+			shader.setFloat("spotLights[" + std::to_string(spotlightNum) + "].cutoff", glm::cos(glm::radians(light->GetCutOff())));
+			spotlightNum++;
+		}
+		//点光源
+		else if (dynamic_cast<PointLight*>(*it) != 0) {
+			PointLight* light = dynamic_cast<PointLight*>(*it);
+			shader.setVec3("pointLights[" + std::to_string(pointlightNum) + "].base.color", light->GetLightColor());
+			shader.setFloat("pointLights[" + std::to_string(pointlightNum) + "].base.ambientIntensity", light->GetAmbientIntensity());
+			shader.setFloat("pointLights[" + std::to_string(pointlightNum) + "].base.diffuseIntensity", light->GetDiffuseIntensity());
+			shader.setFloat("pointLights[" + std::to_string(pointlightNum) + "].attenuation.constant", light->GetConstant());
+			shader.setFloat("pointLights[" + std::to_string(pointlightNum) + "].attenuation.linear", light->GetLinear());
+			shader.setFloat("pointLights[" + std::to_string(pointlightNum) + "].attenuation.exp", light->GetExp());
+			shader.setVec3("pointLights[" + std::to_string(pointlightNum) + "].position", light->GetLightPos());
+			pointlightNum++;
+		}
+	}
+	shader.setVec3("dirLights[" + std::to_string(dirlightNum) + "].base.color", glm::vec3(1.0f));
+	shader.setFloat("dirLights[" + std::to_string(dirlightNum) + "].base.ambientIntensity", 0.05f);
+	shader.setFloat("dirLights[" + std::to_string(dirlightNum) + "].base.diffuseIntensity", 0.8f);
+	shader.setVec3("dirLights[" + std::to_string(dirlightNum) + "].direction", -m_CSMRenderer.GetSunDirection());
+	dirlightNum++;
+
+	shader.setInt("pointLightNum", pointlightNum);
+	shader.setInt("spotLightNum", spotlightNum);
+	shader.setInt("dirLightNum", dirlightNum);
 }
 
 void RenderContext::GetParamsFromCamera(CameraComponent* camera)

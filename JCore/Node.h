@@ -52,6 +52,12 @@ public:
 
 	void OnRemoveFromWorld(World* world);
 
+	glm::vec3& GetFrontDir();
+	void SetFrontDir(const glm::vec3& value);
+
+	glm::vec3& GetUpDir();
+	void SetUpDir(const glm::vec3& value);
+
 private:
 	Node(const stringT& name);
 	Node(const Node& other);
@@ -69,6 +75,8 @@ private:
 	unsigned long m_ID; //ID´Ó1¿ªÊ¼
 	stringT m_Name;
 	glm::vec3 m_Color;
+	glm::vec3 m_FrontDir;
+	glm::vec3 m_UpDir;
 
 	std::vector<BaseComponent*> m_Components;
 

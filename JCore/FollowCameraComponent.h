@@ -1,6 +1,7 @@
 #pragma once
 #include "Node.h"
 #include "CameraComponent.h"
+#include "SRTTransformComponent.h"
 
 class FollowCameraComponent : public CameraComponent
 {
@@ -22,9 +23,15 @@ public:
 	void SetFollowNode(Node* node);
 
 private:
+	void updateCameraState(const glm::vec3& nodePosition);
+
+private:
 	Node * m_FollowNode;
 	float m_ViewDistance;
-	float m_MinViewDistance;
 	float m_Pitch;
+	float m_Yaw;
+	SRTTransformComponent* m_FollowNodeSRT;
+	glm::vec3 m_CamDirection;
+	glm::vec3 m_BaseCamDirection;
 };
 

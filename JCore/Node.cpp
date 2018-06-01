@@ -12,6 +12,8 @@ Node::Node(const stringT& name)
 	, m_HighLightColor(1.0f, 1.0f, 0.0f)
 	, m_Pickable(true)
 	, m_World(0)
+	, m_FrontDir(0.0f, 0.0f, 1.0f)
+	, m_UpDir(0.0f, 1.0f, 0.0f)
 {
 }
 
@@ -203,6 +205,26 @@ void Node::OnRemoveFromWorld(World* world)
 		}
 	}
 	this->SetWorld(0);
+}
+
+glm::vec3& Node::GetFrontDir()
+{
+	return m_FrontDir;
+}
+
+void Node::SetFrontDir(const glm::vec3& value)
+{
+	m_FrontDir = value;
+}
+
+glm::vec3& Node::GetUpDir()
+{
+	return m_UpDir;
+}
+
+void Node::SetUpDir(const glm::vec3& value)
+{
+	m_UpDir = value;
 }
 
 void Node::removeChild(Node* node)

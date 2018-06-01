@@ -18,6 +18,12 @@ public:
 	glm::vec3 GetTranslation();
 	void SetTranslation(const glm::vec3& translation);
 
+	bool GetCheckTerrain();
+	void SetCheckTerrain(bool value);
+
+	float GetHeightAboveTerrain();
+	void SetHeightAboveTerrain(float value);
+
 	virtual stringT GetTypeName();
 
 	virtual void Update(double curFrame, double deltaFrame);
@@ -29,5 +35,8 @@ public:
 private:
 	SRTTransform m_SRT;
 	bool m_TransformDirty;
+	World* m_World;
+	bool m_CheckTerrain;
+	float m_HeightAboveTerrain;
 };
 

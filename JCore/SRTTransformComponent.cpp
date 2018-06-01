@@ -1,9 +1,13 @@
 #include "stdafx.h"
 #include "SRTTransformComponent.h"
 #include "Node.h"
+#include "World.h"
 
 SRTTransformComponent::SRTTransformComponent()
 	: m_TransformDirty(false)
+	, m_World(0)
+	, m_CheckTerrain(true)
+	, m_HeightAboveTerrain(0)
 {
 }
 
@@ -45,6 +49,26 @@ void SRTTransformComponent::SetTranslation(const glm::vec3& translation)
 	m_TransformDirty = true;
 }
 
+bool SRTTransformComponent::GetCheckTerrain()
+{
+	return m_CheckTerrain;
+}
+
+void SRTTransformComponent::SetCheckTerrain(bool value)
+{
+	m_CheckTerrain = value;
+}
+
+float SRTTransformComponent::GetHeightAboveTerrain()
+{
+	return m_HeightAboveTerrain;
+}
+
+void SRTTransformComponent::SetHeightAboveTerrain(float value)
+{
+	m_HeightAboveTerrain = value;
+}
+
 stringT SRTTransformComponent::GetTypeName()
 {
 	return _T("SRTTransformComponent");
@@ -52,6 +76,11 @@ stringT SRTTransformComponent::GetTypeName()
 
 void SRTTransformComponent::Update(double curFrame, double deltaFrame)
 {
+	if (m_CheckTerrain && m_World != 0) {
+		float height = m_World->GetHeightAt(m_SRT.GetTranslation());
+		m_SRT.SetTranslation(glm::vec3(m_SRT.GetTranslation().x, height + m_HeightAboveTerrain, m_SRT.GetTranslation().z));
+	}
+
 	if (GetOwner()->GetParent() == 0) {
 		if (m_TransformDirty) {
 			GetOwner()->SetWorldTransform(m_SRT.GetTransformMatrix());
@@ -68,7 +97,7 @@ void SRTTransformComponent::Update(double curFrame, double deltaFrame)
 
 void SRTTransformComponent::OnAddToWorld(World* world)
 {
-
+	m_World = world;
 }
 
 void SRTTransformComponent::OnRemoveFromWorld(World* world)

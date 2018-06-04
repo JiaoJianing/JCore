@@ -150,6 +150,14 @@ void Model::loadModel(std::string path)
 
 	processNode(m_Scene->mRootNode, m_Scene);
 
+	if (m_SupportAnimation) {
+		const aiAnimation* pAnimation = m_Scene->mAnimations[0];	
+		for (unsigned int i = 0; i < pAnimation->mNumChannels; i++) {
+			aiNodeAnim* pNodeAnim = pAnimation->mChannels[i];
+			m_AnimMaps[pNodeAnim->mNodeName.data] = pNodeAnim;
+		}
+	}
+
 	m_BoneTransforms.resize(m_NumBones);
 }
 
@@ -294,11 +302,9 @@ void Model::readNodeHeirarchy(float AnimationTime, const aiNode* pNode, const gl
 {
 	std::string NodeName(pNode->mName.data);
 
-	const aiAnimation* pAnimation = m_Scene->mAnimations[0];
-
 	glm::mat4 NodeTransformation(MatrixHelper::Convert2GlmMatrix(pNode->mTransformation));
 
-	const aiNodeAnim* pNodeAnim = findNodeAnim(pAnimation, NodeName);
+	const aiNodeAnim* pNodeAnim = findNodeAnim(NodeName);
 
 	if (pNodeAnim) {
 		// Interpolate scaling and generate scaling transformation matrix
@@ -435,14 +441,10 @@ unsigned int Model::findPosition(float AnimationTime, const aiNodeAnim* pNodeAni
 	return 0;
 }
 
-const aiNodeAnim* Model::findNodeAnim(const aiAnimation* pAnimation, const std::string NodeName)
+const aiNodeAnim* Model::findNodeAnim(const std::string NodeName)
 {
-	for (unsigned int i = 0; i < pAnimation->mNumChannels; i++) {
-		const aiNodeAnim* pNodeAnim = pAnimation->mChannels[i];
-
-		if (std::string(pNodeAnim->mNodeName.data) == NodeName) {
-			return pNodeAnim;
-		}
+	if (m_AnimMaps.find(NodeName) != m_AnimMaps.end()) {
+		return m_AnimMaps[NodeName];
 	}
 
 	return 0;

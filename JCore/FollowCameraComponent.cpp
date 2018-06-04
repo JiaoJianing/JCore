@@ -10,6 +10,7 @@ FollowCameraComponent::FollowCameraComponent(int width, int height)
 	, m_FollowNodeSRT(0)
 	, m_CamDirection(0.0f, -1.0f, 1.0f)
 	, m_BaseCamDirection(0.0f, -1.0f, 1.0f)
+	, m_CamRotDirection(1.0f, 0.0f, 0.0f)
 {
 }
 
@@ -54,7 +55,7 @@ void FollowCameraComponent::OnMouseMove(double x, double y)
 		if (m_FollowNode != 0) {
 			m_FollowNodeSRT->SetRotate(m_FollowNode->GetUpDir() * -m_Yaw);
 			glm::mat4 cameraRotate;
-			cameraRotate = glm::rotate(cameraRotate, glm::radians(m_Pitch), glm::normalize(glm::cross(m_FollowNode->GetFrontDir(), m_FollowNode->GetUpDir())));
+			cameraRotate = glm::rotate(cameraRotate, glm::radians(m_Pitch), m_CamRotDirection);
 			m_CamDirection = cameraRotate * glm::vec4(m_BaseCamDirection, 0.0f);
 
 			updateCameraState(m_FollowNodeSRT->GetTranslation());
@@ -139,6 +140,7 @@ void FollowCameraComponent::SetFollowNode(Node* node)
 
 	if (m_FollowNode != 0) {
 		m_BaseCamDirection = m_CamDirection = -(-m_FollowNode->GetFrontDir() + m_FollowNode->GetUpDir());
+		m_CamRotDirection = glm::normalize(glm::cross(m_FollowNode->GetFrontDir(), m_FollowNode->GetUpDir()));
 		m_FollowNodeSRT = m_FollowNode->FindComponent<SRTTransformComponent>();
 		updateCameraState(m_FollowNodeSRT->GetTranslation());
 	}

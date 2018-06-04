@@ -33,5 +33,6 @@ private:
 	SRTTransformComponent* m_FollowNodeSRT;
 	glm::vec3 m_CamDirection;
 	glm::vec3 m_BaseCamDirection;
+	glm::vec3 m_CamRotDirection;
 };
 

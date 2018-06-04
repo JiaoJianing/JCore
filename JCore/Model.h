@@ -68,7 +68,7 @@ private:
 	unsigned int findScaling(float AnimationTime, const aiNodeAnim* pNodeAnim);
 	unsigned int findRotation(float AnimationTime, const aiNodeAnim* pNodeAnim);
 	unsigned int findPosition(float AnimationTime, const aiNodeAnim* pNodeAnim);
-	const aiNodeAnim* findNodeAnim(const aiAnimation* pAnimation, const std::string NodeName);
+	const aiNodeAnim* findNodeAnim(const std::string NodeName);
 
 private:
 	glm::vec3 m_Color;
@@ -83,6 +83,8 @@ private:
 	std::vector<BoneInfo> m_BoneInfo;
 	glm::mat4 m_GlobalInverseTransform;
 	std::vector<glm::mat4> m_BoneTransforms;
+
+	std::map<std::string, aiNodeAnim*> m_AnimMaps;
 
 	const aiScene* m_Scene;
 	Assimp::Importer m_Importer;

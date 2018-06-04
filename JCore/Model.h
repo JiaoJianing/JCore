@@ -45,6 +45,8 @@ public:
 
 	void UpdateBoneTransform(float currentFrame);
 
+	void SetCurrentAnimation(int animIndex);
+
 private:
 	std::vector<Mesh> meshes;
 	std::string directory;
@@ -77,6 +79,8 @@ private:
 	glm::vec3 m_HighLightColor;
 	unsigned long m_ID;
 	bool m_SupportAnimation;
+	int m_TotalAnimation;
+	int m_CurrentAnimation;
 
 	std::map<std::string, unsigned int> m_BoneMapping; // maps a bone name to its index
 	unsigned int m_NumBones;

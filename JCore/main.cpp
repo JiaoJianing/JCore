@@ -20,6 +20,8 @@ int nodeID = 0;
 
 std::vector<Node*> nodes;
 int nodeIndex = 0;
+Node* multipleAnimNode = 0;
+int animIndex = 0;
 
 TwBar* g_TwBar = 0;
 
@@ -132,6 +134,8 @@ void OnWorldInit(World* world) {
 	spotLightCmp2->SetDirection(glm::vec3(-5.0f, -5.0f, 0.0));
 	spotLight2->AddComponent(spotLightCmp2);
 
+	Node* n1 = addAnimationModel(world, _T("purpleheartanime"), "asset/animate_models/purpleheartanime/purpleheartanime.fbx", glm::vec3(1.0f), glm::vec3(0.0f), glm::vec3(-4.0f, 27.0f, 8.0f));
+	multipleAnimNode = n1;
 	Node* n3 = addAnimationModel(world, _T("aatrox"), "asset/animate_models/aatrox/aatrox.dae", glm::vec3(1.0f), glm::vec3(0.0f), glm::vec3(-1.0f, 26.0f, 4.0f));
 	Node* n4 = addAnimationModel(world, _T("Borvar"), "asset/animate_models/Borvar/Borvar.dae", glm::vec3(1.0f), glm::vec3(0.0f), glm::vec3(2.0f, 26.0f, 4.0f));
 	Node* n5 = addAnimationModel(world, _T("cartoon_turtle"), "asset/animate_models/cartoon_turtle/cartoon_turtle.dae", glm::vec3(4.0f), glm::vec3(0.0f), glm::vec3(5.0f, 26.0f, 4.0f));
@@ -257,7 +261,23 @@ void OnWorldKeyboard(World* world, int key, bool pressed) {
 
 	switch (key)
 	{
+	case GLFW_KEY_1://切换free相机模式
+	{
+		world->ToFree(glm::vec3(0.0f, 30.0f, 3.0f));
 
+		TwSetParam(g_TwBar, "camera-mode", "label", TW_PARAM_CSTRING, 1, "Current Camera: free");
+	}
+	break;
+	case GLFW_KEY_2://切换follow相机模式
+	{
+		Node* node = nodes.at(nodeIndex++ % nodes.size());
+		world->ToFollow(node);
+
+		char paramValue[64];
+		_snprintf(paramValue, sizeof(paramValue), "Camera fix to: %s", StringHelper::WString2String(node->GetName()).c_str());
+		TwSetParam(g_TwBar, "camera-mode", "label", TW_PARAM_CSTRING, 1, paramValue);
+	}
+	break; 
 	case GLFW_KEY_3:
 	{
 		Node* node = world->AddNode(_T("test") + std::to_wstring(nodeID++));
@@ -287,21 +307,9 @@ void OnWorldKeyboard(World* world, int key, bool pressed) {
 		}
 	}
 	break;
-	case GLFW_KEY_1://切换free相机模式
+	case GLFW_KEY_5:
 	{
-		world->ToFree(glm::vec3(0.0f, 30.0f, 3.0f));
-
-		TwSetParam(g_TwBar, "camera-mode", "label", TW_PARAM_CSTRING, 1, "Current Camera: free");
-	}
-	break;
-	case GLFW_KEY_2://切换follow相机模式
-	{
-		Node* node = nodes.at(nodeIndex++ % nodes.size());
-		world->ToFollow(node);
-
-		char paramValue[64];
-		_snprintf(paramValue, sizeof(paramValue), "Camera fix to: %s", StringHelper::WString2String(node->GetName()).c_str());
-		TwSetParam(g_TwBar, "camera-mode", "label", TW_PARAM_CSTRING, 1, paramValue);
+		multipleAnimNode->SetCurrentAnimation(animIndex++ % 6);
 	}
 	break;
 	default:

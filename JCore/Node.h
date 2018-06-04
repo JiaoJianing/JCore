@@ -58,6 +58,9 @@ public:
 	glm::vec3& GetUpDir();
 	void SetUpDir(const glm::vec3& value);
 
+	int GetCurrentAnimation();
+	void SetCurrentAnimation(int value);
+
 private:
 	Node(const stringT& name);
 	Node(const Node& other);
@@ -77,6 +80,7 @@ private:
 	glm::vec3 m_Color;
 	glm::vec3 m_FrontDir;
 	glm::vec3 m_UpDir;
+	int m_CurrentAnimation;
 
 	std::vector<BaseComponent*> m_Components;
 

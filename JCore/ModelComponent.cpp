@@ -25,6 +25,7 @@ void ModelComponent::Update(double curFrame, double deltaFrame)
 	m_Model.SetHighLightColor(GetOwner()->GetHighLightColor());
 	m_Model.SetID(GetOwner()->GetID());
 	m_Model.SetColor(GetOwner()->GetColor());
+	m_Model.SetCurrentAnimation(GetOwner()->GetCurrentAnimation());
 
 	if (m_Model.GetSupportAnimation()) {
 		m_Model.UpdateBoneTransform(curFrame);

@@ -14,6 +14,7 @@ Node::Node(const stringT& name)
 	, m_World(0)
 	, m_FrontDir(0.0f, 0.0f, 1.0f)
 	, m_UpDir(0.0f, 1.0f, 0.0f)
+	, m_CurrentAnimation(0)
 {
 }
 
@@ -225,6 +226,16 @@ glm::vec3& Node::GetUpDir()
 void Node::SetUpDir(const glm::vec3& value)
 {
 	m_UpDir = value;
+}
+
+int Node::GetCurrentAnimation()
+{
+	return m_CurrentAnimation;
+}
+
+void Node::SetCurrentAnimation(int value)
+{
+	m_CurrentAnimation = value;
 }
 
 void Node::removeChild(Node* node)

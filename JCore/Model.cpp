@@ -10,6 +10,8 @@ Model::Model(const char* path)
 	, m_Scene(0)
 	, m_NumBones(0)
 	, m_SupportAnimation(false)
+	, m_TotalAnimation(0)
+	, m_CurrentAnimation(0)
 {
 	loadModel(path);
 }
@@ -19,6 +21,8 @@ Model::Model()
 	, m_Scene(0)
 	, m_NumBones(0)
 	, m_SupportAnimation(false)
+	, m_TotalAnimation(0)
+	, m_CurrentAnimation(0)
 {
 
 }
@@ -124,9 +128,9 @@ void Model::UpdateBoneTransform(float currentFrame)
 {
 	glm::mat4 identity;
 
-	float TicksPerSecond = (float)(m_Scene->mAnimations[0]->mTicksPerSecond != 0 ? m_Scene->mAnimations[0]->mTicksPerSecond : 25.0f);
+	float TicksPerSecond = (float)(m_Scene->mAnimations[m_CurrentAnimation]->mTicksPerSecond != 0 ? m_Scene->mAnimations[m_CurrentAnimation]->mTicksPerSecond : 25.0f);
 	float TimeInTicks = currentFrame * TicksPerSecond;
-	float AnimationTime = fmod(TimeInTicks, (float)m_Scene->mAnimations[0]->mDuration);
+	float AnimationTime = fmod(TimeInTicks, (float)m_Scene->mAnimations[m_CurrentAnimation]->mDuration);
 
 	readNodeHeirarchy(AnimationTime, m_Scene->mRootNode, identity);
 
@@ -145,13 +149,14 @@ void Model::loadModel(std::string path)
 		return;
 	}
 	m_SupportAnimation = m_Scene->HasAnimations();
+	m_TotalAnimation = m_Scene->mNumAnimations;
 
 	directory = path.substr(0, path.find_last_of('/'));
 
 	processNode(m_Scene->mRootNode, m_Scene);
 
 	if (m_SupportAnimation) {
-		const aiAnimation* pAnimation = m_Scene->mAnimations[0];	
+		const aiAnimation* pAnimation = m_Scene->mAnimations[m_CurrentAnimation];
 		for (unsigned int i = 0; i < pAnimation->mNumChannels; i++) {
 			aiNodeAnim* pNodeAnim = pAnimation->mChannels[i];
 			m_AnimMaps[pNodeAnim->mNodeName.data] = pNodeAnim;
@@ -296,6 +301,19 @@ std::vector<Texture> Model::loadMaterialTextures(aiMaterial* mat, aiTextureType 
 	}
 
 	return textures;
+}
+
+void Model::SetCurrentAnimation(int animIndex)
+{
+	m_CurrentAnimation = __max(__min(m_TotalAnimation - 1, animIndex), 0);
+	m_AnimMaps.clear();
+	if (m_SupportAnimation) {
+		const aiAnimation* pAnimation = m_Scene->mAnimations[m_CurrentAnimation];
+		for (unsigned int i = 0; i < pAnimation->mNumChannels; i++) {
+			aiNodeAnim* pNodeAnim = pAnimation->mChannels[i];
+			m_AnimMaps[pNodeAnim->mNodeName.data] = pNodeAnim;
+		}
+	}
 }
 
 void Model::readNodeHeirarchy(float AnimationTime, const aiNode* pNode, const glm::mat4& ParentTransform)

@@ -111,5 +111,8 @@ private:
 
 	double m_CurrentFrame;
 	double m_DeltaFrame;
+
+	bool m_IsDragging;
+	float m_PickNodeScreenZ;
 };
 

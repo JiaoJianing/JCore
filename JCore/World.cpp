@@ -15,6 +15,8 @@ World::World(int windowWidth, int windowHeight)
 	, m_WindowWidth(windowWidth)
 	, m_WindowHeight(windowHeight)
 	, m_FPS(0.0f)
+	, m_IsDragging(false)
+	, m_PickNodeScreenZ(0.0f)
 {
 
 }
@@ -252,6 +254,17 @@ Node* World::PickNode(unsigned int x, unsigned int y)
 		m_PickingNode = ret;
 		if (m_PickingNode != 0) {
 			m_PickingNode->SetHighLight(true);
+
+			SRTTransformComponent* srt = m_PickingNode->FindComponent<SRTTransformComponent>();			
+			if (srt != 0) {
+				glm::vec3 position = srt->GetTranslation();
+				glm::mat4 view = GetActiveCamera()->GetViewTransform();
+				glm::mat4 proj = GetActiveCamera()->GetProjectionTransform();
+				glm::mat4 vp = proj * view;
+				glm::vec4 projCoord = vp * glm::vec4(position, 1.0f);
+				glm::vec3 ndcCoord = projCoord / projCoord.w;
+				m_PickNodeScreenZ = ndcCoord.z;
+			}
 		}
 	}
 	return ret;
@@ -260,15 +273,35 @@ Node* World::PickNode(unsigned int x, unsigned int y)
 void World::OnMouseMove(double xPos, double yPos)
 {
 	GetActiveCamera()->OnMouseMove(xPos, yPos);
+
+	if (m_IsDragging) {
+		if (m_PickingNode != 0 && GetActiveCamera() == m_FreeCamera) {
+			SRTTransformComponent* srt = m_PickingNode->FindComponent<SRTTransformComponent>();
+			if (srt != 0) {
+				glm::mat4 view = GetActiveCamera()->GetViewTransform();
+				glm::mat4 proj = GetActiveCamera()->GetProjectionTransform();
+				glm::mat4 vp = proj * view;
+
+				float x = xPos / m_WindowWidth * 2.0f - 1.0f;
+				float y = (1.0f - yPos / m_WindowHeight) * 2.0f - 1.0f;
+				float z = m_PickNodeScreenZ;
+				glm::vec4 pos = glm::inverse(vp) * glm::vec4(x, y, z, 1.0f);
+				glm::vec3 worldPos = pos / pos.w;
+				srt->SetTranslation(worldPos);
+			}
+		}
+	}
 }
 
 void World::OnMouseDown()
 {
+	m_IsDragging = true;
 	GetActiveCamera()->OnMouseDown();
 }
 
 void World::OnMouseUp()
 {
+	m_IsDragging = false;
 	GetActiveCamera()->OnMouseUp();
 }
 

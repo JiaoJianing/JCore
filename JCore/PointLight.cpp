@@ -3,8 +3,8 @@
 
 PointLight::PointLight()
 	: m_Constant(1.0f)
-	, m_Linear(0.0f)
-	, m_Exp(0.0f)
+	, m_Linear(0.09f)
+	, m_Exp(0.032f)
 {
 }
 

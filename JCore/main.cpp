@@ -92,6 +92,7 @@ void OnWorldInit(World* world) {
 	//点光源1
 	Node* pointLight1 = world->AddNode(_T("pointLight1"));
 	SRTTransformComponent* srtPointLight1 = new SRTTransformComponent();
+	srtPointLight1->SetCheckTerrain(false);
 	srtPointLight1->SetTranslation(glm::vec3(-5.0f, 32.0f, -5.0f));
 	pointLight1->AddComponent(srtPointLight1);
 	PointLightComponent* pointLightCmp1 = new PointLightComponent();
@@ -102,6 +103,7 @@ void OnWorldInit(World* world) {
 	//点光源2
 	Node* pointLight2 = world->AddNode(_T("pointLight2"));
 	SRTTransformComponent* srtPointLight2 = new SRTTransformComponent();
+	srtPointLight2->SetCheckTerrain(false);
 	srtPointLight2->SetTranslation(glm::vec3(-2.0f, 32.0f, 3.0f));
 	pointLight2->AddComponent(srtPointLight2);
 	PointLightComponent* pointLightCmp2 = new PointLightComponent();
@@ -112,10 +114,11 @@ void OnWorldInit(World* world) {
 	//聚光灯1
 	Node* spotLight1 = world->AddNode(_T("spotLight1"));
 	SRTTransformComponent* srtSpotLight1 = new SRTTransformComponent();
+	srtSpotLight1->SetCheckTerrain(false);
 	srtSpotLight1->SetTranslation(glm::vec3(-2.0f, 32.0f, -3.0f));
 	spotLight1->AddComponent(srtSpotLight1);
 	SpotLightComponent* spotLightCmp1 = new SpotLightComponent();
-	//spotLightCmp1->SetLightColor(glm::vec3(1.0f, 0.0f, 1.0f));
+	spotLightCmp1->SetLightColor(glm::vec3(1.0f, 0.0f, 1.0f));
 	spotLightCmp1->SetAmbientIntensity(0.05f);
 	spotLightCmp1->SetDiffuseIntensity(0.6f);
 	spotLightCmp1->SetCutOff(20.0f);
@@ -124,10 +127,11 @@ void OnWorldInit(World* world) {
 	//聚光灯2
 	Node* spotLight2 = world->AddNode(_T("spotLight2"));
 	SRTTransformComponent* srtSpotLight2 = new SRTTransformComponent();
+	srtSpotLight2->SetCheckTerrain(false);
 	srtSpotLight2->SetTranslation(glm::vec3(5.0f, 32.0f, 0.0f));
 	spotLight2->AddComponent(srtSpotLight2);
 	SpotLightComponent* spotLightCmp2 = new SpotLightComponent();
-	//spotLightCmp2->SetLightColor(glm::vec3(1.0f, 0.0f, 1.0f));
+	spotLightCmp2->SetLightColor(glm::vec3(1.0f, 0.0f, 1.0f));
 	spotLightCmp2->SetAmbientIntensity(0.05f);
 	spotLightCmp2->SetDiffuseIntensity(1.0f);
 	spotLightCmp2->SetCutOff(60.0f);
@@ -309,7 +313,9 @@ void OnWorldKeyboard(World* world, int key, bool pressed) {
 	break;
 	case GLFW_KEY_5:
 	{
-		multipleAnimNode->SetCurrentAnimation(animIndex++ % 6);
+		if (multipleAnimNode != 0) {
+			multipleAnimNode->SetCurrentAnimation(animIndex++ % 6);
+		}
 	}
 	break;
 	default:

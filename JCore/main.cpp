@@ -62,6 +62,7 @@ void OnWorldInit(World* world) {
 	Node* terrain = world->AddNode(_T("terrain"));
 	terrain->SetPickable(false);
 	SRTTransformComponent* terrainSRT = new SRTTransformComponent();
+	terrainSRT->SetCheckTerrain(false);
 	terrain->AddComponent(terrainSRT);
 	TerrainComponent* terrainCmp = new TerrainComponent("asset/resources/Terrain/terrain0-16bbp-257x257.raw", 16, 257, 257, 30.0f, 2.0f);
 	terrain->AddComponent(terrainCmp);

@@ -45,7 +45,13 @@ glm::vec3 SRTTransformComponent::GetTranslation()
 
 void SRTTransformComponent::SetTranslation(const glm::vec3& translation)
 {
-	m_SRT.SetTranslation(translation);
+	if (m_CheckTerrain && m_World != 0) {
+		float height = m_World->GetHeightAt(m_SRT.GetTranslation());
+		m_SRT.SetTranslation(glm::vec3(m_SRT.GetTranslation().x, height + m_HeightAboveTerrain, m_SRT.GetTranslation().z));
+	}
+	else {
+		m_SRT.SetTranslation(translation);
+	}
 	m_TransformDirty = true;
 }
 
@@ -57,6 +63,13 @@ bool SRTTransformComponent::GetCheckTerrain()
 void SRTTransformComponent::SetCheckTerrain(bool value)
 {
 	m_CheckTerrain = value;
+	if (m_CheckTerrain) {
+		if (m_CheckTerrain && m_World != 0) {
+			float height = m_World->GetHeightAt(m_SRT.GetTranslation());
+			m_SRT.SetTranslation(glm::vec3(m_SRT.GetTranslation().x, height + m_HeightAboveTerrain, m_SRT.GetTranslation().z));
+			m_TransformDirty = true;
+		}
+	}
 }
 
 float SRTTransformComponent::GetHeightAboveTerrain()
@@ -76,11 +89,6 @@ stringT SRTTransformComponent::GetTypeName()
 
 void SRTTransformComponent::Update(double curFrame, double deltaFrame)
 {
-	if (m_CheckTerrain && m_World != 0) {
-		float height = m_World->GetHeightAt(m_SRT.GetTranslation());
-		m_SRT.SetTranslation(glm::vec3(m_SRT.GetTranslation().x, height + m_HeightAboveTerrain, m_SRT.GetTranslation().z));
-	}
-
 	if (GetOwner()->GetParent() == 0) {
 		if (m_TransformDirty) {
 			GetOwner()->SetWorldTransform(m_SRT.GetTransformMatrix());

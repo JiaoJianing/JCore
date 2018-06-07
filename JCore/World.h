@@ -105,6 +105,7 @@ private:
 	TextRenderer* m_TextRender;
 
 	Node* m_PickingNode;
+	SRTTransformComponent* m_PickingNodeSRT;
 
 	Scene* m_Scene;
 	MainRenderer* m_Renderer;

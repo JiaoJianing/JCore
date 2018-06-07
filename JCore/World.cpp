@@ -293,6 +293,7 @@ void World::OnMouseMove(double xPos, double yPos)
 				float z = m_PickNodeScreenZ;
 				glm::vec4 pos = glm::inverse(vp) * glm::vec4(x, y, z, 1.0f);
 				glm::vec3 worldPos = pos / pos.w;
+				worldPos.y = __max(GetHeightAt(worldPos), worldPos.y);
 				m_PickingNodeSRT->SetTranslation(worldPos);
 			}
 		}

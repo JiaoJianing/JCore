@@ -46,8 +46,8 @@ glm::vec3 SRTTransformComponent::GetTranslation()
 void SRTTransformComponent::SetTranslation(const glm::vec3& translation)
 {
 	if (m_CheckTerrain && m_World != 0) {
-		float height = m_World->GetHeightAt(m_SRT.GetTranslation());
-		m_SRT.SetTranslation(glm::vec3(m_SRT.GetTranslation().x, height + m_HeightAboveTerrain, m_SRT.GetTranslation().z));
+		float height = m_World->GetHeightAt(translation);
+		m_SRT.SetTranslation(glm::vec3(translation.x, height + m_HeightAboveTerrain, translation.z));
 	}
 	else {
 		m_SRT.SetTranslation(translation);

@@ -210,6 +210,9 @@
     <ClCompile Include="MatrixHelper.cpp">
       <Filter>Helper</Filter>
     </ClCompile>
+    <ClCompile Include="Water.cpp">
+      <Filter>RenderObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -370,6 +373,9 @@
     </ClInclude>
     <ClInclude Include="MatrixHelper.h">
       <Filter>Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="Water.h">
+      <Filter>RenderObject</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

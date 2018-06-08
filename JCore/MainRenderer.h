@@ -6,6 +6,7 @@
 #include "SpherePrimitive.h"
 #include "ShadowMapRenderer.h"
 #include "CSMRenderer.h"
+#include "Water.h"
 
 class MainRenderer
 {
@@ -44,7 +45,7 @@ private:
 
 	void renderSihouette(Scene* scene, RenderContext* context);
 
-	void renderLighting(Scene* scene, RenderContext* context);
+	//void renderLighting(Scene* scene, RenderContext* context);
 
 	void renderLightingCSM(Scene* scene, RenderContext* context);
 
@@ -59,6 +60,12 @@ private:
 	void renderCustomPrimitive(Scene* scene, RenderContext* context, Shader shader);
 
 	void renderTerrain(Scene* scene, RenderContext* context);
+
+	void prepareRenderWater(Scene* scene, RenderContext* context);
+
+	void renderWater(Scene* scene, RenderContext* context);
+
+	void renderWaterCSM(Scene* scene, RenderContext* context);
 
 	//画出光源位置。用来调试
 	void renderLightDebug(Scene* scene, RenderContext* context);
@@ -86,5 +93,6 @@ protected:
 	int m_Height;
 
 	Quad m_ShadowDebugQuad;
+	Water m_Water;
 };
 

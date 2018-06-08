@@ -35,6 +35,8 @@ void MainRenderer::Render(Scene* scene, RenderContext* context)
 		m_CSMRenderer.Render(scene, context);
 	}
 
+	prepareRenderWater(scene, context);
+
 	if (false) {
 		renderShadowDebug(scene, context);
 		return;
@@ -59,7 +61,8 @@ void MainRenderer::Render(Scene* scene, RenderContext* context)
 	}
 	else {
 		//渲染地形
-		renderTerrain(scene, context);
+		//renderTerrain(scene, context);
+		renderWater(scene, context);
 
 		Shader shaderModel = ResourceManager::getInstance()->GetShader("model");
 		Shader shaderModel_Animation = ResourceManager::getInstance()->GetShader("model_animation");
@@ -110,6 +113,7 @@ void MainRenderer::Resize(int width, int height)
 	m_PickRenderer.Resize(width, height);
 	m_ShadowMapRenderer.Resize(width, height);
 	m_CSMRenderer.Resize(width, height);
+	m_Water.Resize(width, height);
 }
 
 void MainRenderer::Initialize(int width, int height)
@@ -120,6 +124,7 @@ void MainRenderer::Initialize(int width, int height)
 	m_PickRenderer.Initialize(width, height);
 	m_ShadowMapRenderer.Initialize(width, height);
 	m_CSMRenderer.Initialize(width, height);
+	m_Water.Initialize(width, height);
 }
 
 PickInfo MainRenderer::Pick(Scene* scene, RenderContext* context, unsigned int x, unsigned int y)
@@ -190,7 +195,7 @@ void MainRenderer::renderSkybox(Scene* scene, RenderContext* context)
 	glDepthFunc(GL_LEQUAL);
 
 	Shader shaderSkybox = ResourceManager::getInstance()->GetShader("skybox");
-	Texture* textureSkybox = ResourceManager::getInstance()->GetTexture("skybox3");
+	Texture* textureSkybox = ResourceManager::getInstance()->GetTexture("skybox");
 	shaderSkybox.use();
 	shaderSkybox.setMatrix4("view", context->MatView);
 	shaderSkybox.setMatrix4("projection", context->MatProj);
@@ -298,95 +303,78 @@ void MainRenderer::renderSihouette(Scene* scene, RenderContext* context)
 	}
 }
 
-void MainRenderer::renderLighting(Scene* scene, RenderContext* context)
-{
-	Shader shaderPhong = ResourceManager::getInstance()->GetShader("phong");
-	shaderPhong.use();
-	shaderPhong.setMatrix4("view", context->MatView);
-	shaderPhong.setMatrix4("projection", context->MatProj);
-	shaderPhong.setVec3("viewPos", context->ViewPos);
-	shaderPhong.setMatrix4("lightSpaceMat", m_ShadowMapRenderer.GetLightSpaceMat());
-
-	glActiveTexture(GL_TEXTURE4);
-	glBindTexture(GL_TEXTURE_2D, m_ShadowMapRenderer.GetShadowMapTexture());
-
-	//设置光照参数
-	int pointlightNum = 0;
-	int spotlightNum = 0;
-	int dirlightNum = 0;
-	for (std::vector<BaseLight*>::iterator it = scene->GetLights().begin(); it != scene->GetLights().end(); it++) {
-		//方向光
-		if (dynamic_cast<DirLight*>(*it) != 0) {
-			DirLight* light = dynamic_cast<DirLight*>(*it);
-			shaderPhong.setVec3("dirLights[" + std::to_string(dirlightNum) + "].base.color", light->GetLightColor());
-			shaderPhong.setFloat("dirLights[" + std::to_string(dirlightNum) + "].base.ambientIntensity", light->GetAmbientIntensity());
-			shaderPhong.setFloat("dirLights[" + std::to_string(dirlightNum) + "].base.diffuseIntensity", light->GetDiffuseIntensity());
-			shaderPhong.setVec3("dirLights[" + std::to_string(dirlightNum) + "].direction", light->GetLightPos());
-			dirlightNum++;
-		}
-		//聚光灯
-		else if (dynamic_cast<SpotLight*>(*it) != 0) {
-			SpotLight* light = dynamic_cast<SpotLight*>(*it);
-			shaderPhong.setVec3("spotLights[" + std::to_string(spotlightNum) + "].base.base.color", light->GetLightColor());
-			shaderPhong.setFloat("spotLights[" + std::to_string(spotlightNum) + "].base.base.ambientIntensity", light->GetAmbientIntensity());
-			shaderPhong.setFloat("spotLights[" + std::to_string(spotlightNum) + "].base.base.diffuseIntensity", light->GetDiffuseIntensity());
-			shaderPhong.setFloat("spotLights[" + std::to_string(spotlightNum) + "].base.attenuation.constant", light->GetConstant());
-			shaderPhong.setFloat("spotLights[" + std::to_string(spotlightNum) + "].base.attenuation.linear", light->GetLinear());
-			shaderPhong.setFloat("spotLights[" + std::to_string(spotlightNum) + "].base.attenuation.exp", light->GetExp());
-			shaderPhong.setVec3("spotLights[" + std::to_string(spotlightNum) + "].base.position", light->GetLightPos());
-			shaderPhong.setVec3("spotLights[" + std::to_string(spotlightNum) + "].direction", light->GetDirection());
-			shaderPhong.setFloat("spotLights[" + std::to_string(spotlightNum) + "].cutoff", glm::cos(glm::radians(light->GetCutOff())));
-			spotlightNum++;
-		}
-		//点光源
-		else if (dynamic_cast<PointLight*>(*it) != 0) {
-			PointLight* light = dynamic_cast<PointLight*>(*it);
-			shaderPhong.setVec3("pointLights[" + std::to_string(pointlightNum) + "].base.color", light->GetLightColor());
-			shaderPhong.setFloat("pointLights[" + std::to_string(pointlightNum) + "].base.ambientIntensity", light->GetAmbientIntensity());
-			shaderPhong.setFloat("pointLights[" + std::to_string(pointlightNum) + "].base.diffuseIntensity", light->GetDiffuseIntensity());
-			shaderPhong.setFloat("pointLights[" + std::to_string(pointlightNum) + "].attenuation.constant", light->GetConstant());
-			shaderPhong.setFloat("pointLights[" + std::to_string(pointlightNum) + "].attenuation.linear", light->GetLinear());
-			shaderPhong.setFloat("pointLights[" + std::to_string(pointlightNum) + "].attenuation.exp", light->GetExp());
-			shaderPhong.setVec3("pointLights[" + std::to_string(pointlightNum) + "].position", light->GetLightPos());
-			pointlightNum++;
-		}
-	}
-	shaderPhong.setInt("pointLightNum", pointlightNum);
-	shaderPhong.setInt("spotLightNum", spotlightNum);
-	shaderPhong.setInt("dirLightNum", dirlightNum);
-	
-	//渲染模型
-	renderModel(scene, context, shaderPhong);
-
-	//渲染自定义图元
-	renderCustomPrimitive(scene, context, shaderPhong);
-
-	//调试输出光源位置
-	if (false) {
-		renderLightDebug(scene, context);
-	}
-}
+//void MainRenderer::renderLighting(Scene* scene, RenderContext* context)
+//{
+//	Shader shaderPhong = ResourceManager::getInstance()->GetShader("phong");
+//	shaderPhong.use();
+//	shaderPhong.setMatrix4("view", context->MatView);
+//	shaderPhong.setMatrix4("projection", context->MatProj);
+//	shaderPhong.setVec3("viewPos", context->ViewPos);
+//	shaderPhong.setMatrix4("lightSpaceMat", m_ShadowMapRenderer.GetLightSpaceMat());
+//
+//	glActiveTexture(GL_TEXTURE4);
+//	glBindTexture(GL_TEXTURE_2D, m_ShadowMapRenderer.GetShadowMapTexture());
+//
+//	//设置光照参数
+//	int pointlightNum = 0;
+//	int spotlightNum = 0;
+//	int dirlightNum = 0;
+//	for (std::vector<BaseLight*>::iterator it = scene->GetLights().begin(); it != scene->GetLights().end(); it++) {
+//		//方向光
+//		if (dynamic_cast<DirLight*>(*it) != 0) {
+//			DirLight* light = dynamic_cast<DirLight*>(*it);
+//			shaderPhong.setVec3("dirLights[" + std::to_string(dirlightNum) + "].base.color", light->GetLightColor());
+//			shaderPhong.setFloat("dirLights[" + std::to_string(dirlightNum) + "].base.ambientIntensity", light->GetAmbientIntensity());
+//			shaderPhong.setFloat("dirLights[" + std::to_string(dirlightNum) + "].base.diffuseIntensity", light->GetDiffuseIntensity());
+//			shaderPhong.setVec3("dirLights[" + std::to_string(dirlightNum) + "].direction", light->GetLightPos());
+//			dirlightNum++;
+//		}
+//		//聚光灯
+//		else if (dynamic_cast<SpotLight*>(*it) != 0) {
+//			SpotLight* light = dynamic_cast<SpotLight*>(*it);
+//			shaderPhong.setVec3("spotLights[" + std::to_string(spotlightNum) + "].base.base.color", light->GetLightColor());
+//			shaderPhong.setFloat("spotLights[" + std::to_string(spotlightNum) + "].base.base.ambientIntensity", light->GetAmbientIntensity());
+//			shaderPhong.setFloat("spotLights[" + std::to_string(spotlightNum) + "].base.base.diffuseIntensity", light->GetDiffuseIntensity());
+//			shaderPhong.setFloat("spotLights[" + std::to_string(spotlightNum) + "].base.attenuation.constant", light->GetConstant());
+//			shaderPhong.setFloat("spotLights[" + std::to_string(spotlightNum) + "].base.attenuation.linear", light->GetLinear());
+//			shaderPhong.setFloat("spotLights[" + std::to_string(spotlightNum) + "].base.attenuation.exp", light->GetExp());
+//			shaderPhong.setVec3("spotLights[" + std::to_string(spotlightNum) + "].base.position", light->GetLightPos());
+//			shaderPhong.setVec3("spotLights[" + std::to_string(spotlightNum) + "].direction", light->GetDirection());
+//			shaderPhong.setFloat("spotLights[" + std::to_string(spotlightNum) + "].cutoff", glm::cos(glm::radians(light->GetCutOff())));
+//			spotlightNum++;
+//		}
+//		//点光源
+//		else if (dynamic_cast<PointLight*>(*it) != 0) {
+//			PointLight* light = dynamic_cast<PointLight*>(*it);
+//			shaderPhong.setVec3("pointLights[" + std::to_string(pointlightNum) + "].base.color", light->GetLightColor());
+//			shaderPhong.setFloat("pointLights[" + std::to_string(pointlightNum) + "].base.ambientIntensity", light->GetAmbientIntensity());
+//			shaderPhong.setFloat("pointLights[" + std::to_string(pointlightNum) + "].base.diffuseIntensity", light->GetDiffuseIntensity());
+//			shaderPhong.setFloat("pointLights[" + std::to_string(pointlightNum) + "].attenuation.constant", light->GetConstant());
+//			shaderPhong.setFloat("pointLights[" + std::to_string(pointlightNum) + "].attenuation.linear", light->GetLinear());
+//			shaderPhong.setFloat("pointLights[" + std::to_string(pointlightNum) + "].attenuation.exp", light->GetExp());
+//			shaderPhong.setVec3("pointLights[" + std::to_string(pointlightNum) + "].position", light->GetLightPos());
+//			pointlightNum++;
+//		}
+//	}
+//	shaderPhong.setInt("pointLightNum", pointlightNum);
+//	shaderPhong.setInt("spotLightNum", spotlightNum);
+//	shaderPhong.setInt("dirLightNum", dirlightNum);
+//	
+//	//渲染模型
+//	renderModel(scene, context, shaderPhong);
+//
+//	//渲染自定义图元
+//	renderCustomPrimitive(scene, context, shaderPhong);
+//
+//	//调试输出光源位置
+//	if (false) {
+//		renderLightDebug(scene, context);
+//	}
+//}
 
 void MainRenderer::renderLightingCSM(Scene* scene, RenderContext* context)
 {
-	Shader shaderCSM_Terrain = ResourceManager::getInstance()->GetShader("csm_terrain");
-	shaderCSM_Terrain.use();
-	glActiveTexture(GL_TEXTURE3);
-	glBindTexture(GL_TEXTURE_2D, m_CSMRenderer.GetCascadeAt(0)->ShadowTexture);
-	glActiveTexture(GL_TEXTURE4);
-	glBindTexture(GL_TEXTURE_2D, m_CSMRenderer.GetCascadeAt(1)->ShadowTexture);
-	glActiveTexture(GL_TEXTURE5);
-	glBindTexture(GL_TEXTURE_2D, m_CSMRenderer.GetCascadeAt(2)->ShadowTexture);
-	shaderCSM_Terrain.setMatrix4("view", context->MatView);
-	shaderCSM_Terrain.setMatrix4("projection", context->MatProj);
-	shaderCSM_Terrain.setMatrix4("lightViewProj[0]", m_CSMRenderer.GetCascadeAt(0)->LightViewProj);
-	shaderCSM_Terrain.setMatrix4("lightViewProj[1]", m_CSMRenderer.GetCascadeAt(1)->LightViewProj);
-	shaderCSM_Terrain.setMatrix4("lightViewProj[2]", m_CSMRenderer.GetCascadeAt(2)->LightViewProj);
-	shaderCSM_Terrain.setFloat("cascadeSpace[0]", m_CSMRenderer.GetCascadeAt(0)->CascadeSpace);
-	shaderCSM_Terrain.setFloat("cascadeSpace[1]", m_CSMRenderer.GetCascadeAt(1)->CascadeSpace);
-	shaderCSM_Terrain.setFloat("cascadeSpace[2]", m_CSMRenderer.GetCascadeAt(2)->CascadeSpace);
-	shaderCSM_Terrain.setVec3("lightDirection", -m_CSMRenderer.GetSunDirection());
-	scene->GetTerrain()->Render(shaderCSM_Terrain);
+	renderWaterCSM(scene, context);
 
 	Shader shaderCSM_Model = ResourceManager::getInstance()->GetShader("csm_model");
 	shaderCSM_Model.use();
@@ -492,6 +480,164 @@ void MainRenderer::renderTerrain(Scene* scene, RenderContext* context)
 		shaderTerrain.setMatrix4("projection", context->MatProj);
 		terrain->Render(shaderTerrain);
 	}
+}
+
+void MainRenderer::prepareRenderWater(Scene* scene, RenderContext* context)
+{
+	glm::mat4 model;
+	Shader shaderUpWater = ResourceManager::getInstance()->GetShader("terrain_upWater");
+	Shader shaderUnderWater = ResourceManager::getInstance()->GetShader("terrain_underWater");
+	m_Water.BeginRenderReflection();
+	if (context->ViewPos.y > m_Water.GetWaterHeight()) {
+		shaderUnderWater.use();
+		model = glm::translate(model, glm::vec3(0.0f, m_Water.GetWaterHeight() * 2.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(1.0f, -1.0f, 1.0f));
+		shaderUnderWater.setMatrix4("model", model);
+		shaderUnderWater.setMatrix4("view", context->MatView);
+		shaderUnderWater.setMatrix4("projection", context->MatProj);
+		shaderUnderWater.setFloat("waterHeight", m_Water.GetWaterHeight());
+
+		glEnable(GL_CULL_FACE);
+		glCullFace(GL_FRONT);
+		if (scene->GetTerrain()) {
+			scene->GetTerrain()->Render(shaderUnderWater);
+		}
+		glCullFace(GL_BACK);
+	}
+	else {
+		model = glm::mat4();
+		shaderUpWater.use();
+		shaderUpWater.setMatrix4("model", model);
+		shaderUpWater.setMatrix4("view", context->MatView);
+		shaderUpWater.setMatrix4("projection", context->MatProj);
+		shaderUpWater.setFloat("waterHeight", m_Water.GetWaterHeight());		
+		if (scene->GetTerrain()) {
+			scene->GetTerrain()->Render(shaderUpWater);
+		}
+	}
+	renderSkybox(scene, context);
+	m_Water.EndRenderReflection();
+
+	m_Water.BeginRenderRefraction();
+	if (context->ViewPos.y > m_Water.GetWaterHeight()) {
+		shaderUnderWater.use();
+		model = glm::mat4();
+		shaderUnderWater.setMatrix4("model", model);
+		shaderUnderWater.setMatrix4("view", context->MatView);
+		shaderUnderWater.setMatrix4("projection", context->MatProj);
+		shaderUnderWater.setFloat("waterHeight", m_Water.GetWaterHeight());
+		if (scene->GetTerrain()) {
+			scene->GetTerrain()->Render(shaderUnderWater);
+		}
+	}
+	else {
+		glCullFace(GL_FRONT);
+		model = glm::mat4();
+		shaderUpWater.use();
+		shaderUpWater.setMatrix4("model", model);
+		shaderUpWater.setMatrix4("view", context->MatView);
+		shaderUpWater.setMatrix4("projection", context->MatProj);
+		shaderUpWater.setFloat("waterHeight", m_Water.GetWaterHeight());
+		if (scene->GetTerrain()) {
+			scene->GetTerrain()->Render(shaderUpWater);
+		}
+		glCullFace(GL_BACK);
+	}
+	renderSkybox(scene, context);
+	m_Water.EndRenderRefraction();
+}
+
+void MainRenderer::renderWater(Scene* scene, RenderContext* context)
+{
+	//render Caustics
+	static int startIndex = 0;
+	static int frameCount = 0;
+	if (frameCount == 5)
+	{
+		startIndex = ((startIndex + 1) % 32);
+		frameCount = 0;
+	}
+	frameCount++;
+
+	Shader shaderUnderWaterCaust = ResourceManager::getInstance()->GetShader("terrain_underWater_caust");
+	Shader shaderUpWater = ResourceManager::getInstance()->GetShader("terrain_upWater");
+
+	glActiveTexture(GL_TEXTURE3);
+	glBindTexture(GL_TEXTURE_2D, m_Water.GetCaustTextures()[startIndex]);
+	shaderUnderWaterCaust.use();
+	glm::mat4 model = glm::mat4();
+	shaderUnderWaterCaust.setMatrix4("model", model);
+	shaderUnderWaterCaust.setMatrix4("view", context->MatView);
+	shaderUnderWaterCaust.setMatrix4("projection", context->MatProj);
+	shaderUnderWaterCaust.setFloat("waterHeight", m_Water.GetWaterHeight());
+	shaderUnderWaterCaust.setVec3("viewPos", context->ViewPos);
+	if (scene->GetTerrain()) {
+		scene->GetTerrain()->Render(shaderUnderWaterCaust);
+	}
+
+	model = glm::mat4();
+	shaderUpWater.use();
+	shaderUpWater.setMatrix4("model", model);
+	shaderUpWater.setMatrix4("view", context->MatView);
+	shaderUpWater.setMatrix4("projection", context->MatProj);
+	shaderUpWater.setFloat("waterHeight", 10.0f);
+	if (scene->GetTerrain()) {
+		scene->GetTerrain()->Render(shaderUpWater);
+	}
+
+	m_Water.RenderWater(context);
+}
+
+void MainRenderer::renderWaterCSM(Scene* scene, RenderContext* context)
+{
+	//render Caustics
+	static int startIndex2 = 0;
+	static int frameCount2 = 0;
+	if (frameCount2 == 5)
+	{
+		startIndex2 = ((startIndex2 + 1) % 32);
+		frameCount2 = 0;
+	}
+	frameCount2++;
+
+	Shader shaderUnderWaterCaust = ResourceManager::getInstance()->GetShader("terrain_underWater_caust");
+	Shader shaderUpWater = ResourceManager::getInstance()->GetShader("csm_terrain_upWater");
+
+	glActiveTexture(GL_TEXTURE3);
+	glBindTexture(GL_TEXTURE_2D, m_Water.GetCaustTextures()[startIndex2]);
+	shaderUnderWaterCaust.use();
+	glm::mat4 model = glm::mat4();
+	shaderUnderWaterCaust.setMatrix4("model", model);
+	shaderUnderWaterCaust.setMatrix4("view", context->MatView);
+	shaderUnderWaterCaust.setMatrix4("projection", context->MatProj);
+	shaderUnderWaterCaust.setFloat("waterHeight", m_Water.GetWaterHeight());
+	shaderUnderWaterCaust.setVec3("viewPos", context->ViewPos);
+	if (scene->GetTerrain()) {
+		scene->GetTerrain()->Render(shaderUnderWaterCaust);
+	}
+
+	shaderUpWater.use();
+	glActiveTexture(GL_TEXTURE3);
+	glBindTexture(GL_TEXTURE_2D, m_CSMRenderer.GetCascadeAt(0)->ShadowTexture);
+	glActiveTexture(GL_TEXTURE4);
+	glBindTexture(GL_TEXTURE_2D, m_CSMRenderer.GetCascadeAt(1)->ShadowTexture);
+	glActiveTexture(GL_TEXTURE5);
+	glBindTexture(GL_TEXTURE_2D, m_CSMRenderer.GetCascadeAt(2)->ShadowTexture);
+	shaderUpWater.setMatrix4("view", context->MatView);
+	shaderUpWater.setMatrix4("projection", context->MatProj);
+	shaderUpWater.setMatrix4("lightViewProj[0]", m_CSMRenderer.GetCascadeAt(0)->LightViewProj);
+	shaderUpWater.setMatrix4("lightViewProj[1]", m_CSMRenderer.GetCascadeAt(1)->LightViewProj);
+	shaderUpWater.setMatrix4("lightViewProj[2]", m_CSMRenderer.GetCascadeAt(2)->LightViewProj);
+	shaderUpWater.setFloat("cascadeSpace[0]", m_CSMRenderer.GetCascadeAt(0)->CascadeSpace);
+	shaderUpWater.setFloat("cascadeSpace[1]", m_CSMRenderer.GetCascadeAt(1)->CascadeSpace);
+	shaderUpWater.setFloat("cascadeSpace[2]", m_CSMRenderer.GetCascadeAt(2)->CascadeSpace);
+	shaderUpWater.setVec3("lightDirection", -m_CSMRenderer.GetSunDirection());
+	shaderUpWater.setFloat("waterHeight", m_Water.GetWaterHeight());
+	if (scene->GetTerrain()) {
+		scene->GetTerrain()->Render(shaderUpWater);
+	}
+
+	m_Water.RenderWater(context, -m_CSMRenderer.GetSunDirection() * 100.0f);
 }
 
 void MainRenderer::renderLightDebug(Scene* scene, RenderContext* context)

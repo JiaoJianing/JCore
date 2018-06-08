@@ -107,6 +107,43 @@ bool World::Initialize()
 	ResourceManager::getInstance()->GetShader("csm_model_animation").setInt("texture_shadow[1]", 5);
 	ResourceManager::getInstance()->GetShader("csm_model_animation").setInt("texture_shadow[2]", 6);
 
+	ResourceManager::getInstance()->LoadShader("terrain_upWater", "asset/shaders/jcore/terrain.vs", "asset/shaders/jcore/terrain_upWater.fs");
+	ResourceManager::getInstance()->GetShader("terrain_upWater").use().setInt("texture_grass", 0);
+	ResourceManager::getInstance()->GetShader("terrain_upWater").setInt("texture_rock", 1);
+	ResourceManager::getInstance()->GetShader("terrain_upWater").setInt("texture_snow", 2);
+
+	ResourceManager::getInstance()->LoadShader("terrain_underWater", "asset/shaders/jcore/terrain.vs", "asset/shaders/jcore/terrain_underWater.fs");
+	ResourceManager::getInstance()->GetShader("terrain_underWater").use().setInt("texture_grass", 0);
+	ResourceManager::getInstance()->GetShader("terrain_underWater").setInt("texture_rock", 1);
+	ResourceManager::getInstance()->GetShader("terrain_underWater").setInt("texture_snow", 2);
+
+	ResourceManager::getInstance()->LoadShader("terrain_underWater_caust", "asset/shaders/jcore/terrain.vs", "asset/shaders/jcore/terrain_underWater_caust.fs");
+	ResourceManager::getInstance()->GetShader("terrain_underWater_caust").use().setInt("texture_grass", 0);
+	ResourceManager::getInstance()->GetShader("terrain_underWater_caust").setInt("texture_rock", 1);
+	ResourceManager::getInstance()->GetShader("terrain_underWater_caust").setInt("texture_snow", 2);
+	ResourceManager::getInstance()->GetShader("terrain_underWater_caust").setInt("texture_caust", 3);
+	ResourceManager::getInstance()->GetShader("terrain_underWater_caust").setFloat("caustScale", 4.0f);
+	ResourceManager::getInstance()->GetShader("terrain_underWater_caust").setVec3("fogColor", glm::vec3(0.2f, 0.2f, 0.9f));
+	ResourceManager::getInstance()->GetShader("terrain_underWater_caust").setFloat("fogStart", 0.0f);
+	ResourceManager::getInstance()->GetShader("terrain_underWater_caust").setFloat("fogEnd", 50.0f);
+
+	ResourceManager::getInstance()->LoadShader("water", "asset/shaders/jcore/water/water.vs", "asset/shaders/jcore/water/water.fs");
+	ResourceManager::getInstance()->GetShader("water").use().setInt("texture_reflect", 0);
+	ResourceManager::getInstance()->GetShader("water").setInt("texture_normal", 1);
+	ResourceManager::getInstance()->GetShader("water").setInt("texture_dudv", 2);
+	ResourceManager::getInstance()->GetShader("water").setInt("texture_refract", 3);
+	ResourceManager::getInstance()->GetShader("water").setInt("texture_depth", 4);
+	ResourceManager::getInstance()->GetShader("water").setVec4("waterColor", glm::vec4(0.1f, 0.2f, 0.4f, 1.0f));
+	ResourceManager::getInstance()->GetShader("water").setVec3("lightPos", glm::vec3(100, 100, 100));
+
+	ResourceManager::getInstance()->LoadShader("csm_terrain_upWater", "asset/shaders/jcore/csm/csm_terrain.vs", "asset/shaders/jcore/csm/csm_terrain_upWater.fs");
+	ResourceManager::getInstance()->GetShader("csm_terrain_upWater").use().setInt("texture_grass", 0);
+	ResourceManager::getInstance()->GetShader("csm_terrain_upWater").setInt("texture_rock", 1);
+	ResourceManager::getInstance()->GetShader("csm_terrain_upWater").setInt("texture_snow", 2);
+	ResourceManager::getInstance()->GetShader("csm_terrain_upWater").setInt("texture_shadow[0]", 3);
+	ResourceManager::getInstance()->GetShader("csm_terrain_upWater").setInt("texture_shadow[1]", 4);
+	ResourceManager::getInstance()->GetShader("csm_terrain_upWater").setInt("texture_shadow[2]", 5);
+
 	ResourceManager::getInstance()->LoadTexture("skybox", "asset/resources/skybox", "right.jpg", "left.jpg",
 		"top.jpg", "bottom.jpg", "front.jpg","back.jpg");
 	ResourceManager::getInstance()->LoadTexture("skybox2", "asset/resources/skybox2", "sp3right.jpg", "sp3left.jpg",

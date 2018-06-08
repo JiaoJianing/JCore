@@ -49,11 +49,6 @@ void MainRenderer::Render(Scene* scene, RenderContext* context)
 		m_PostRenderer.BeginRender();
 	}
 
-	//渲染天空盒
-	if (m_EnableSkybox) {
-		renderSkybox(scene, context);
-	}
-
 	//是否使用光照
 	if (m_EnableLighting) {
 		//renderLighting(scene, context);
@@ -84,12 +79,6 @@ void MainRenderer::Render(Scene* scene, RenderContext* context)
 		renderAnimationModel(scene, context, shaderModel_Animation);
 	}
 
-	//渲染标牌
-	renderBillboard(scene, context);
-
-	//渲染粒子系统
-	renderParticleSys(scene, context);
-
 	//输出法线
 	if (m_EnableNormal) {
 		renderNormal(scene, context);
@@ -97,6 +86,17 @@ void MainRenderer::Render(Scene* scene, RenderContext* context)
 
 	//描边
 	renderSihouette(scene, context);
+
+	//渲染天空盒
+	if (m_EnableSkybox) {
+		renderSkybox(scene, context);
+	}
+
+	//渲染标牌
+	renderBillboard(scene, context);
+
+	//渲染粒子系统
+	renderParticleSys(scene, context);
 
 	//后期结束
 	if (m_EnablePostEffect) {
@@ -189,7 +189,7 @@ float& MainRenderer::GetWaterHeight()
 	return m_Water.GetWaterHeight();
 }
 
-void MainRenderer::renderSkybox(Scene* scene, RenderContext* context)
+void MainRenderer::renderSkybox(Scene* scene, RenderContext* context, bool flipY/* = false*/)
 {
 	GLint OldCullFaceMode;
 	glGetIntegerv(GL_CULL_FACE_MODE, &OldCullFaceMode);
@@ -207,6 +207,7 @@ void MainRenderer::renderSkybox(Scene* scene, RenderContext* context)
 	glm::mat4 model;
 	model = glm::translate(model, context->ViewPos);
 	shaderSkybox.setMatrix4("model", model);
+	shaderSkybox.setBool("flipY", flipY);
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, textureSkybox->GetID());
@@ -508,6 +509,7 @@ void MainRenderer::prepareRenderWater(Scene* scene, RenderContext* context)
 			scene->GetTerrain()->Render(shaderUnderWater);
 		}
 		glCullFace(GL_BACK);
+		renderSkybox(scene, context, true);
 	}
 	else {
 		model = glm::mat4();
@@ -519,8 +521,8 @@ void MainRenderer::prepareRenderWater(Scene* scene, RenderContext* context)
 		if (scene->GetTerrain()) {
 			scene->GetTerrain()->Render(shaderUpWater);
 		}
+		renderSkybox(scene, context);
 	}
-	renderSkybox(scene, context);
 	m_Water.EndRenderReflection();
 
 	m_Water.BeginRenderRefraction();

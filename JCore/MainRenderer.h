@@ -41,7 +41,7 @@ public:
 	float& GetWaterHeight();
 
 private:
-	void renderSkybox(Scene* scene, RenderContext* context);
+	void renderSkybox(Scene* scene, RenderContext* context, bool flipY=false);
 
 	void renderNormal(Scene* scene, RenderContext* context);
 

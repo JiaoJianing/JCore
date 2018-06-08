@@ -104,12 +104,12 @@ void Water::Initialize(int width, int height)
 	m_WaterRefrCoords.resize(6);
 	m_WaterNormCoords.resize(6);
 
-	m_WaterPositions.push_back(glm::vec3(-256.0f, 10.0f, -256.0f)); //back left
-	m_WaterPositions.push_back(glm::vec3(-256.0f, 10.0f, 256.0f));  //front left
-	m_WaterPositions.push_back(glm::vec3(256.0f, 10.0f, 256.0f));   //front right
-	m_WaterPositions.push_back(glm::vec3(-256.0f, 10.0f, -256.0f)); //back left
-	m_WaterPositions.push_back(glm::vec3(256.0f, 10.0f, 256.0f));   //front right
-	m_WaterPositions.push_back(glm::vec3(256.0f, 10.0f, -256.0f));  //back right
+	m_WaterPositions.push_back(glm::vec3(-256.0f, m_WaterHeight, -256.0f)); //back left
+	m_WaterPositions.push_back(glm::vec3(-256.0f, m_WaterHeight, 256.0f));  //front left
+	m_WaterPositions.push_back(glm::vec3(256.0f, m_WaterHeight, 256.0f));   //front right
+	m_WaterPositions.push_back(glm::vec3(-256.0f, m_WaterHeight, -256.0f)); //back left
+	m_WaterPositions.push_back(glm::vec3(256.0f, m_WaterHeight, 256.0f));   //front right
+	m_WaterPositions.push_back(glm::vec3(256.0f, m_WaterHeight, -256.0f));  //back right
 
 	m_WaterPositionSize = sizeof(glm::vec3) * m_WaterPositions.size();
 	m_WaterRefrCoordSize = sizeof(glm::vec2) * m_WaterRefrCoords.size();
@@ -177,8 +177,15 @@ void Water::RenderWater(RenderContext* context, glm::vec3 lightPos/* =glm::vec3(
 
 	move += m_WaterFlow;
 
+	m_WaterPositions.clear();
 	m_WaterRefrCoords.clear();
-	m_WaterNormCoords.clear();
+	m_WaterNormCoords.clear();	
+	m_WaterPositions.push_back(glm::vec3(-256.0f, m_WaterHeight, -256.0f)); //back left
+	m_WaterPositions.push_back(glm::vec3(-256.0f, m_WaterHeight, 256.0f));  //front left
+	m_WaterPositions.push_back(glm::vec3(256.0f, m_WaterHeight, 256.0f));   //front right
+	m_WaterPositions.push_back(glm::vec3(-256.0f, m_WaterHeight, -256.0f)); //back left
+	m_WaterPositions.push_back(glm::vec3(256.0f, m_WaterHeight, 256.0f));   //front right
+	m_WaterPositions.push_back(glm::vec3(256.0f, m_WaterHeight, -256.0f));  //back right
 
 	m_WaterRefrCoords.push_back(glm::vec2(0.0f, refrUV - move));//back left
 	m_WaterRefrCoords.push_back(glm::vec2(0.0f, 0.0f - move));  //front left
@@ -214,6 +221,7 @@ void Water::RenderWater(RenderContext* context, glm::vec3 lightPos/* =glm::vec3(
 	
 	glBindVertexArray(m_WaterVAO);
 	glBindBuffer(GL_ARRAY_BUFFER, m_WaterVBO);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, m_WaterPositionSize, &m_WaterPositions[0]);
 	glBufferSubData(GL_ARRAY_BUFFER, m_WaterPositionSize, m_WaterRefrCoordSize, &m_WaterRefrCoords[0]);
 	glBufferSubData(GL_ARRAY_BUFFER, m_WaterPositionSize + m_WaterRefrCoordSize, m_WaterNormCoordSize, &m_WaterNormCoords[0]);
 	glDrawArrays(GL_TRIANGLES, 0, 6);
@@ -222,7 +230,7 @@ void Water::RenderWater(RenderContext* context, glm::vec3 lightPos/* =glm::vec3(
 	glEnable(GL_CULL_FACE);
 }
 
-float Water::GetWaterHeight()
+float& Water::GetWaterHeight()
 {
 	return m_WaterHeight;
 }

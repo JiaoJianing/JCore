@@ -83,21 +83,21 @@ bool World::Initialize()
 	ResourceManager::getInstance()->LoadShader("pick", "asset/shaders/jcore/pick.vs", "asset/shaders/jcore/pick.fs");
 	ResourceManager::getInstance()->LoadShader("pick_animation", "asset/shaders/jcore/pick_animation.vs", "asset/shaders/jcore/pick_animation.fs");
 	ResourceManager::getInstance()->LoadShader("shadow_map", "asset/shaders/jcore/shadow_map.vs", "asset/shaders/jcore/shadow_map.fs");
-	ResourceManager::getInstance()->LoadShader("terrain", "asset/shaders/jcore/terrain.vs", "asset/shaders/jcore/terrain.fs");
-	ResourceManager::getInstance()->GetShader("terrain").use().setInt("texture_grass", 0);
-	ResourceManager::getInstance()->GetShader("terrain").setInt("texture_rock", 1);
-	ResourceManager::getInstance()->GetShader("terrain").setInt("texture_snow", 2);
+	//ResourceManager::getInstance()->LoadShader("terrain", "asset/shaders/jcore/terrain.vs", "asset/shaders/jcore/terrain.fs");
+	//ResourceManager::getInstance()->GetShader("terrain").use().setInt("texture_grass", 0);
+	//ResourceManager::getInstance()->GetShader("terrain").setInt("texture_rock", 1);
+	//ResourceManager::getInstance()->GetShader("terrain").setInt("texture_snow", 2);
 	ResourceManager::getInstance()->LoadShader("shadow_debug", "asset/shaders/jcore/shadow_debug.vs", "asset/shaders/jcore/shadow_debug.fs");
 	ResourceManager::getInstance()->GetShader("shadow_debug").use().setInt("texture_shadow", 0);
 	ResourceManager::getInstance()->LoadShader("csm", "asset/shaders/jcore/csm/csm.vs", "asset/shaders/jcore/csm/csm.fs");
-	ResourceManager::getInstance()->LoadShader("csm_terrain", "asset/shaders/jcore/csm/csm_terrain.vs", "asset/shaders/jcore/csm/csm_terrain.fs");
 	ResourceManager::getInstance()->LoadShader("csm_animation", "asset/shaders/jcore/csm/csm_animation.vs", "asset/shaders/jcore/csm/csm_animation.fs");
-	ResourceManager::getInstance()->GetShader("csm_terrain").use().setInt("texture_grass", 0);
-	ResourceManager::getInstance()->GetShader("csm_terrain").setInt("texture_rock", 1);
-	ResourceManager::getInstance()->GetShader("csm_terrain").setInt("texture_snow", 2);
-	ResourceManager::getInstance()->GetShader("csm_terrain").setInt("texture_shadow[0]", 3);
-	ResourceManager::getInstance()->GetShader("csm_terrain").setInt("texture_shadow[1]", 4);
-	ResourceManager::getInstance()->GetShader("csm_terrain").setInt("texture_shadow[2]", 5);
+	//ResourceManager::getInstance()->LoadShader("csm_terrain", "asset/shaders/jcore/csm/csm_terrain.vs", "asset/shaders/jcore/csm/csm_terrain.fs");
+	//ResourceManager::getInstance()->GetShader("csm_terrain").use().setInt("texture_grass", 0);
+	//ResourceManager::getInstance()->GetShader("csm_terrain").setInt("texture_rock", 1);
+	//ResourceManager::getInstance()->GetShader("csm_terrain").setInt("texture_snow", 2);
+	//ResourceManager::getInstance()->GetShader("csm_terrain").setInt("texture_shadow[0]", 3);
+	//ResourceManager::getInstance()->GetShader("csm_terrain").setInt("texture_shadow[1]", 4);
+	//ResourceManager::getInstance()->GetShader("csm_terrain").setInt("texture_shadow[2]", 5);
 	ResourceManager::getInstance()->LoadShader("csm_model", "asset/shaders/jcore/csm/csm_model.vs", "asset/shaders/jcore/csm/csm_model.fs");
 	ResourceManager::getInstance()->GetShader("csm_model").use().setInt("texture_shadow[0]", 4);
 	ResourceManager::getInstance()->GetShader("csm_model").setInt("texture_shadow[1]", 5);
@@ -500,4 +500,9 @@ glm::vec3& World::GetSunDirection()
 void World::SetSunDirection(const glm::vec3& value)
 {
 	m_Renderer->SetSunDirection(value);
+}
+
+float& World::GetWaterHeight()
+{
+	return m_Renderer->GetWaterHeight();
 }

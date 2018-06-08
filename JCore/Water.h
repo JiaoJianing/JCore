@@ -18,7 +18,7 @@ public:
 
 	void RenderWater(RenderContext* context, glm::vec3 lightPos=glm::vec3(100.0f, 150.0f, 100.0f));
 
-	float GetWaterHeight();
+	float& GetWaterHeight();
 
 	std::vector<unsigned int>& GetCaustTextures();
 

@@ -90,6 +90,8 @@ public:
 	glm::vec3& GetSunDirection();
 	void SetSunDirection(const glm::vec3& value);
 
+	float& GetWaterHeight();
+
 private:
 	std::map<unsigned long, Node*> m_Nodes;//场景中所有的节点，使用map便于查询
 	std::vector<Node*> m_NodesToDestroy;//将要删除的节点，一般在下一帧删除

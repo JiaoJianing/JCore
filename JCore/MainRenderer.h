@@ -38,6 +38,8 @@ public:
 	glm::vec3& GetSunDirection();
 	void SetSunDirection(const glm::vec3& value);
 
+	float& GetWaterHeight();
+
 private:
 	void renderSkybox(Scene* scene, RenderContext* context);
 
@@ -59,7 +61,7 @@ private:
 
 	void renderCustomPrimitive(Scene* scene, RenderContext* context, Shader shader);
 
-	void renderTerrain(Scene* scene, RenderContext* context);
+	//void renderTerrain(Scene* scene, RenderContext* context);
 
 	void prepareRenderWater(Scene* scene, RenderContext* context);
 

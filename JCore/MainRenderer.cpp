@@ -184,6 +184,11 @@ void MainRenderer::SetSunDirection(const glm::vec3& value)
 	m_CSMRenderer.SetSunDirection(value);
 }
 
+float& MainRenderer::GetWaterHeight()
+{
+	return m_Water.GetWaterHeight();
+}
+
 void MainRenderer::renderSkybox(Scene* scene, RenderContext* context)
 {
 	GLint OldCullFaceMode;
@@ -470,17 +475,17 @@ void MainRenderer::renderCustomPrimitive(Scene* scene, RenderContext* context, S
 	}
 }
 
-void MainRenderer::renderTerrain(Scene* scene, RenderContext* context)
-{
-	Terrain* terrain = scene->GetTerrain();
-	if (terrain != 0) {
-		Shader shaderTerrain = ResourceManager::getInstance()->GetShader("terrain");
-		shaderTerrain.use();
-		shaderTerrain.setMatrix4("view", context->MatView);
-		shaderTerrain.setMatrix4("projection", context->MatProj);
-		terrain->Render(shaderTerrain);
-	}
-}
+//void MainRenderer::renderTerrain(Scene* scene, RenderContext* context)
+//{
+//	Terrain* terrain = scene->GetTerrain();
+//	if (terrain != 0) {
+//		Shader shaderTerrain = ResourceManager::getInstance()->GetShader("terrain");
+//		shaderTerrain.use();
+//		shaderTerrain.setMatrix4("view", context->MatView);
+//		shaderTerrain.setMatrix4("projection", context->MatProj);
+//		terrain->Render(shaderTerrain);
+//	}
+//}
 
 void MainRenderer::prepareRenderWater(Scene* scene, RenderContext* context)
 {
@@ -580,7 +585,7 @@ void MainRenderer::renderWater(Scene* scene, RenderContext* context)
 	shaderUpWater.setMatrix4("model", model);
 	shaderUpWater.setMatrix4("view", context->MatView);
 	shaderUpWater.setMatrix4("projection", context->MatProj);
-	shaderUpWater.setFloat("waterHeight", 10.0f);
+	shaderUpWater.setFloat("waterHeight", m_Water.GetWaterHeight());
 	if (scene->GetTerrain()) {
 		scene->GetTerrain()->Render(shaderUpWater);
 	}

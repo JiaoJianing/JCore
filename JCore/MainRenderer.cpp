@@ -509,7 +509,9 @@ void MainRenderer::prepareRenderWater(Scene* scene, RenderContext* context)
 			scene->GetTerrain()->Render(shaderUnderWater);
 		}
 		glCullFace(GL_BACK);
-		renderSkybox(scene, context, true);
+		if (m_EnableSkybox) {
+			renderSkybox(scene, context, true);
+		}
 	}
 	else {
 		model = glm::mat4();
@@ -521,7 +523,9 @@ void MainRenderer::prepareRenderWater(Scene* scene, RenderContext* context)
 		if (scene->GetTerrain()) {
 			scene->GetTerrain()->Render(shaderUpWater);
 		}
-		renderSkybox(scene, context);
+		if (m_EnableSkybox) {
+			renderSkybox(scene, context);
+		}
 	}
 	m_Water.EndRenderReflection();
 
@@ -550,7 +554,9 @@ void MainRenderer::prepareRenderWater(Scene* scene, RenderContext* context)
 		}
 		glCullFace(GL_BACK);
 	}
-	renderSkybox(scene, context);
+	if (m_EnableSkybox) {
+		renderSkybox(scene, context);
+	}
 	m_Water.EndRenderRefraction();
 }
 

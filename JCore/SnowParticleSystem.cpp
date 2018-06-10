@@ -54,7 +54,7 @@ void SnowParticleSystem::Update()
 			//x = -2;
 
 		/** 如果粒子消失或生命结束 */
-		if (y <= -1 || m_Particles[i].Life <= 0)
+		if (y <= 0 || m_Particles[i].Life <= 0)
 		{
 			initParticle(m_Particles[i]);
 		}

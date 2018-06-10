@@ -13,5 +13,8 @@ public:
 
 private:
 	void initParticle(Particle& particle);
+
+private:
+	float m_SnowRange;
 };
 

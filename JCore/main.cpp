@@ -203,7 +203,7 @@ void OnWorldInit(World* world) {
 	//Á£×ÓÏµÍ³ Ñ©
 	Node* snow = world->AddNode(_T("snow"));
 	SnowParticleSystemComponent* snowCmp = new SnowParticleSystemComponent();
-	snowCmp->Initialize(10000);
+	snowCmp->Initialize(200000);
 	snow->AddComponent(snowCmp);
 
 	g_TwBar = TwNewBar("JCore");

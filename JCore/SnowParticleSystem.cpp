@@ -3,6 +3,7 @@
 #include "ResourceManager.h"
 
 SnowParticleSystem::SnowParticleSystem()
+	: m_SnowRange(256.0f)
 {
 	m_ParticleTexture = *ResourceManager::getInstance()->LoadTexture("white_snow", "asset/resources/White snow.png");
 }
@@ -74,15 +75,16 @@ void SnowParticleSystem::initParticle(Particle& particle)
 	float r = 0.1f * (m_Random() % 10);
 	float g = 0.1f * (m_Random() % 10);
 	float b = 0.1f * (m_Random() % 10);
-	particle.Color = glm::vec3(r, g, b);
+	//particle.Color = glm::vec3(r, g, b);
+	particle.Color = glm::vec3(1.0f);
 
-	float x = -10.0f + 0.0001f * (m_Random() % 200000);
+	float x = -256.0f + 0.0001f * (fmod(m_Random(), m_SnowRange * 2 * 1e4));
 	float y = 30 + 0.0001f *(m_Random() % 200000);
 	float z = 0.0f;
 	if ((int)x % 2 == 0)
-		z = 0.0001f * (m_Random() % 100000);
+		z = 0.0001f * (fmod(m_Random(), m_SnowRange * 1e4));
 	else
-		z = -(0.0001f * (m_Random() % 100000));
+		z = -(0.0001f * (fmod(m_Random(), m_SnowRange * 1e4)));
 
 	particle.Position = glm::vec3(x, y, z);
 

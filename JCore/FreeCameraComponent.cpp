@@ -7,7 +7,7 @@ FreeCameraComponent::FreeCameraComponent(int width, int height)
 	, m_Yaw(-90.0f)
 	, m_Pitch(0.0f)
 	, m_Roll(0.0f)
-	, m_HeightOffset(5.0f)
+	, m_HeightOffset(7.0f)
 	, m_FlyMode(false)
 {
 	m_KeySensitivity = 10.0f;

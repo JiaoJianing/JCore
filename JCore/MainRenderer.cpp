@@ -200,7 +200,7 @@ void MainRenderer::renderSkybox(Scene* scene, RenderContext* context, bool flipY
 	glDepthFunc(GL_LEQUAL);
 
 	Shader shaderSkybox = ResourceManager::getInstance()->GetShader("skybox");
-	Texture* textureSkybox = ResourceManager::getInstance()->GetTexture("skybox");
+	Texture* textureSkybox = ResourceManager::getInstance()->GetTexture("skybox4");
 	shaderSkybox.use();
 	shaderSkybox.setMatrix4("view", context->MatView);
 	shaderSkybox.setMatrix4("projection", context->MatProj);

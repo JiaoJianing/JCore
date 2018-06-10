@@ -145,10 +145,14 @@ bool World::Initialize()
 	ResourceManager::getInstance()->GetShader("csm_terrain_upWater").setInt("texture_shadow[2]", 5);
 
 	ResourceManager::getInstance()->LoadTexture("skybox", "asset/resources/skybox", "right.jpg", "left.jpg",
-		"top.jpg", "bottom.jpg", "front.jpg","back.jpg");
+		"top.jpg", "bottom.jpg", "front.jpg", "back.jpg");
+	ResourceManager::getInstance()->LoadTexture("skybox1", "asset/resources/skybox1", "alien_rt.JPG", "alien_lf.JPG",
+		"alien_up.JPG", "alien_dn.JPG", "alien_ft.JPG", "alien_bk.JPG");
 	ResourceManager::getInstance()->LoadTexture("skybox2", "asset/resources/skybox2", "sp3right.jpg", "sp3left.jpg",
 		"sp3top.jpg", "sp3bot.jpg", "sp3front.jpg", "sp3back.jpg");
 	ResourceManager::getInstance()->LoadTexture("skybox3", "asset/resources/skybox3", "right.jpg", "left.jpg",
+		"top.jpg", "bottom.jpg", "front.jpg", "back.jpg");
+	ResourceManager::getInstance()->LoadTexture("skybox4", "asset/resources/skybox4", "right.jpg", "left.jpg",
 		"top.jpg", "bottom.jpg", "front.jpg", "back.jpg");
 
 	//≥°æ∞π‹¿Ì∆˜

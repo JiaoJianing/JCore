@@ -125,7 +125,7 @@ bool World::Initialize()
 	ResourceManager::getInstance()->GetShader("terrain_underWater_caust").setFloat("caustScale", 4.0f);
 	ResourceManager::getInstance()->GetShader("terrain_underWater_caust").setVec3("fogColor", glm::vec3(0.2f, 0.2f, 0.9f));
 	ResourceManager::getInstance()->GetShader("terrain_underWater_caust").setFloat("fogStart", 0.0f);
-	ResourceManager::getInstance()->GetShader("terrain_underWater_caust").setFloat("fogEnd", 50.0f);
+	ResourceManager::getInstance()->GetShader("terrain_underWater_caust").setFloat("fogEnd", 100.0f);
 
 	ResourceManager::getInstance()->LoadShader("water", "asset/shaders/jcore/water/water.vs", "asset/shaders/jcore/water/water.fs");
 	ResourceManager::getInstance()->GetShader("water").use().setInt("texture_reflect", 0);

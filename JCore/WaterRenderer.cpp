@@ -1,8 +1,8 @@
 #include "stdafx.h"
-#include "Water.h"
+#include "WaterRenderer.h"
 #include "ResourceManager.h"
 
-Water::Water()
+WaterRenderer::WaterRenderer()
 	: m_NormalTexture(-1)
 	, m_DudvTexture(-1)
 	, m_DepthTexture(-1)
@@ -26,11 +26,11 @@ Water::Water()
 }
 
 
-Water::~Water()
+WaterRenderer::~WaterRenderer()
 {
 }
 
-void Water::Initialize(int width, int height)
+void WaterRenderer::Initialize(int width, int height)
 {
 	m_ScreenWidth = width;
 	m_ScreenHeight = height;
@@ -136,39 +136,39 @@ void Water::Initialize(int width, int height)
 #pragma endregion
 }
 
-void Water::Resize(int width, int height)
+void WaterRenderer::Resize(int width, int height)
 {
 	m_ScreenWidth = width;
 	m_ScreenHeight = height;
 }
 
-void Water::BeginRenderReflection()
+void WaterRenderer::BeginRenderReflection()
 {
 	glViewport(0, 0, 1024, 1024);
 	glBindFramebuffer(GL_FRAMEBUFFER, m_ReflectFBO);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void Water::EndRenderReflection()
+void WaterRenderer::EndRenderReflection()
 {
 	//glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	//glViewport(0, 0, m_ScreenWidth, m_ScreenHeight);
 }
 
-void Water::BeginRenderRefraction()
+void WaterRenderer::BeginRenderRefraction()
 {
 	glViewport(0, 0, 1024, 1024);
 	glBindFramebuffer(GL_FRAMEBUFFER, m_RefractFBO);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void Water::EndRenderRefraction()
+void WaterRenderer::EndRenderRefraction()
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glViewport(0, 0, m_ScreenWidth, m_ScreenHeight);
 }
 
-void Water::RenderWater(RenderContext* context, glm::vec3 lightPos/* =glm::vec3(100.0f, 150.0f, 100.0f) */)
+void WaterRenderer::RenderWater(RenderContext* context, glm::vec3 lightPos/* =glm::vec3(100.0f, 150.0f, 100.0f) */)
 {
 	static float move = 0.0f;
 	float move2 = move * m_NormalMapScale;
@@ -230,17 +230,17 @@ void Water::RenderWater(RenderContext* context, glm::vec3 lightPos/* =glm::vec3(
 	glEnable(GL_CULL_FACE);
 }
 
-float& Water::GetWaterHeight()
+float& WaterRenderer::GetWaterHeight()
 {
 	return m_WaterHeight;
 }
 
-std::vector<unsigned int>& Water::GetCaustTextures()
+std::vector<unsigned int>& WaterRenderer::GetCaustTextures()
 {
 	return m_CaustTextures;
 }
 
-unsigned int Water::GetReflectTexture()
+unsigned int WaterRenderer::GetReflectTexture()
 {
 	return m_ReflectTexture;
 }

@@ -1,11 +1,11 @@
 #pragma once
 #include "BaseRenderer.h"
 
-class Water
+class WaterRenderer
 {
 public:
-	Water();
-	~Water();
+	WaterRenderer();
+	~WaterRenderer();
 
 	void Initialize(int width, int height);
 	void Resize(int width, int height);

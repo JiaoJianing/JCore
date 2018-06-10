@@ -6,7 +6,7 @@
 #include "SpherePrimitive.h"
 #include "ShadowMapRenderer.h"
 #include "CSMRenderer.h"
-#include "Water.h"
+#include "WaterRenderer.h"
 
 class MainRenderer
 {
@@ -86,6 +86,7 @@ protected:
 	PickRenderer m_PickRenderer;
 	ShadowMapRenderer m_ShadowMapRenderer;
 	CSMRenderer m_CSMRenderer;
+	WaterRenderer m_WaterRenderer;
 
 	CubePrimitive m_CubeDebug;
 	SpherePrimitive m_Sphere; //skydom
@@ -95,6 +96,5 @@ protected:
 	int m_Height;
 
 	Quad m_ShadowDebugQuad;
-	Water m_Water;
 };
 

@@ -113,7 +113,7 @@ void MainRenderer::Resize(int width, int height)
 	m_PickRenderer.Resize(width, height);
 	m_ShadowMapRenderer.Resize(width, height);
 	m_CSMRenderer.Resize(width, height);
-	m_Water.Resize(width, height);
+	m_WaterRenderer.Resize(width, height);
 }
 
 void MainRenderer::Initialize(int width, int height)
@@ -124,7 +124,7 @@ void MainRenderer::Initialize(int width, int height)
 	m_PickRenderer.Initialize(width, height);
 	m_ShadowMapRenderer.Initialize(width, height);
 	m_CSMRenderer.Initialize(width, height);
-	m_Water.Initialize(width, height);
+	m_WaterRenderer.Initialize(width, height);
 }
 
 PickInfo MainRenderer::Pick(Scene* scene, RenderContext* context, unsigned int x, unsigned int y)
@@ -186,7 +186,7 @@ void MainRenderer::SetSunDirection(const glm::vec3& value)
 
 float& MainRenderer::GetWaterHeight()
 {
-	return m_Water.GetWaterHeight();
+	return m_WaterRenderer.GetWaterHeight();
 }
 
 void MainRenderer::renderSkybox(Scene* scene, RenderContext* context, bool flipY/* = false*/)
@@ -493,15 +493,15 @@ void MainRenderer::prepareRenderWater(Scene* scene, RenderContext* context)
 	glm::mat4 model;
 	Shader shaderUpWater = ResourceManager::getInstance()->GetShader("terrain_upWater");
 	Shader shaderUnderWater = ResourceManager::getInstance()->GetShader("terrain_underWater");
-	m_Water.BeginRenderReflection();
-	if (context->ViewPos.y > m_Water.GetWaterHeight()) {
+	m_WaterRenderer.BeginRenderReflection();
+	if (context->ViewPos.y > m_WaterRenderer.GetWaterHeight()) {
 		shaderUnderWater.use();
-		model = glm::translate(model, glm::vec3(0.0f, m_Water.GetWaterHeight() * 2.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(0.0f, m_WaterRenderer.GetWaterHeight() * 2.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(1.0f, -1.0f, 1.0f));
 		shaderUnderWater.setMatrix4("model", model);
 		shaderUnderWater.setMatrix4("view", context->MatView);
 		shaderUnderWater.setMatrix4("projection", context->MatProj);
-		shaderUnderWater.setFloat("waterHeight", m_Water.GetWaterHeight());
+		shaderUnderWater.setFloat("waterHeight", m_WaterRenderer.GetWaterHeight());
 
 		glEnable(GL_CULL_FACE);
 		glCullFace(GL_FRONT);
@@ -519,7 +519,7 @@ void MainRenderer::prepareRenderWater(Scene* scene, RenderContext* context)
 		shaderUpWater.setMatrix4("model", model);
 		shaderUpWater.setMatrix4("view", context->MatView);
 		shaderUpWater.setMatrix4("projection", context->MatProj);
-		shaderUpWater.setFloat("waterHeight", m_Water.GetWaterHeight());		
+		shaderUpWater.setFloat("waterHeight", m_WaterRenderer.GetWaterHeight());
 		if (scene->GetTerrain()) {
 			scene->GetTerrain()->Render(shaderUpWater);
 		}
@@ -527,16 +527,16 @@ void MainRenderer::prepareRenderWater(Scene* scene, RenderContext* context)
 			renderSkybox(scene, context);
 		}
 	}
-	m_Water.EndRenderReflection();
+	m_WaterRenderer.EndRenderReflection();
 
-	m_Water.BeginRenderRefraction();
-	if (context->ViewPos.y > m_Water.GetWaterHeight()) {
+	m_WaterRenderer.BeginRenderRefraction();
+	if (context->ViewPos.y > m_WaterRenderer.GetWaterHeight()) {
 		shaderUnderWater.use();
 		model = glm::mat4();
 		shaderUnderWater.setMatrix4("model", model);
 		shaderUnderWater.setMatrix4("view", context->MatView);
 		shaderUnderWater.setMatrix4("projection", context->MatProj);
-		shaderUnderWater.setFloat("waterHeight", m_Water.GetWaterHeight());
+		shaderUnderWater.setFloat("waterHeight", m_WaterRenderer.GetWaterHeight());
 		if (scene->GetTerrain()) {
 			scene->GetTerrain()->Render(shaderUnderWater);
 		}
@@ -548,7 +548,7 @@ void MainRenderer::prepareRenderWater(Scene* scene, RenderContext* context)
 		shaderUpWater.setMatrix4("model", model);
 		shaderUpWater.setMatrix4("view", context->MatView);
 		shaderUpWater.setMatrix4("projection", context->MatProj);
-		shaderUpWater.setFloat("waterHeight", m_Water.GetWaterHeight());
+		shaderUpWater.setFloat("waterHeight", m_WaterRenderer.GetWaterHeight());
 		if (scene->GetTerrain()) {
 			scene->GetTerrain()->Render(shaderUpWater);
 		}
@@ -557,7 +557,7 @@ void MainRenderer::prepareRenderWater(Scene* scene, RenderContext* context)
 	if (m_EnableSkybox) {
 		renderSkybox(scene, context);
 	}
-	m_Water.EndRenderRefraction();
+	m_WaterRenderer.EndRenderRefraction();
 }
 
 void MainRenderer::renderWater(Scene* scene, RenderContext* context)
@@ -576,13 +576,13 @@ void MainRenderer::renderWater(Scene* scene, RenderContext* context)
 	Shader shaderUpWater = ResourceManager::getInstance()->GetShader("terrain_upWater");
 
 	glActiveTexture(GL_TEXTURE3);
-	glBindTexture(GL_TEXTURE_2D, m_Water.GetCaustTextures()[startIndex]);
+	glBindTexture(GL_TEXTURE_2D, m_WaterRenderer.GetCaustTextures()[startIndex]);
 	shaderUnderWaterCaust.use();
 	glm::mat4 model = glm::mat4();
 	shaderUnderWaterCaust.setMatrix4("model", model);
 	shaderUnderWaterCaust.setMatrix4("view", context->MatView);
 	shaderUnderWaterCaust.setMatrix4("projection", context->MatProj);
-	shaderUnderWaterCaust.setFloat("waterHeight", m_Water.GetWaterHeight());
+	shaderUnderWaterCaust.setFloat("waterHeight", m_WaterRenderer.GetWaterHeight());
 	shaderUnderWaterCaust.setVec3("viewPos", context->ViewPos);
 	if (scene->GetTerrain()) {
 		scene->GetTerrain()->Render(shaderUnderWaterCaust);
@@ -593,12 +593,12 @@ void MainRenderer::renderWater(Scene* scene, RenderContext* context)
 	shaderUpWater.setMatrix4("model", model);
 	shaderUpWater.setMatrix4("view", context->MatView);
 	shaderUpWater.setMatrix4("projection", context->MatProj);
-	shaderUpWater.setFloat("waterHeight", m_Water.GetWaterHeight());
+	shaderUpWater.setFloat("waterHeight", m_WaterRenderer.GetWaterHeight());
 	if (scene->GetTerrain()) {
 		scene->GetTerrain()->Render(shaderUpWater);
 	}
 
-	m_Water.RenderWater(context);
+	m_WaterRenderer.RenderWater(context);
 }
 
 void MainRenderer::renderWaterCSM(Scene* scene, RenderContext* context)
@@ -617,13 +617,13 @@ void MainRenderer::renderWaterCSM(Scene* scene, RenderContext* context)
 	Shader shaderUpWater = ResourceManager::getInstance()->GetShader("csm_terrain_upWater");
 
 	glActiveTexture(GL_TEXTURE3);
-	glBindTexture(GL_TEXTURE_2D, m_Water.GetCaustTextures()[startIndex2]);
+	glBindTexture(GL_TEXTURE_2D, m_WaterRenderer.GetCaustTextures()[startIndex2]);
 	shaderUnderWaterCaust.use();
 	glm::mat4 model = glm::mat4();
 	shaderUnderWaterCaust.setMatrix4("model", model);
 	shaderUnderWaterCaust.setMatrix4("view", context->MatView);
 	shaderUnderWaterCaust.setMatrix4("projection", context->MatProj);
-	shaderUnderWaterCaust.setFloat("waterHeight", m_Water.GetWaterHeight());
+	shaderUnderWaterCaust.setFloat("waterHeight", m_WaterRenderer.GetWaterHeight());
 	shaderUnderWaterCaust.setVec3("viewPos", context->ViewPos);
 	if (scene->GetTerrain()) {
 		scene->GetTerrain()->Render(shaderUnderWaterCaust);
@@ -645,12 +645,12 @@ void MainRenderer::renderWaterCSM(Scene* scene, RenderContext* context)
 	shaderUpWater.setFloat("cascadeSpace[1]", m_CSMRenderer.GetCascadeAt(1)->CascadeSpace);
 	shaderUpWater.setFloat("cascadeSpace[2]", m_CSMRenderer.GetCascadeAt(2)->CascadeSpace);
 	shaderUpWater.setVec3("lightDirection", -m_CSMRenderer.GetSunDirection());
-	shaderUpWater.setFloat("waterHeight", m_Water.GetWaterHeight());
+	shaderUpWater.setFloat("waterHeight", m_WaterRenderer.GetWaterHeight());
 	if (scene->GetTerrain()) {
 		scene->GetTerrain()->Render(shaderUpWater);
 	}
 
-	m_Water.RenderWater(context, -m_CSMRenderer.GetSunDirection() * 100.0f);
+	m_WaterRenderer.RenderWater(context, -m_CSMRenderer.GetSunDirection() * 100.0f);
 }
 
 void MainRenderer::renderLightDebug(Scene* scene, RenderContext* context)

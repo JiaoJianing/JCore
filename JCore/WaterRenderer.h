@@ -48,5 +48,7 @@ private:
 	float m_NormalMapScale;
 	float m_WaterUV;
 	float m_WaterFlow;
+
+	float m_WaterSize;
 };
 

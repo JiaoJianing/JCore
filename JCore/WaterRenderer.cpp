@@ -22,6 +22,7 @@ WaterRenderer::WaterRenderer()
 	, m_NormalMapScale(0.25f)
 	, m_WaterUV(35.0f)
 	, m_WaterFlow(0.0015f)
+	, m_WaterSize(256.0f)
 {
 }
 
@@ -104,12 +105,12 @@ void WaterRenderer::Initialize(int width, int height)
 	m_WaterRefrCoords.resize(6);
 	m_WaterNormCoords.resize(6);
 
-	m_WaterPositions.push_back(glm::vec3(-256.0f, m_WaterHeight, -256.0f)); //back left
-	m_WaterPositions.push_back(glm::vec3(-256.0f, m_WaterHeight, 256.0f));  //front left
-	m_WaterPositions.push_back(glm::vec3(256.0f, m_WaterHeight, 256.0f));   //front right
-	m_WaterPositions.push_back(glm::vec3(-256.0f, m_WaterHeight, -256.0f)); //back left
-	m_WaterPositions.push_back(glm::vec3(256.0f, m_WaterHeight, 256.0f));   //front right
-	m_WaterPositions.push_back(glm::vec3(256.0f, m_WaterHeight, -256.0f));  //back right
+	m_WaterPositions.push_back(glm::vec3(-m_WaterSize, m_WaterHeight, -m_WaterSize)); //back left
+	m_WaterPositions.push_back(glm::vec3(-m_WaterSize, m_WaterHeight, m_WaterSize));  //front left
+	m_WaterPositions.push_back(glm::vec3(m_WaterSize, m_WaterHeight, m_WaterSize));   //front right
+	m_WaterPositions.push_back(glm::vec3(-m_WaterSize, m_WaterHeight, -m_WaterSize)); //back left
+	m_WaterPositions.push_back(glm::vec3(m_WaterSize, m_WaterHeight, m_WaterSize));   //front right
+	m_WaterPositions.push_back(glm::vec3(m_WaterSize, m_WaterHeight, -m_WaterSize));  //back right
 
 	m_WaterPositionSize = sizeof(glm::vec3) * m_WaterPositions.size();
 	m_WaterRefrCoordSize = sizeof(glm::vec2) * m_WaterRefrCoords.size();
@@ -180,12 +181,12 @@ void WaterRenderer::RenderWater(RenderContext* context, glm::vec3 lightPos/* =gl
 	m_WaterPositions.clear();
 	m_WaterRefrCoords.clear();
 	m_WaterNormCoords.clear();	
-	m_WaterPositions.push_back(glm::vec3(-256.0f, m_WaterHeight, -256.0f)); //back left
-	m_WaterPositions.push_back(glm::vec3(-256.0f, m_WaterHeight, 256.0f));  //front left
-	m_WaterPositions.push_back(glm::vec3(256.0f, m_WaterHeight, 256.0f));   //front right
-	m_WaterPositions.push_back(glm::vec3(-256.0f, m_WaterHeight, -256.0f)); //back left
-	m_WaterPositions.push_back(glm::vec3(256.0f, m_WaterHeight, 256.0f));   //front right
-	m_WaterPositions.push_back(glm::vec3(256.0f, m_WaterHeight, -256.0f));  //back right
+	m_WaterPositions.push_back(glm::vec3(-m_WaterSize, m_WaterHeight, -m_WaterSize)); //back left
+	m_WaterPositions.push_back(glm::vec3(-m_WaterSize, m_WaterHeight, m_WaterSize));  //front left
+	m_WaterPositions.push_back(glm::vec3(m_WaterSize, m_WaterHeight, m_WaterSize));   //front right
+	m_WaterPositions.push_back(glm::vec3(-m_WaterSize, m_WaterHeight, -m_WaterSize)); //back left
+	m_WaterPositions.push_back(glm::vec3(m_WaterSize, m_WaterHeight, m_WaterSize));   //front right
+	m_WaterPositions.push_back(glm::vec3(m_WaterSize, m_WaterHeight, -m_WaterSize));  //back right
 
 	m_WaterRefrCoords.push_back(glm::vec2(0.0f, refrUV - move));//back left
 	m_WaterRefrCoords.push_back(glm::vec2(0.0f, 0.0f - move));  //front left

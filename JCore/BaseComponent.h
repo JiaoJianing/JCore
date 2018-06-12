@@ -14,6 +14,9 @@ public:
 	Node * GetOwner();
 	void SetOwner(Node* value);
 
+	bool& GetIsActive();
+	void SetIsActive(bool value);
+
 	virtual stringT GetTypeName() = 0;
 
 	virtual void Update(double curFrame, double deltaFrame) = 0;
@@ -24,5 +27,6 @@ public:
 
 protected:
 	Node * m_Owner;
+	bool m_IsActive;
 };
 

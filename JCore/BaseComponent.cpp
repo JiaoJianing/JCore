@@ -3,6 +3,7 @@
 
 BaseComponent::BaseComponent()
 	: m_Owner(0)
+	, m_IsActive(true)
 {
 }
 
@@ -19,4 +20,14 @@ Node * BaseComponent::GetOwner()
 void BaseComponent::SetOwner(Node* value)
 {
 	m_Owner = value;
+}
+
+bool& BaseComponent::GetIsActive()
+{
+	return m_IsActive;
+}
+
+void BaseComponent::SetIsActive(bool value)
+{
+	m_IsActive = value;
 }

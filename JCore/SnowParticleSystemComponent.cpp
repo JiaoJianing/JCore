@@ -18,6 +18,7 @@ stringT SnowParticleSystemComponent::GetTypeName()
 
 void SnowParticleSystemComponent::Update(double curFrame, double deltaFrame)
 {
+	m_SnowParticleSys.SetIsActive(GetIsActive());
 	m_SnowParticleSys.Update();
 }
 

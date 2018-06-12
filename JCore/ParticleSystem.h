@@ -33,6 +33,9 @@ public:
 
 	void Render(Shader shader);
 
+	bool GetIsActive();
+	void SetIsActive(bool value);
+
 protected:
 	int m_ParticleCount;
 	Particle* m_Particles;
@@ -40,5 +43,6 @@ protected:
 	unsigned int m_VAO, m_InstanceVBO;
 	std::random_device m_Random;
 	Texture m_ParticleTexture;
+	bool m_IsActive;
 };
 

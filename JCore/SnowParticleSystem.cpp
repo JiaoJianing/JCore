@@ -29,6 +29,10 @@ void SnowParticleSystem::Initialize(int particleCount)
 
 void SnowParticleSystem::Update()
 {
+	if (!GetIsActive()) {
+		return;
+	}
+
 	for (int i = 0; i < m_ParticleCount; i++) {
 		float x = m_Particles[i].Position.x;
 		float y = m_Particles[i].Position.y;

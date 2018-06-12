@@ -5,6 +5,7 @@ ParticleSystem::ParticleSystem()
 	: m_ParticleCount(0)
 	, m_Particles(0)
 	, m_InstanceData(0)
+	, m_IsActive(true)
 {
 }
 
@@ -56,6 +57,10 @@ void ParticleSystem::Update()
 
 void ParticleSystem::Render(Shader shader)
 {
+	if (!GetIsActive()) {
+		return;
+	}
+
 	if (m_ParticleCount > 0) {
 		shader.use();
 		glActiveTexture(GL_TEXTURE0);
@@ -66,4 +71,14 @@ void ParticleSystem::Render(Shader shader)
 		glDrawArraysInstanced(GL_POINTS, 0, 1, m_ParticleCount);
 		glBindVertexArray(0);
 	}
+}
+
+bool ParticleSystem::GetIsActive()
+{
+	return m_IsActive;
+}
+
+void ParticleSystem::SetIsActive(bool value)
+{
+	m_IsActive = value;
 }

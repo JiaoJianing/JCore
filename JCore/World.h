@@ -9,6 +9,7 @@
 #include "MainRenderer.h"
 #include "PickRenderer.h"
 #include "PostEffectRenderer.h"
+#include "SnowParticleSystemComponent.h"
 
 class World
 {
@@ -82,6 +83,9 @@ public:
 	bool& GetEnableRenderNormal();
 	void SetEnableRenderNormal(bool value);
 
+	bool& GetEnableSnow();
+	void SetEnableSnow(bool value);
+
 	int GetWindowWidth();
 	int GetWindowHeight();
 
@@ -117,5 +121,7 @@ private:
 
 	bool m_IsDragging;
 	float m_PickNodeScreenZ;
+
+	SnowParticleSystemComponent* m_SnowCmp;
 };
 

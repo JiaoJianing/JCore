@@ -18,6 +18,7 @@ World::World(int windowWidth, int windowHeight)
 	, m_FPS(0.0f)
 	, m_IsDragging(false)
 	, m_PickNodeScreenZ(0.0f)
+	, m_SnowCmp(0)
 {
 
 }
@@ -170,6 +171,12 @@ bool World::Initialize()
 	m_FollowCamera->SetIsActive(false);
 	m_CameraNode->AddComponent(m_FreeCamera);
 	m_CameraNode->AddComponent(m_FollowCamera);
+
+	//Á£×ÓÏµÍ³ Ñ©
+	Node* snow = AddNode(_T("snow_particles"));
+	m_SnowCmp = new SnowParticleSystemComponent();
+	m_SnowCmp->Initialize(200000);
+	snow->AddComponent(m_SnowCmp);
 
 	m_TextRender = new TextRenderer(m_WindowWidth, m_WindowHeight);
 	m_TextRender->Load("asset/fonts/msyh.ttf", 36);
@@ -479,6 +486,16 @@ bool& World::GetEnableRenderNormal()
 void World::SetEnableRenderNormal(bool value)
 {
 	m_Renderer->SetEnableNormal(value);
+}
+
+bool& World::GetEnableSnow()
+{
+	return m_SnowCmp->GetIsActive();
+}
+
+void World::SetEnableSnow(bool value)
+{
+	m_SnowCmp->SetIsActive(value);
 }
 
 int World::GetWindowWidth()

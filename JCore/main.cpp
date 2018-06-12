@@ -56,6 +56,7 @@ void OnWorldInit(World* world) {
 	world->SetEnableLight(true);
 	world->SetEnableSkybox(true);
 	world->SetEnableRenderNormal(false);
+	world->SetEnableSnow(false);
 	world->ToFlyMode(true);
 
 	//地形
@@ -200,12 +201,6 @@ void OnWorldInit(World* world) {
 	SphereComponent* sphereCmp = new SphereComponent("asset/resources/toy_box_diffuse.png", "asset/resources/toy_box_normal.png", "asset/resources/toy_box_specular.png");
 	sphere->AddComponent(sphereCmp);
 
-	//粒子系统 雪
-	Node* snow = world->AddNode(_T("snow"));
-	SnowParticleSystemComponent* snowCmp = new SnowParticleSystemComponent();
-	snowCmp->Initialize(200000);
-	snow->AddComponent(snowCmp);
-
 	g_TwBar = TwNewBar("JCore");
 	float refresh = 0.1f;
 	TwSetParam(g_TwBar, NULL, "refresh", TW_PARAM_FLOAT, 1, &refresh);
@@ -217,6 +212,7 @@ void OnWorldInit(World* world) {
 	TwAddVarRW(g_TwBar, "fly", TW_TYPE_BOOLCPP, &world->GetFlyMode(), "help='Turn On/Off fly mode' group='GLOBAL_TOOGLE'");
 	TwAddVarRW(g_TwBar, "light", TW_TYPE_BOOLCPP, &world->GetEnableLight(), "help='Turn On/Off light' group='GLOBAL_TOOGLE'");
 	TwAddVarRW(g_TwBar, "skybox", TW_TYPE_BOOLCPP, &world->GetEnableSkybox(), "help='Turn On/Off skybox' group='GLOBAL_TOOGLE'");
+	TwAddVarRW(g_TwBar, "snow", TW_TYPE_BOOLCPP, &world->GetEnableSnow(), "help='Turn On/Off snow' group='GLOBAL_TOOGLE'");
 	TwAddSeparator(g_TwBar, "", "");
 
 	TwAddButton(g_TwBar, "camera-mode", 0, 0, "label='Current Camera: free'");

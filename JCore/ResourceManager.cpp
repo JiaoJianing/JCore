@@ -24,9 +24,6 @@ ResourceManager& ResourceManager::operator=(const ResourceManager& text)
 
 ResourceManager::~ResourceManager()
 {
-	if (m_SoundEngine) {
-		m_SoundEngine->drop();
-	}
 }
 
 ResourceManager* ResourceManager::getInstance()

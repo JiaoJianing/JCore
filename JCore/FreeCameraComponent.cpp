@@ -32,9 +32,11 @@ void FreeCameraComponent::Update(double curFrame, double deltaFrame)
 				m_Camera.SetPosition(position);
 			}
 		}
-		ResourceManager::getInstance()->GetSoundEngine()->setListenerPosition(
-			irrklang::vec3df(position.x, position.y, position.z),
-			irrklang::vec3df(m_Target.x, m_Target.y, m_Target.z));
+		if (GetIsActive()) {
+			ResourceManager::getInstance()->GetSoundEngine()->setListenerPosition(
+				irrklang::vec3df(position.x, position.y, position.z),
+				irrklang::vec3df(m_Target.x, m_Target.y, m_Target.z));
+		}
 	}
 }
 

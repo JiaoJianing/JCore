@@ -29,6 +29,8 @@ public:
 
 	void SetPosition(const glm::vec3& pos);
 
+	void SetPlaybackSpeed(float value);
+
 private:
 	SRTTransformComponent * m_SrtCmp;
 	irrklang::ISound* m_Sound;

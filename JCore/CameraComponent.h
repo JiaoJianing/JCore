@@ -36,9 +36,6 @@ public:
 
 	glm::mat4 GetProjectionTransform();
 
-	bool GetIsActive();
-	void SetIsActive(bool value);
-
 	Camera* GetCamera();
 
 	void SetWorld(World* world);
@@ -56,7 +53,6 @@ protected:
 	bool m_MousePress;
 	glm::vec3 m_Target;
 	glm::vec3 m_Up;
-	bool m_IsActive;
 
 	Camera m_Camera;
 

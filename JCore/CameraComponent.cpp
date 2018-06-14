@@ -13,7 +13,6 @@ CameraComponent::CameraComponent(int width, int height)
 	, m_KeySensitivity(5)
 	, m_MousePress(false)
 	, m_FirstMouse(true)
-	, m_IsActive(false)
 	, m_World(0)
 {
 	m_Camera.SetViewportRect(glm::vec4(0.0f, 0.0f, width, height));
@@ -118,16 +117,6 @@ glm::mat4 CameraComponent::GetViewTransform()
 glm::mat4 CameraComponent::GetProjectionTransform()
 {
 	return m_Camera.GetProjTransform();
-}
-
-bool CameraComponent::GetIsActive()
-{
-	return m_IsActive;
-}
-
-void CameraComponent::SetIsActive(bool value)
-{
-	m_IsActive = value;
 }
 
 Camera* CameraComponent::GetCamera()

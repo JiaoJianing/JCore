@@ -81,3 +81,10 @@ void SoundComponent::SetPosition(const glm::vec3& pos)
 		m_Sound->setPosition(irrklang::vec3df(pos.x, pos.y, pos.z));
 	}
 }
+
+void SoundComponent::SetPlaybackSpeed(float value)
+{
+	if (m_Sound) {
+		m_Sound->setPlaybackSpeed(value);
+	}
+}

@@ -34,9 +34,11 @@ void FollowCameraComponent::Update(double curFrame, double deltaFrame)
 		glm::vec3 cameraPos = m_Camera.GetPosition();
 		m_Target = glm::normalize(position - cameraPos);
 
-		ResourceManager::getInstance()->GetSoundEngine()->setListenerPosition(
-			irrklang::vec3df(cameraPos.x, cameraPos.y, cameraPos.z),
-			irrklang::vec3df(m_Target.x, m_Target.y, m_Target.z));
+		if (GetIsActive()) {
+			ResourceManager::getInstance()->GetSoundEngine()->setListenerPosition(
+				irrklang::vec3df(cameraPos.x, cameraPos.y, cameraPos.z),
+				irrklang::vec3df(m_Target.x, m_Target.y, m_Target.z));
+		}
 	}
 }
 

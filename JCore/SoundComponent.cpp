@@ -6,12 +6,16 @@
 SoundComponent::SoundComponent()
 	: m_SrtCmp(0)
 	, m_Sound(0)
+	, m_LastSound(0)
 {
 }
 
 
 SoundComponent::~SoundComponent()
 {
+	if (m_LastSound) {
+		m_LastSound->drop();
+	}
 }
 
 stringT SoundComponent::GetTypeName()
@@ -54,6 +58,16 @@ void SoundComponent::Play()
 	}
 }
 
+void SoundComponent::PlayOnce()
+{
+	if (m_Sound) {
+		if (m_LastSound) {
+			m_LastSound->drop();
+		}
+		m_LastSound = ResourceManager::getInstance()->GetSoundEngine()->play3D(m_Sound->getSoundSource(), m_Sound->getPosition());
+	}
+}
+
 void SoundComponent::Pause()
 {
 	if (m_Sound) {
@@ -86,5 +100,12 @@ void SoundComponent::SetPlaybackSpeed(float value)
 {
 	if (m_Sound) {
 		m_Sound->setPlaybackSpeed(value);
+	}
+}
+
+void SoundComponent::SetLoop(bool value)
+{
+	if (m_Sound) {
+		m_Sound->setIsLooped(value);
 	}
 }

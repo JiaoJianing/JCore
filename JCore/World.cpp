@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "World.h"
 #include "ResourceManager.h"
+#include "SoundComponent.h"
 
 World::World(int windowWidth, int windowHeight)
 	: m_RootNode(0)
@@ -321,6 +322,11 @@ Node* World::PickNode(unsigned int x, unsigned int y)
 			m_PickingNodeSRT->SetCheckTerrain(false);
 		}
 		m_IsDragging = true;
+
+		SoundComponent* soundCmp = m_PickingNode->FindComponent<SoundComponent>();
+		if (soundCmp != 0) {
+			soundCmp->PlayOnce();
+		}
 	}
 	else {
 		m_PickingNodeSRT = 0;

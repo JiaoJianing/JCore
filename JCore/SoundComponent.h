@@ -20,6 +20,8 @@ public:
 	void SetSound(std::string soundPath);
 
 	void Play();
+
+	void PlayOnce();
 	
 	void Pause();
 
@@ -31,8 +33,11 @@ public:
 
 	void SetPlaybackSpeed(float value);
 
+	void SetLoop(bool value);
+
 private:
 	SRTTransformComponent * m_SrtCmp;
 	irrklang::ISound* m_Sound;
+	irrklang::ISound* m_LastSound;
 };
 

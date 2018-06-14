@@ -114,7 +114,7 @@ irrklang::ISound* ResourceManager::LoadSound3d(std::string name, std::string pat
 		return Sound3ds[name];
 	}
 
-	irrklang::ISound* sound = m_SoundEngine->play3D(path.c_str(), irrklang::vec3df(0.0, 0.0, 0.0), true, true, true);
+	irrklang::ISound* sound = m_SoundEngine->play3D(path.c_str(), irrklang::vec3df(0.0, 0.0, 0.0), false, true, true);
 	Sound3ds[name] = sound;
 
 	return sound;
@@ -164,6 +164,10 @@ void ResourceManager::Clear()
 
 	for (auto iter : Sound2ds) {
 		iter.second->drop();
+	}
+
+	if (m_SoundEngine) {
+		m_SoundEngine->drop();
 	}
 
 	Shaders.clear();

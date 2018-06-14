@@ -3,7 +3,11 @@
 #include "CubeMapTexture.h"
 
 ResourceManager::ResourceManager()
+	: m_SoundEngine(0)
 {
+	m_SoundEngine = irrklang::createIrrKlangDevice();
+	m_SoundEngine->setListenerPosition(irrklang::vec3df(0.0f, 0.0f, 0.0f),
+		irrklang::vec3df(0.0f, 0.0f, -1.0f));
 }
 
 
@@ -20,6 +24,9 @@ ResourceManager& ResourceManager::operator=(const ResourceManager& text)
 
 ResourceManager::~ResourceManager()
 {
+	if (m_SoundEngine) {
+		m_SoundEngine->drop();
+	}
 }
 
 ResourceManager* ResourceManager::getInstance()
@@ -101,6 +108,45 @@ Texture* ResourceManager::GetTexture(std::string name)
 	return &Textures[name];
 }
 
+irrklang::ISound* ResourceManager::LoadSound3d(std::string name, std::string path)
+{
+	if (Sound3ds.find(name) != Sound3ds.end()) {
+		return Sound3ds[name];
+	}
+
+	irrklang::ISound* sound = m_SoundEngine->play3D(path.c_str(), irrklang::vec3df(0.0, 0.0, 0.0), true, true, true);
+	Sound3ds[name] = sound;
+
+	return sound;
+}
+
+irrklang::ISound* ResourceManager::GetSound3d(std::string name)
+{
+	return Sound3ds[name];
+}
+
+irrklang::ISound* ResourceManager::LoadSound2d(std::string name, std::string path)
+{
+	if (Sound2ds.find(name) != Sound2ds.end()) {
+		return Sound2ds[name];
+	}
+
+	irrklang::ISound* sound = m_SoundEngine->play2D(path.c_str(), true, true, true);
+	Sound2ds[name] = sound;
+
+	return sound;
+}
+
+irrklang::ISound* ResourceManager::GetSound2d(std::string name)
+{
+	return Sound2ds[name];
+}
+
+irrklang::ISoundEngine* ResourceManager::GetSoundEngine()
+{
+	return m_SoundEngine;
+}
+
 void ResourceManager::Clear()
 {
 	for (auto iter : Shaders) {
@@ -110,6 +156,14 @@ void ResourceManager::Clear()
 	for (auto iter : Textures) {
 		unsigned int id = iter.second.GetID();
 		glDeleteTextures(1, &id);
+	}
+
+	for (auto iter : Sound3ds) {
+		iter.second->drop();
+	}
+
+	for (auto iter : Sound2ds) {
+		iter.second->drop();
 	}
 
 	Shaders.clear();

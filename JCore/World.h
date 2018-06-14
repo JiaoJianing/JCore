@@ -10,6 +10,7 @@
 #include "PickRenderer.h"
 #include "PostEffectRenderer.h"
 #include "SnowParticleSystemComponent.h"
+#include <irrKlang.h>
 
 class World
 {
@@ -96,6 +97,11 @@ public:
 
 	float& GetWaterHeight();
 
+	void SetBGM(std::string path);
+	void SetBGMVolume(float value);
+	void PlayPauseBGM(bool play);
+	bool GetBGMPlayPause();
+
 private:
 	std::map<unsigned long, Node*> m_Nodes;//场景中所有的节点，使用map便于查询
 	std::vector<Node*> m_NodesToDestroy;//将要删除的节点，一般在下一帧删除
@@ -123,5 +129,7 @@ private:
 	float m_PickNodeScreenZ;
 
 	SnowParticleSystemComponent* m_SnowCmp;
+	irrklang::ISound* m_BGM;
+	bool m_BGMPlaying;
 };
 

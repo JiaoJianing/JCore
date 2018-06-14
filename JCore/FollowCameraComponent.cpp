@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "FollowCameraComponent.h"
+#include "ResourceManager.h"
 
 FollowCameraComponent::FollowCameraComponent(int width, int height)
 	: CameraComponent(width, height)
@@ -30,8 +31,12 @@ void FollowCameraComponent::Update(double curFrame, double deltaFrame)
 
 	if (m_FollowNode != 0) {
 		glm::vec3 position = m_FollowNodeSRT->GetTranslation();
+		glm::vec3 cameraPos = m_Camera.GetPosition();
+		m_Target = glm::normalize(position - cameraPos);
 
-		m_Target = glm::normalize(position - m_Camera.GetPosition());
+		ResourceManager::getInstance()->GetSoundEngine()->setListenerPosition(
+			irrklang::vec3df(cameraPos.x, cameraPos.y, cameraPos.z),
+			irrklang::vec3df(m_Target.x, m_Target.y, m_Target.z));
 	}
 }
 

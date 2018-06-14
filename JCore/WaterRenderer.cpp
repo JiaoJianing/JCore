@@ -29,6 +29,15 @@ WaterRenderer::WaterRenderer()
 
 WaterRenderer::~WaterRenderer()
 {
+	glDeleteFramebuffers(1, &m_ReflectFBO);
+	glDeleteFramebuffers(1, &m_RefractFBO);
+	glDeleteTextures(1, &m_ReflectTexture);
+	glDeleteTextures(1, &m_RefractTexture);
+	glDeleteTextures(1, &m_DepthTexture);
+	glDeleteRenderbuffers(1, &m_ReflectDepRBO);
+
+	glDeleteVertexArrays(1, &m_WaterVAO);
+	glDeleteBuffers(1, &m_WaterVBO);
 }
 
 void WaterRenderer::Initialize(int width, int height)

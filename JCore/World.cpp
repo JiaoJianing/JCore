@@ -19,6 +19,8 @@ World::World(int windowWidth, int windowHeight)
 	, m_IsDragging(false)
 	, m_PickNodeScreenZ(0.0f)
 	, m_SnowCmp(0)
+	, m_BGM(0)
+	, m_BGMPlaying(true)
 {
 
 }
@@ -526,4 +528,29 @@ void World::SetSunDirection(const glm::vec3& value)
 float& World::GetWaterHeight()
 {
 	return m_Renderer->GetWaterHeight();
+}
+
+void World::SetBGM(std::string path)
+{
+	m_BGM = ResourceManager::getInstance()->LoadSound2d(path, path);
+}
+
+void World::SetBGMVolume(float value)
+{
+	if (m_BGM) {
+		m_BGM->setVolume(value);
+	}
+}
+
+void World::PlayPauseBGM(bool play)
+{
+	if (m_BGM) {
+		m_BGM->setIsPaused(!play);
+	}
+	m_BGMPlaying = play;
+}
+
+bool World::GetBGMPlayPause()
+{
+	return m_BGMPlaying;
 }

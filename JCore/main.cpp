@@ -15,6 +15,7 @@
 #include "AntTweakBar.h"
 #include "StringHelper.h"
 #include <random>
+#include "SoundComponent.h"
 
 int nodeID = 0;
 
@@ -32,6 +33,7 @@ glm::vec3 getRandomPosition(World* world) {
 	float y = 0;
 	float z = -200.0f + rd() % 400;
 	float height = world->GetHeightAt(glm::vec3(x, y, z));
+	height = __max(height, world->GetWaterHeight());
 	return glm::vec3(x, height, z);
 }
 
@@ -49,6 +51,28 @@ Node* addAnimationModel(World* world, stringT nodeName, const char* path, glm::v
 
 	nodes.push_back(animationBody);
 	return animationBody;
+}
+
+void AddSoundComponent(Node* node, std::string soundPath, glm::vec3 initPos) {
+	SoundComponent* soundCmp = new SoundComponent();
+	soundCmp->SetSound(soundPath);
+	soundCmp->SetMinDistance(2.0f);
+	soundCmp->SetPosition(initPos);
+	soundCmp->Play();
+	node->AddComponent(soundCmp);
+}
+
+void TW_CALL bgm_onClick(void* data) {
+	World* world = static_cast<World*>(data);
+	if (world) {
+		world->PlayPauseBGM(!world->GetBGMPlayPause());
+		if (world->GetBGMPlayPause()) {
+			TwSetParam(g_TwBar, "bgm", "label", TW_PARAM_CSTRING, 1, "bgm on");
+		}
+		else {
+			TwSetParam(g_TwBar, "bgm", "label", TW_PARAM_CSTRING, 1, "bgm off");
+		}
+	}
 }
 
 void OnWorldInit(World* world) {
@@ -156,8 +180,9 @@ void OnWorldInit(World* world) {
 	Node* n13 = addAnimationModel(world, _T("ava-yonng"), "asset/animate_models/ava-yonng/ava-yonng.dae", glm::vec3(40.0f), glm::vec3(0.0f), glm::vec3(-7.0f, 26.0f, 8.0f));
 	Node* n14 = addAnimationModel(world, _T("bristleback"), "asset/animate_models/bristleback/bristleback.dae", glm::vec3(1.5f), glm::vec3(0.0f), glm::vec3(-4.0f, 26.0f, 8.0f));
 	Node* n15 = addAnimationModel(world, _T("greet_frog"), "asset/animate_models/greet_frog/greet_frog.dae", glm::vec3(1.0f), glm::vec3(0.0f), glm::vec3(-1.0f, 26.0f, 8.0f));
-	Node* n16 = addAnimationModel(world, _T("phoenix-bird"), "asset/animate_models/phoenix-bird/phoenix-bird.dae", glm::vec3(3.0f), glm::vec3(0.0f, -90.0f, 0.0f), glm::vec3(2.0f, 27.0f, 8.0f));
+	Node* n16 = addAnimationModel(world, _T("phoenix-bird"), "asset/animate_models/phoenix-bird/phoenix-bird.dae", glm::vec3(3.0f), glm::vec3(0.0f), glm::vec3(2.0f, 27.0f, 8.0f));
 	n16->SetFrontDir(glm::vec3(1.0f, 0.0f, 0.0f));
+	AddSoundComponent(n16, "asset/audios/bleep.wav", glm::vec3(2.0f, 27.0f, 8.0f));
 
 	//Ä£ÐÍ1
 	Node* parent1 = world->AddNode(_T("parent1"));
@@ -213,6 +238,7 @@ void OnWorldInit(World* world) {
 	TwAddVarRW(g_TwBar, "light", TW_TYPE_BOOLCPP, &world->GetEnableLight(), "help='Turn On/Off light' group='GLOBAL_TOOGLE'");
 	TwAddVarRW(g_TwBar, "skybox", TW_TYPE_BOOLCPP, &world->GetEnableSkybox(), "help='Turn On/Off skybox' group='GLOBAL_TOOGLE'");
 	TwAddVarRW(g_TwBar, "snow", TW_TYPE_BOOLCPP, &world->GetEnableSnow(), "help='Turn On/Off snow' group='GLOBAL_TOOGLE'");
+	TwAddButton(g_TwBar, "bgm", bgm_onClick, world, "label='bgm on'");
 	TwAddSeparator(g_TwBar, "", "");
 
 	TwAddButton(g_TwBar, "camera-mode", 0, 0, "label='Current Camera: free'");
@@ -230,7 +256,11 @@ void OnWorldInit(World* world) {
 	TwAddVarRW(g_TwBar, "sun_dir", TW_TYPE_DIR3F, (void*)&world->GetSunDirection(), "");
 	TwAddVarRW(g_TwBar, "key-sensitivity", TW_TYPE_FLOAT, &world->GetFreeCamKeySensitivity(), "min=1 max=50 step=1");
 	TwAddVarRW(g_TwBar, "water-height", TW_TYPE_FLOAT, &world->GetWaterHeight(), "min=1 max=20 step=1");
-	TwAddSeparator(g_TwBar, "", "");
+	//TwAddSeparator(g_TwBar, "", "");
+
+	world->SetBGM("asset/audios/breakout.mp3");
+	world->SetBGMVolume(0.5f);
+	world->PlayPauseBGM(true);
 }
 
 void OnWorldUpdate(World* world, float currentFrame, float deltaFrame) {

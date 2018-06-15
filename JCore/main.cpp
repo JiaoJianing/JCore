@@ -314,12 +314,14 @@ void OnWorldKeyboard(World* world, int key, bool pressed) {
 	break;
 	case GLFW_KEY_2://切换follow相机模式
 	{
-		Node* node = nodes.at(nodeIndex++ % nodes.size());
-		world->ToFollow(node);
+		if (nodes.size() > 0) {
+			Node* node = nodes.at(nodeIndex++ % nodes.size());
+			world->ToFollow(node);
 
-		char paramValue[64];
-		_snprintf(paramValue, sizeof(paramValue), "Camera fix to: %s", StringHelper::WString2String(node->GetName()).c_str());
-		TwSetParam(g_TwBar, "camera-mode", "label", TW_PARAM_CSTRING, 1, paramValue);
+			char paramValue[64];
+			_snprintf(paramValue, sizeof(paramValue), "Camera fix to: %s", StringHelper::WString2String(node->GetName()).c_str());
+			TwSetParam(g_TwBar, "camera-mode", "label", TW_PARAM_CSTRING, 1, paramValue);
+		}
 	}
 	break; 
 	case GLFW_KEY_3:
@@ -335,7 +337,7 @@ void OnWorldKeyboard(World* world, int key, bool pressed) {
 		node->SetParent(world->FindNode(_T("child1")) ? world->FindNode(_T("child1")) : world->GetRootNode());
 		std::wcout << _T("添加子节点: ") << node->GetName() << std::endl;
 
-		nodes.push_back(node);
+		//nodes.push_back(node);
 	}
 	break;
 	case GLFW_KEY_4:

@@ -12,6 +12,7 @@ MainRenderer::MainRenderer()
 	, m_EnableSkybox(false)
 	, m_EnableNormal(false)
 	, m_EnablePostEffect(false)
+	, m_EnableBoundingBox(false)
 {
 	m_CubeDebug.SetColor(glm::vec3(1.0f));
 }
@@ -80,7 +81,9 @@ void MainRenderer::Render(Scene* scene, RenderContext* context)
 	}
 
 	//渲染模型包围盒
-	renderBoundingBox(scene, context);
+	if (m_EnableBoundingBox) {
+		renderBoundingBox(scene, context);
+	}
 
 	//输出法线
 	if (m_EnableNormal) {
@@ -190,6 +193,16 @@ void MainRenderer::SetSunDirection(const glm::vec3& value)
 float& MainRenderer::GetWaterHeight()
 {
 	return m_WaterRenderer.GetWaterHeight();
+}
+
+bool& MainRenderer::GetEnableBoundingBox()
+{
+	return m_EnableBoundingBox;
+}
+
+void MainRenderer::SetEnableBoundingBox(bool value)
+{
+	m_EnableBoundingBox = value;
 }
 
 void MainRenderer::renderSkybox(Scene* scene, RenderContext* context, bool flipY/* = false*/)

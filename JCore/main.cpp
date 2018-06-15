@@ -246,6 +246,7 @@ void OnWorldInit(World* world) {
 	TwAddVarRW(g_TwBar, "light", TW_TYPE_BOOLCPP, &world->GetEnableLight(), "help='Turn On/Off light' group='GLOBAL_TOOGLE'");
 	TwAddVarRW(g_TwBar, "skybox", TW_TYPE_BOOLCPP, &world->GetEnableSkybox(), "help='Turn On/Off skybox' group='GLOBAL_TOOGLE'");
 	TwAddVarRW(g_TwBar, "snow", TW_TYPE_BOOLCPP, &world->GetEnableSnow(), "help='Turn On/Off snow' group='GLOBAL_TOOGLE'");
+	TwAddVarRW(g_TwBar, "bounding-box", TW_TYPE_BOOLCPP, &world->GetEnableBoundingBox(), "help='Turn On/Off bounding box' group='GLOBAL_TOOGLE'");
 	TwAddButton(g_TwBar, "bgm", bgm_onClick, world, "label='bgm on'");
 	TwAddSeparator(g_TwBar, "", "");
 

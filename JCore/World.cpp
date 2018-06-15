@@ -508,6 +508,16 @@ void World::SetEnableSnow(bool value)
 	m_SnowCmp->SetIsActive(value);
 }
 
+bool& World::GetEnableBoundingBox()
+{
+	return m_Renderer->GetEnableBoundingBox();
+}
+
+void World::SetEnableBoundingBox(bool value)
+{
+	m_Renderer->SetEnableBoundingBox(value);
+}
+
 int World::GetWindowWidth()
 {
 	return m_WindowWidth;

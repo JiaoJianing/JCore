@@ -40,6 +40,9 @@ public:
 
 	float& GetWaterHeight();
 
+	bool& GetEnableBoundingBox();
+	void SetEnableBoundingBox(bool value);
+
 private:
 	void renderSkybox(Scene* scene, RenderContext* context, bool flipY=false);
 
@@ -83,6 +86,7 @@ protected:
 	bool m_EnableNormal;
 	bool m_EnableLighting;
 	bool m_EnablePostEffect;
+	bool m_EnableBoundingBox;
 
 	PostEffectRenderer m_PostRenderer;
 	PickRenderer m_PickRenderer;

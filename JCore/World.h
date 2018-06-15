@@ -87,6 +87,9 @@ public:
 	bool& GetEnableSnow();
 	void SetEnableSnow(bool value);
 
+	bool& GetEnableBoundingBox();
+	void SetEnableBoundingBox(bool value);
+
 	int GetWindowWidth();
 	int GetWindowHeight();
 

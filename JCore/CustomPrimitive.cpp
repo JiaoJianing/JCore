@@ -26,6 +26,10 @@ void CustomPrimitive::RenderSimple(Shader shader)
 
 }
 
+void CustomPrimitive::RenderBoundingBox(Shader shader)
+{
+}
+
 void CustomPrimitive::SetDiffuseTexture(const std::string& path)
 {
 	m_DiffuseTexture = *ResourceManager::getInstance()->LoadTexture(path, path);
@@ -95,4 +99,9 @@ void CustomPrimitive::SetID(unsigned long id)
 unsigned long CustomPrimitive::GetID()
 {
 	return m_ID;
+}
+
+AABB& CustomPrimitive::GetAABB()
+{
+	return m_BoundingBox.GetAABB();
 }

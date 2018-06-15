@@ -79,6 +79,9 @@ void MainRenderer::Render(Scene* scene, RenderContext* context)
 		renderAnimationModel(scene, context, shaderModel_Animation);
 	}
 
+	//渲染模型包围盒
+	renderBoundingBox(scene, context);
+
 	//输出法线
 	if (m_EnableNormal) {
 		renderNormal(scene, context);
@@ -459,6 +462,21 @@ void MainRenderer::renderModel(Scene* scene, RenderContext* context, Shader shad
 {
 	for (std::vector<Model*>::iterator it = scene->GetModels().begin(); it != scene->GetModels().end(); it++) {
 		(*it)->Render(shader);
+	}
+}
+
+void MainRenderer::renderBoundingBox(Scene* scene, RenderContext* context)
+{
+	Shader shaderBoundingBox = ResourceManager::getInstance()->GetShader("bounding_box");
+	shaderBoundingBox.use();
+	shaderBoundingBox.setMatrix4("view", context->MatView);
+	shaderBoundingBox.setMatrix4("projection", context->MatProj);
+	for (std::vector<Model*>::iterator it = scene->GetModels().begin(); it != scene->GetModels().end(); it++) {
+		(*it)->RenderBoundingBox(shaderBoundingBox);
+	}
+
+	for (std::vector<CustomPrimitive*>::iterator it = scene->GetCustomPrimitives().begin(); it != scene->GetCustomPrimitives().end(); it++) {
+		(*it)->RenderBoundingBox(shaderBoundingBox);
 	}
 }
 

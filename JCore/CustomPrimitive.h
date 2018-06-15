@@ -2,6 +2,7 @@
 #include "Shader.h"
 #include <vector>
 #include "Mesh.h"
+#include "BoundingBox.h"
 
 class CustomPrimitive
 {
@@ -12,6 +13,8 @@ public:
 	virtual void Render(Shader shader);
 
 	virtual void RenderSimple(Shader shader);
+
+	virtual void RenderBoundingBox(Shader shader);
 
 	void SetDiffuseTexture(const std::string& path);
 	void SetNormalTexture(const std::string& path);
@@ -32,6 +35,8 @@ public:
 	void SetID(unsigned long id);
 	unsigned long GetID();
 
+	AABB& GetAABB();
+
 protected:
 	glm::vec3 m_Color;
 	unsigned int m_VBO, m_VAO, m_EBO;
@@ -46,5 +51,7 @@ protected:
 	bool m_HighLight;
 	glm::vec3 m_HighLightColor;
 	unsigned long m_ID;
+
+	BoundingBox m_BoundingBox;
 };
 

@@ -14,6 +14,8 @@ public:
 
 	virtual void RenderSimple(Shader shader);
 
+	virtual void RenderBoundingBox(Shader shader);
+
 private:
 	void initRenderData();
 };

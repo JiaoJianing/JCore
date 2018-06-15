@@ -57,6 +57,8 @@ private:
 
 	void renderModel(Scene* scene, RenderContext* context, Shader shader);
 
+	void renderBoundingBox(Scene* scene, RenderContext* context);
+
 	void renderAnimationModel(Scene* scene, RenderContext* context, Shader shader);
 
 	void renderCustomPrimitive(Scene* scene, RenderContext* context, Shader shader);

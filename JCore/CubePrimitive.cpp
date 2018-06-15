@@ -95,6 +95,13 @@ void CubePrimitive::RenderSimple(Shader shader) {
 	glBindVertexArray(0);
 }
 
+void CubePrimitive::RenderBoundingBox(Shader shader)
+{
+	shader.use();
+	shader.setMatrix4("model", GetWorldTransform());
+	m_BoundingBox.Render(shader);
+}
+
 void CubePrimitive::initRenderData()
 {
 	glGenVertexArrays(1, &m_VAO);
@@ -108,6 +115,7 @@ void CubePrimitive::initRenderData()
 		v.normal = glm::vec3(cubeVertices[i + 3], cubeVertices[i + 4], cubeVertices[i + 5]);
 		v.texCoord = glm::vec2(cubeVertices[i + 6], cubeVertices[i + 7]);
 		m_Vertices.push_back(v);
+		GetAABB().extend(v.position);
 	}
 	//×¼±¸Ë÷Òý
 	for (int i = 0; i < sizeof(cubeVertices) / (sizeof(float) * 8); i++) {

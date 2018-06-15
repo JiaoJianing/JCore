@@ -6,6 +6,8 @@
 #include "Mesh.h"
 #include "Texture.h"
 #include <map>
+#include "Aabb.h"
+#include "BoundingBox.h"
 
 struct BoneInfo {
 	glm::mat4 BoneOffset;
@@ -23,6 +25,8 @@ public:
 	void LoadModel(const char* path);
 
 	void Render(Shader shader);
+
+	void RenderBoundingBox(Shader shader);
 
 	std::vector<Mesh>& getMeshes();
 
@@ -46,6 +50,8 @@ public:
 	void UpdateBoneTransform(float currentFrame);
 
 	void SetCurrentAnimation(int animIndex);
+
+	AABB& GetAABB();
 
 private:
 	std::vector<Mesh> meshes;
@@ -92,5 +98,6 @@ private:
 
 	const aiScene* m_Scene;
 	Assimp::Importer m_Importer;
+	BoundingBox m_BoundingBox;
 };
 

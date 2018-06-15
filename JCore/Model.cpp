@@ -58,6 +58,13 @@ void Model::Render(Shader shader)
 	}
 }
 
+void Model::RenderBoundingBox(Shader shader)
+{
+	shader.use();
+	shader.setMatrix4("model", GetWorldTransform());
+	m_BoundingBox.Render(shader);
+}
+
 std::vector<Mesh>& Model::getMeshes()
 {
 	return meshes;
@@ -227,6 +234,7 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
 		vertex.bitangent = bitangent;
 
 		vertices.push_back(vertex);
+		m_BoundingBox.GetAABB().extend(position);
 	}
 
 	if (m_SupportAnimation) {
@@ -314,6 +322,11 @@ void Model::SetCurrentAnimation(int animIndex)
 			m_AnimMaps[pNodeAnim->mNodeName.data] = pNodeAnim;
 		}
 	}
+}
+
+AABB& Model::GetAABB()
+{
+	return m_BoundingBox.GetAABB();
 }
 
 void Model::readNodeHeirarchy(float AnimationTime, const aiNode* pNode, const glm::mat4& ParentTransform)

@@ -50,6 +50,13 @@ void SpherePrimitive::RenderSimple(Shader shader)
 	glBindVertexArray(0);
 }
 
+void SpherePrimitive::RenderBoundingBox(Shader shader)
+{
+	shader.use();
+	shader.setMatrix4("model", GetWorldTransform());
+	m_BoundingBox.Render(shader);
+}
+
 void SpherePrimitive::initRenderData()
 {
 	glGenVertexArrays(1, &m_VAO);
@@ -79,6 +86,7 @@ void SpherePrimitive::initRenderData()
 			v.tangent = glm::normalize(glm::vec3(-zPos, 0, -xPos));
 			v.bitangent = glm::normalize(glm::cross(v.normal, v.tangent));
 			m_Vertices.push_back(v);
+			GetAABB().extend(v.position);
 		}
 	}
 

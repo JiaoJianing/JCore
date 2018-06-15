@@ -148,6 +148,8 @@ bool World::Initialize()
 	ResourceManager::getInstance()->GetShader("csm_terrain_upWater").setInt("texture_shadow[1]", 4);
 	ResourceManager::getInstance()->GetShader("csm_terrain_upWater").setInt("texture_shadow[2]", 5);
 
+	ResourceManager::getInstance()->LoadShader("bounding_box", "asset/shaders/jcore/bounding_box.vs", "asset/shaders/jcore/bounding_box.fs");
+
 	ResourceManager::getInstance()->LoadTexture("skybox", "asset/resources/skybox", "right.jpg", "left.jpg",
 		"top.jpg", "bottom.jpg", "front.jpg", "back.jpg");
 	ResourceManager::getInstance()->LoadTexture("skybox1", "asset/resources/skybox1", "alien_rt.JPG", "alien_lf.JPG",

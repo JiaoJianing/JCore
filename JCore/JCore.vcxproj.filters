@@ -46,6 +46,9 @@
     <Filter Include="Helper">
       <UniqueIdentifier>{8a2964af-fac5-4bad-87e4-538ab8dfc878}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Math">
+      <UniqueIdentifier>{f52bcd08-25a7-4d2f-a370-aaf437d2254a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -216,6 +219,12 @@
     <ClCompile Include="SoundComponent.cpp">
       <Filter>Component</Filter>
     </ClCompile>
+    <ClCompile Include="Aabb.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="BoundingBox.cpp">
+      <Filter>RenderObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -382,6 +391,12 @@
     </ClInclude>
     <ClInclude Include="SoundComponent.h">
       <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Aabb.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="BoundingBox.h">
+      <Filter>RenderObject</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

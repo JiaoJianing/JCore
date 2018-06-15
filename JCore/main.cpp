@@ -169,28 +169,28 @@ void OnWorldInit(World* world) {
 
 	Node* n1 = addAnimationModel(world, _T("purpleheartanime"), "asset/animate_models/purpleheartanime/purpleheartanime.fbx", glm::vec3(1.0f), glm::vec3(0.0f), glm::vec3(-4.0f, 27.0f, 8.0f));
 	multipleAnimNode = n1;
-	//Node* n3 = addAnimationModel(world, _T("aatrox"), "asset/animate_models/aatrox/aatrox.dae", glm::vec3(1.0f), glm::vec3(0.0f), glm::vec3(-1.0f, 26.0f, 4.0f));
-	//SoundComponent* sound3 = AddSoundComponent(n3, "asset/audios/scream.mp3", glm::vec3(-1.0f, 26.0f, 4.0f), 1.0f, false);
-	//Node* n4 = addAnimationModel(world, _T("Borvar"), "asset/animate_models/Borvar/Borvar.dae", glm::vec3(1.0f), glm::vec3(0.0f), glm::vec3(2.0f, 26.0f, 4.0f));
-	//SoundComponent* sound4 = AddSoundComponent(n4, "asset/audios/old_man.mp3", glm::vec3(2.0f, 26.0f, 4.0f), 1.0f, false);
-	//Node* n5 = addAnimationModel(world, _T("cartoon_turtle"), "asset/animate_models/cartoon_turtle/cartoon_turtle.dae", glm::vec3(4.0f), glm::vec3(0.0f), glm::vec3(5.0f, 26.0f, 4.0f));
-	//n5->SetFrontDir(glm::vec3(1.0f, 0.0f, 0.0f));
-	//Node* n6 = addAnimationModel(world, _T("crazy_frog"), "asset/animate_models/crazy_frog/crazy_frog.dae", glm::vec3(10.0f), glm::vec3(0.0f), glm::vec3(8.0f, 26.0f, 4.0f));
-	//Node* n7 = addAnimationModel(world, _T("dancing_crab"), "asset/animate_models/dancing_crab/dancing_crab.dae", glm::vec3(40.0f), glm::vec3(0.0f), glm::vec3(8.0f, 28.0f, 0.0f), 1.5f);
-	//n7->SetFrontDir(glm::vec3(0.0f, 0.0f, -1.0f));
-	//Node* n8 = addAnimationModel(world, _T("dragon"), "asset/animate_models/dragon/dragon.dae", glm::vec3(10.0f), glm::vec3(0.0f), glm::vec3(5.0f, 26.0f, 0.0f));
-	//Node* n9 = addAnimationModel(world, _T("gex-4-walk"), "asset/animate_models/gex-4-walk/gex-4-walk.dae", glm::vec3(1.0f), glm::vec3(0.0f), glm::vec3(2.0f, 26.0f, 0.0f));
-	//Node* n10 = addAnimationModel(world, _T("gregory-dragon-ball"), "asset/animate_models/gregory-dragon-ball/gregory-dragon-ball.dae", glm::vec3(3.0f), glm::vec3(0.0f), glm::vec3(-1.0f, 26.0f, 0.0f));
-	//Node* n11 = addAnimationModel(world, _T("lambert"), "asset/animate_models/lambert/lambert.dae", glm::vec3(1.0f), glm::vec3(0.0f), glm::vec3(-4.0f, 26.0f, 0.0f));
-	//SoundComponent* sound11 = AddSoundComponent(n11, "asset/audios/punch.mp3", glm::vec3(-4.0f, 26.0f, 0.0f), 1.0f, false);
-	//Node* n13 = addAnimationModel(world, _T("ava-yonng"), "asset/animate_models/ava-yonng/ava-yonng.dae", glm::vec3(40.0f), glm::vec3(0.0f), glm::vec3(-7.0f, 26.0f, 8.0f));
-	//SoundComponent* sound13 = AddSoundComponent(n13, "asset/audios/footsteps.mp3", glm::vec3(-7.0f, 26.0f, 8.0f));
-	//Node* n14 = addAnimationModel(world, _T("bristleback"), "asset/animate_models/bristleback/bristleback.dae", glm::vec3(1.5f), glm::vec3(0.0f), glm::vec3(-4.0f, 26.0f, 8.0f));
-	//SoundComponent* sound14 = AddSoundComponent(n14, "asset/audios/bear.mp3", glm::vec3(-4.0f, 26.0f, 8.0f), 0.5f);
-	//Node* n15 = addAnimationModel(world, _T("greet_frog"), "asset/animate_models/greet_frog/greet_frog.dae", glm::vec3(1.0f), glm::vec3(0.0f), glm::vec3(-1.0f, 26.0f, 8.0f));
-	//Node* n16 = addAnimationModel(world, _T("phoenix-bird"), "asset/animate_models/phoenix-bird/phoenix-bird.dae", glm::vec3(3.0f), glm::vec3(0.0f), glm::vec3(2.0f, 27.0f, 8.0f));
-	//n16->SetFrontDir(glm::vec3(1.0f, 0.0f, 0.0f));
-	//SoundComponent* sound16 = AddSoundComponent(n16, "asset/audios/bird.mp3", glm::vec3(2.0f, 27.0f, 8.0f), 0.5f);
+	Node* n3 = addAnimationModel(world, _T("aatrox"), "asset/animate_models/aatrox/aatrox.dae", glm::vec3(1.0f), glm::vec3(0.0f), glm::vec3(-1.0f, 26.0f, 4.0f));
+	SoundComponent* sound3 = AddSoundComponent(n3, "asset/audios/scream.mp3", glm::vec3(-1.0f, 26.0f, 4.0f), 1.0f, false);
+	Node* n4 = addAnimationModel(world, _T("Borvar"), "asset/animate_models/Borvar/Borvar.dae", glm::vec3(1.0f), glm::vec3(0.0f), glm::vec3(2.0f, 26.0f, 4.0f));
+	SoundComponent* sound4 = AddSoundComponent(n4, "asset/audios/old_man.mp3", glm::vec3(2.0f, 26.0f, 4.0f), 1.0f, false);
+	Node* n5 = addAnimationModel(world, _T("cartoon_turtle"), "asset/animate_models/cartoon_turtle/cartoon_turtle.dae", glm::vec3(4.0f), glm::vec3(0.0f), glm::vec3(5.0f, 26.0f, 4.0f));
+	n5->SetFrontDir(glm::vec3(1.0f, 0.0f, 0.0f));
+	Node* n6 = addAnimationModel(world, _T("crazy_frog"), "asset/animate_models/crazy_frog/crazy_frog.dae", glm::vec3(10.0f), glm::vec3(0.0f), glm::vec3(8.0f, 26.0f, 4.0f));
+	Node* n7 = addAnimationModel(world, _T("dancing_crab"), "asset/animate_models/dancing_crab/dancing_crab.dae", glm::vec3(40.0f), glm::vec3(0.0f), glm::vec3(8.0f, 28.0f, 0.0f), 1.5f);
+	n7->SetFrontDir(glm::vec3(0.0f, 0.0f, -1.0f));
+	Node* n8 = addAnimationModel(world, _T("dragon"), "asset/animate_models/dragon/dragon.dae", glm::vec3(10.0f), glm::vec3(0.0f), glm::vec3(5.0f, 26.0f, 0.0f));
+	Node* n9 = addAnimationModel(world, _T("gex-4-walk"), "asset/animate_models/gex-4-walk/gex-4-walk.dae", glm::vec3(1.0f), glm::vec3(0.0f), glm::vec3(2.0f, 26.0f, 0.0f));
+	Node* n10 = addAnimationModel(world, _T("gregory-dragon-ball"), "asset/animate_models/gregory-dragon-ball/gregory-dragon-ball.dae", glm::vec3(3.0f), glm::vec3(0.0f), glm::vec3(-1.0f, 26.0f, 0.0f));
+	Node* n11 = addAnimationModel(world, _T("lambert"), "asset/animate_models/lambert/lambert.dae", glm::vec3(1.0f), glm::vec3(0.0f), glm::vec3(-4.0f, 26.0f, 0.0f));
+	SoundComponent* sound11 = AddSoundComponent(n11, "asset/audios/punch.mp3", glm::vec3(-4.0f, 26.0f, 0.0f), 1.0f, false);
+	Node* n13 = addAnimationModel(world, _T("ava-yonng"), "asset/animate_models/ava-yonng/ava-yonng.dae", glm::vec3(40.0f), glm::vec3(0.0f), glm::vec3(-7.0f, 26.0f, 8.0f));
+	SoundComponent* sound13 = AddSoundComponent(n13, "asset/audios/footsteps.mp3", glm::vec3(-7.0f, 26.0f, 8.0f));
+	Node* n14 = addAnimationModel(world, _T("bristleback"), "asset/animate_models/bristleback/bristleback.dae", glm::vec3(1.5f), glm::vec3(0.0f), glm::vec3(-4.0f, 26.0f, 8.0f));
+	SoundComponent* sound14 = AddSoundComponent(n14, "asset/audios/bear.mp3", glm::vec3(-4.0f, 26.0f, 8.0f), 0.5f);
+	Node* n15 = addAnimationModel(world, _T("greet_frog"), "asset/animate_models/greet_frog/greet_frog.dae", glm::vec3(1.0f), glm::vec3(0.0f), glm::vec3(-1.0f, 26.0f, 8.0f));
+	Node* n16 = addAnimationModel(world, _T("phoenix-bird"), "asset/animate_models/phoenix-bird/phoenix-bird.dae", glm::vec3(3.0f), glm::vec3(0.0f), glm::vec3(2.0f, 27.0f, 8.0f));
+	n16->SetFrontDir(glm::vec3(1.0f, 0.0f, 0.0f));
+	SoundComponent* sound16 = AddSoundComponent(n16, "asset/audios/bird.mp3", glm::vec3(2.0f, 27.0f, 8.0f), 0.5f);
 
 	//Ä£ÐÍ1
 	Node* parent1 = world->AddNode(_T("parent1"));
@@ -269,9 +269,9 @@ void OnWorldInit(World* world) {
 	world->SetBGM("asset/audios/bgm.mp3");
 	world->SetBGMVolume(1.0f);
 	world->PlayPauseBGM(true);
-	//sound13->Play();
-	//sound14->Play();
-	//sound16->Play();
+	sound13->Play();
+	sound14->Play();
+	sound16->Play();
 }
 
 void OnWorldUpdate(World* world, float currentFrame, float deltaFrame) {

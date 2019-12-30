@@ -6,3 +6,11 @@
 下载完成后将3rdLibrary.rar解压到当前目录下，再编译
 在3rdLibrary目录下查找所有的dll放到运行目录
 所需资源在另一个仓库JCore_Asset下载，将asset文件夹放到运行目录即可。
+
+截图:
+
+![image](https://github.com/JiaoJianing/JCore/blob/master/preview/preview1.png)
+
+![image](https://github.com/JiaoJianing/JCore/blob/master/preview/preview2.png)
+
+![image](https://github.com/JiaoJianing/JCore/blob/master/preview/preview3.gif)
